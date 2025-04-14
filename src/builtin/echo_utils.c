@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jmeli <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/14 15:45:14 by jmeli             #+#    #+#             */
+/*   Updated: 2025/04/14 15:46:28 by jmeli            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 /*
@@ -119,9 +131,9 @@ int	desert_string(char ***array, int *size, const char *str, int position)
 
 void	echo_check(char ***args)
 {
-	int size;
-	int i;
-	int jump;
+	int	size;
+	int	i;
+	int	jump;
 
 	size = count_strings_pointer(args);
 	i = 0;
