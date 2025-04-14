@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 01:11:46 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/14 12:55:58 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/14 17:58:22 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,6 @@ void	free_array(char **array, int index)
 		i++;
 	}
 	free(array);
-}
-
-void	swap_strings(char **str1, char **str2)
-{
-	char	*temp;
-
-	temp = *str1;
-	*str1 = *str2;
-	*str2 = temp;
 }
 
 int	ft_list_size(t_env *begin_list)

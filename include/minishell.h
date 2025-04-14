@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/14 16:27:30 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/14 17:56:38 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,8 +192,8 @@ int			export(char **args, t_env **env);
 void		ft_exit(t_env *env, char **arg);
 // BUILTIN UTILITIES
 void		echo_check(char ***args);
-int			arg_var_has_valid_chars(char *arg);
-int	arg_val_has_valid_chars(char *arg);
+int			arg_var_is_valid(char *arg);
+int			arg_val_is_valid(char *arg);
 int	desert_string(char ***array, int *size, const char *str, int position);
 int	there_is_space(char *arg);
 int			print_export(t_env **env);

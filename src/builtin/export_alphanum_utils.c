@@ -6,13 +6,13 @@
 /*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 17:43:27 by jmeli             #+#    #+#             */
-/*   Updated: 2025/04/14 17:44:36 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/14 17:56:44 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	arg_val_has_valid_chars(char *arg)
+int	arg_val_is_valid(char *arg)
 {
 	int	i;
 
@@ -32,7 +32,7 @@ int	arg_val_has_valid_chars(char *arg)
 	return (1);
 }
 
-int	arg_var_has_valid_chars(char *arg)
+int	arg_var_is_valid(char *arg)
 {
 	int	i;
 
