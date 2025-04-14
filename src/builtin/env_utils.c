@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 01:15:22 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/14 12:54:34 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/14 16:07:38 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,28 @@ void	sort_env_alphabetically(char **array)
 	}
 }
 
+char	*env_value_and_result(t_env **ptr)
+{
+	char	*temp;
+	char	*temp_2;
+	char	*string;
+
+	temp = ft_strjoin((*ptr)->value, "=\"");
+	if ((*ptr)->result)
+	{
+		temp_2 = ft_strjoin((*ptr)->result, "\"");
+		string = ft_strjoin(temp, temp_2);
+		free(temp_2);
+	}
+	else
+		string = ft_strjoin((*ptr)->value, "");
+	free(temp);
+	return (string);
+}
+
 char	**copy_environ(t_env **env)
 {
 	char	**array;
-	char	*temp;
-	char	*temp_2;
 	t_env	*ptr;
 	int		i;
 
@@ -48,16 +65,7 @@ char	**copy_environ(t_env **env)
 	i = 0;
 	while (ptr)
 	{
-		temp = ft_strjoin(ptr->value, "=\"");
-		if (ptr->result)
-		{
-			temp_2 =ft_strjoin(ptr->result, "\"");
-			array[i] = ft_strjoin(temp, temp_2);
-			free(temp_2);
-		}
-		else
-			array[i] = ft_strjoin(ptr->value, "");
-		free(temp);
+		array[i] = env_value_and_result(&ptr);
 		if (!array[i])
 			free_array(array, i);
 		ptr = ptr->next;

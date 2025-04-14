@@ -32,6 +32,7 @@ SRCS=		main.c\
 		src/builtin/unset.c\
 		src/builtin/exit.c\
 		src/builtin/echo_utils.c\
+		src/builtin/echo_utils_2.c\
 		src/builtin/export_alphanum_utils.c\
 		gnl/get_next_line.c\
 		gnl/get_next_line_utils.c

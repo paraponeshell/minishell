@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/04/14 15:45:08 by aharder          ###   ########.fr       */
+=======
+/*   Updated: 2025/04/14 15:40:31 by jmeli            ###   ########.fr       */
+>>>>>>> ce19131f52410d95b6fab44ad75bcd5c2cfb1419
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +215,9 @@ t_env		*ft_create_var(char *arg);
 int			add_var(char *arg, t_env **env);
 int			export(char **args, t_env **env);
 void		swap_strings(char **str1, char **str2);
+int	count_strings_pointer(char ***array_ptr);
+int	size_of_array(char **array);
+int	there_is_only_space(char *arg);
 // EXIT STATUS
 void		add_exit_status(int exit_status, t_env **env);
 void		*str_to_ptr(char *str);
