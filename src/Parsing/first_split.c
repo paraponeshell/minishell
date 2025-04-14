@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:10:41 by aharder           #+#    #+#             */
-/*   Updated: 2025/03/21 10:35:28 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/14 16:39:08 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,15 @@ char	**first_split(char *s)
 
 	assign_start_value(&var);
 	split_size = first_split_size(s);
+	printf("split size = %d\n", split_size);
 	output = malloc((split_size + 1) * sizeof(char *));
 	if (!output)
 		return (NULL);
 	process_string(s, &var, output);
 	if (var.d_quotes || var.s_quotes)
 		return (perror_and_free(output, split_size));
-	output[var.y] = NULL;
+	printf("split size = %d\n", var.y);
+	output[split_size] = NULL;
 	return (output);
 }
 
