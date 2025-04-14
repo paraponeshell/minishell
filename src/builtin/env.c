@@ -6,7 +6,7 @@
 /*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 18:25:45 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/14 16:11:43 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/14 16:14:06 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	display_error(char *arg)
 {
 	ft_putstr_fd("env: \'", 2);
-	ft_putstr_fd(cmd[i], 2);
+	ft_putstr_fd(arg, 2);
 	ft_putendl_fd("\': No such file or directory", 2);
 	return (1);
 }
