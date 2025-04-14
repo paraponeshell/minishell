@@ -6,7 +6,7 @@
 /*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 18:29:13 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/14 15:23:59 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/14 15:26:37 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ int	cd_root(char *cwd, t_env **env)
 
 int	cd(char **args, t_env **env)
 {
-	char	*root;
 	char	*cwd;
 	char	buf[1096];
 
