@@ -6,7 +6,7 @@
 /*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 00:32:39 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/14 18:00:21 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/14 18:05:06 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	unset(char **args, t_env **env)
 		i = 1;
 		while (args[i])
 		{
-			if (arg_var_has_valid_chars(args[i]) && unset_green_light(args[i]))
+			if (arg_var_is_valid(args[i]) && unset_green_light(args[i]))
 				ft_list_remove_if(env, args[i], ft_strcmp);
 			else
 			{
