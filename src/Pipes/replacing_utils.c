@@ -6,11 +6,19 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:59:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/14 16:18:38 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/15 00:30:36 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int	srch_dollar(char c)
+{
+	if (c == '$')
+		return (1);
+	else
+		return (0);
+}
 
 char	*clean_env(char *str)
 {

@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:42:58 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/14 16:18:03 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/15 00:35:10 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,10 @@ char	*handle_wildcard(char *str, t_var_env_bundle *var)
 	pattern = malloc((i[0] - var->j + 1) * sizeof(char));
 	i[1] = var->j;
 	while (i[1] < i[0])
-		pattern[i[1]++ - var->j] = str[i[1]];
+	{
+		pattern[i[1] - var->j] = str[i[1]];
+		i[1]++;
+	}
 	pattern[i[1] - var->j] = '\0';
 	if (ft_strchr(pattern, '/') == 0)
 		output = insert_files(pattern, str);

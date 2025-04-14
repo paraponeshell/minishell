@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:17:41 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/14 15:41:43 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/15 00:33:01 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ void	check_env(char **temp, t_env *env, int size)
 		var.j = 0;
 		while (temp[var.i][var.j] != '\0')
 		{
-			var.k = srch_dollar(temp[var.i][var.j]);
-			while ((var.k == 0 || var.s_quotes) && temp[var.i][var.j] != '\0')
+			while ((srch_dollar(temp[var.i][var.j]) == 0 || var.s_quotes) && temp[var.i][var.j] != '\0')
 			{
 				temp[var.i] = handle_env_quotes(temp[var.i], var.j, &var);
-				if (!var.s_quotes && !var.d_quotes && var.j >= 0 && srchr_wildcard(&temp[var.i][var.j]))
+				if (!var.s_quotes && !var.d_quotes
+						&& var.j >= 0 && srchr_wildcard(&temp[var.i][var.j]))
 					temp[var.i] = handle_wildcard(temp[var.i], &var);
-				var.k = srch_dollar(temp[var.i][++var.j]);
+				var.j++;
 			}
 			var.k = env_size(temp[var.i], var.j, env);
 			if (temp[var.i][var.j] != '\0')
@@ -48,14 +48,6 @@ void	check_env(char **temp, t_env *env, int size)
 		}
 		var.i++;
 	}
-}
-
-int	srch_dollar(char c)
-{
-	if (c == '$')
-		return (1);
-	else
-		return (0);
 }
 
 int	is_end_var(char c)
