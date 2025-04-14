@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 18:29:13 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/14 12:54:06 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/14 15:23:59 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	update_pwd(t_env **env)
 	free(copy);
 	free(args[1]);
 	free(args);
-	//free(pwd);
 }
 
 void	update_old_pwd(t_env **env, char *oldwd)
@@ -65,7 +64,24 @@ void	update_old_pwd(t_env **env, char *oldwd)
 	free(copy);
 	free(args[1]);
 	free(args);
-	//free(pwd);
+}
+
+int	cd_root(char *cwd, t_env **env)
+{
+	char	*root;
+
+	root = get_root_directory();
+	if (chdir(root) != 0)
+		printf("cd: root error\n");
+	else
+	{
+		update_old_pwd(env, cwd);
+		update_pwd(env);
+		free(root);
+		return (0);
+	}
+	free(cwd);
+	return (1);
 }
 
 int	cd(char **args, t_env **env)
@@ -73,23 +89,11 @@ int	cd(char **args, t_env **env)
 	char	*root;
 	char	*cwd;
 	char	buf[1096];
-	
+
 	cwd = getcwd(buf, 1096);
-	if ((!args[1] && args[1] == NULL) || (args[1] && ft_strcmp(args[1], "~") == 0))
-	{
-		root = get_root_directory();
-		if (chdir(root) != 0)
-			printf("cd: root error\n");
-		else
-		{
-			update_old_pwd(env, cwd);
-			update_pwd(env);
-			free(root);
-			return (0);
-		}
-		free(cwd);
-		return (1);
-	}
+	if ((!args[1] && args[1] == NULL) || (args[1] && ft_strcmp(args[1],
+				"~") == 0))
+		return (cd_root(cwd, env));
 	else if (args[2])
 	{
 		printf("cd: too many arguments\n");
