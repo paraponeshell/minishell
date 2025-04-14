@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:42:58 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/14 15:35:53 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/14 16:18:03 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ int	srchr_wildcard(char *str)
 	int	i;
 
 	i = 0;
-	//printf("str = '%s' ", str);
-	//printf("str[0] = '%c' && str[1] = '%c'\n", str[0], str[1]);
 	if (str == NULL)
 		return (0);
 	if (str[0] == '\0')
@@ -65,61 +63,28 @@ char	*handle_wildcard(char *str, t_var_env_bundle *var)
 {
 	char	*output;
 	char	*pattern;
-	int		j;
-	int		k;
+	int		i[2];
 
-	j = var->j;
-	while (str[j] != ' ' && str[j] != '\0' && str[j] != '"' && str[j] != '\'')
-		j++;
-	pattern = malloc((j - var->j + 1) * sizeof(char));
-	k = var->j;
-	while (k < j)
-	{
-		pattern[k - var->j] = str[k];
-		k++;
-	}
-	pattern[k - var->j] = '\0';
+	i[0] = var->j;
+	while (str[i[0]] != ' ' && str[i[0]] != '\0'
+		&& str[i[0]] != '"' && str[i[0]] != '\'')
+		i[0]++;
+	pattern = malloc((i[0] - var->j + 1) * sizeof(char));
+	i[1] = var->j;
+	while (i[1] < i[0])
+		pattern[i[1]++ - var->j] = str[i[1]];
+	pattern[i[1] - var->j] = '\0';
 	if (ft_strchr(pattern, '/') == 0)
 		output = insert_files(pattern, str);
 	else if (ft_strcmp(str, pattern) == 0)
 		output = ft_replacesubstr(str, pattern, " ");
 	else
 		output = ft_strtrim(str, pattern);
-	var->j = find_length(var->j, j, str, output);
+	var->j = find_length(var->j, i[0], str, output);
 	free(str);
 	free(pattern);
 	return (output);
 }
-/*
-int	count_wildcard(char *str, int i)
-{
-	char	*output;
-	char	*pattern;
-	int		j;
-	int		k;
-
-	j = i;
-	while (str[j] != ' ' && str[j] != '\0')
-		j++;
-	pattern = malloc((j - i + 1) * sizeof(char));
-	k = i;
-	while (k < j)
-	{
-		pattern[k - i] = str[k];
-		k++;
-	}
-	pattern[k - i] = '\0';
-	if (ft_strchr(pattern, '/') == 0)
-	{
-		output = insert_files(pattern, str);
-		k = splitlen(output, ' ');
-	}
-	else
-		k = 0;
-	free(output);
-	free(pattern);
-	return (k);
-}*/
 
 char	*insert_files(char *pattern, char *str)
 {
@@ -152,6 +117,7 @@ char	*insert_files(char *pattern, char *str)
 	free_split(filenames);
 	return (str);
 }
+
 int	pattern_matching(char *pattern, char *filename)
 {
 	if (*pattern == '\0' && *filename == '\0')
@@ -162,7 +128,8 @@ int	pattern_matching(char *pattern, char *filename)
 		return (pattern_matching(pattern + 1, filename + 1));
 	if (*pattern == '*')
 	{
-		return (pattern_matching(pattern + 1, filename) || pattern_matching(pattern, filename + 1));
+		return (pattern_matching(pattern + 1, filename)
+			|| pattern_matching(pattern, filename + 1));
 	}
 	return (0);
 }

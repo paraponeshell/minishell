@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/14 14:29:28 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/14 15:45:08 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,7 @@ void		print_redirection(t_io_red *redirection);
 void		init_pipes(int p_fd[2], int b_fd[2]);
 char		*ft_getenv(t_env *env, char *name);
 void		print_env(t_env *env);
+void	free_cmd_red(t_commands **cmd, t_io_red **red);
 // BUILTIN
 int			pwd(void);
 int			cd(char **args, t_env **env);

@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:24:03 by aharder           #+#    #+#             */
-/*   Updated: 2025/03/09 01:10:13 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/14 15:44:41 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,12 @@ int	handle_operator(char *s, int *i, int *j, int *output)
 	else if (output[*j - 1] == 4 || output[*j - 1] == 6)
 		(*i)++;
 	return (1);
+}
+
+void	free_cmd_red(t_commands **cmd, t_io_red **red)
+{
+	free_cmd(cmd);
+	free_red(red);
 }
 
 void	init_list(char *list)

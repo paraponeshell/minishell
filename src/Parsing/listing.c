@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:27:22 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/09 00:14:38 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/14 15:43:30 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,52 +78,6 @@ char	*add_io(t_io_red **a, char *splitted, int type, t_mini *mini)
 			last = last->next;
 		last->next = buffer;
 	}
-	return (output);
-}
-
-void	add_buff_to_last(t_commands **a, char *str)
-{
-	t_commands	*last;
-	char		**buffer_split;
-	char		**new_command;
-
-	buffer_split = second_split(str, ' ');
-	if (!*a)
-		*a = init_command_node(buffer_split);
-	else
-	{
-		last = get_last_command(*a);
-		new_command = merge_command(last->command, buffer_split);
-		free_split(last->command);
-		free_split(buffer_split);
-		free(str);
-		last->command = new_command;
-	}
-}
-
-char	*first_word(char *str)
-{
-	int		i;
-	int		k;
-	char	*output;
-
-	i = 0;
-	k = 0;
-	while (str[i] == ' ')
-		i++;
-	while (str[i] != ' ' && str[i] != '\0')
-	{
-		i++;
-		k++;
-	}
-	output = malloc((k + 1) * sizeof(char));
-	i -= k;
-	k = 0;
-	while (str[i] != ' ' && str[i] != '\0')
-	{
-		output[k++] = str[i++];
-	}
-	output[k] = '\0';
 	return (output);
 }
 

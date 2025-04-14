@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:59:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/13 18:51:30 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/14 16:18:38 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,20 @@
 
 char	*clean_env(char *str)
 {
-    int		start;
-    int		end;
-    char	*trimmed;
+	int		start;
+	int		end;
+	char	*trimmed;
 
-    if (!str)
-        return (NULL);
-    start = 0;
-    while (str[start] && str[start] == ' ')
-        start++;
-    end = ft_strlen(str) - 1;
-    while (end > start && str[end] == ' ')
-        end--;
-    trimmed = ft_substr(str, start, end - start + 1);
-    return (trimmed);
+	if (!str)
+		return (NULL);
+	start = 0;
+	while (str[start] && str[start] == ' ')
+		start++;
+	end = ft_strlen(str) - 1;
+	while (end > start && str[end] == ' ')
+		end--;
+	trimmed = ft_substr(str, start, end - start + 1);
+	return (trimmed);
 }
 
 char	*ft_getenv(t_env *env, char *name)

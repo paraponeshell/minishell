@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   listing_utilities.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aharder <aharder@student.42luxembourg.lu>  +#+  +:+       +#+        */
+/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:50:05 by aharder           #+#    #+#             */
-/*   Updated: 2025/02/26 19:04:24 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/14 15:43:15 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,51 @@ char	**merge_command(char **old, char **to_add)
 	while (to_add[j] != NULL)
 		output[i++] = ft_strdup(to_add[j++]);
 	output[i] = NULL;
+	return (output);
+}
+
+void	add_buff_to_last(t_commands **a, char *str)
+{
+	t_commands	*last;
+	char		**buffer_split;
+	char		**new_command;
+
+	buffer_split = second_split(str, ' ');
+	if (!*a)
+		*a = init_command_node(buffer_split);
+	else
+	{
+		last = get_last_command(*a);
+		new_command = merge_command(last->command, buffer_split);
+		free_split(last->command);
+		free_split(buffer_split);
+		free(str);
+		last->command = new_command;
+	}
+}
+
+char	*first_word(char *str)
+{
+	int		i;
+	int		k;
+	char	*output;
+
+	i = 0;
+	k = 0;
+	while (str[i] == ' ')
+		i++;
+	while (str[i] != ' ' && str[i] != '\0')
+	{
+		i++;
+		k++;
+	}
+	output = malloc((k + 1) * sizeof(char));
+	i -= k;
+	k = 0;
+	while (str[i] != ' ' && str[i] != '\0')
+	{
+		output[k++] = str[i++];
+	}
+	output[k] = '\0';
 	return (output);
 }
