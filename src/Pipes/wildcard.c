@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:42:58 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/14 14:55:27 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/14 15:35:53 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,8 @@ char	*insert_files(char *pattern, char *str)
 	}
 	if (temp)
 		str = ft_replacesubstr(str, pattern, temp);
+	else
+		str = ft_strdup(str);
 	free(temp);
 	free_split(filenames);
 	return (str);

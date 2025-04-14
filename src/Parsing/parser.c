@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:20:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/14 13:45:37 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/14 15:33:35 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int	putlist(t_mini	*mini, char **split, int *op)
 	i = 0;
 	while (split[i] != NULL)
 	{
+		if (!op)
+			return (1);
 		if (op[i] == 2 || op[i] == 1 || op[i] == 3)
 			add_command(cmds, split[i], op[i]);
 		else if (op[i] != 0)
@@ -101,6 +103,8 @@ int	*get_operators(char *s)
 		else if (s[i[0]] == '"')
 			i[2] = !i[2];
 		i[0]++;
+		if (i[0] >= ft_strlen(s))
+			return (NULL);
 		if (i[1] >= i[3])
 			return (output);
 	}
