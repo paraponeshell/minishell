@@ -6,7 +6,7 @@
 /*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/14 17:56:38 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/15 15:09:54 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,6 +214,8 @@ void		swap_strings(char **str1, char **str2);
 int	count_strings_pointer(char ***array_ptr);
 int	size_of_array(char **array);
 int	there_is_only_space(char *arg);
+int	create_or_update_var(char *arg, t_env **env);
+char	*ptr_result(char *arg);
 // EXIT STATUS
 void		add_exit_status(int exit_status, t_env **env);
 void		*str_to_ptr(char *str);
