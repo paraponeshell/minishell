@@ -6,23 +6,24 @@
 /*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 18:29:13 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/14 15:26:37 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/15 11:40:40 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char	*get_root_directory(void)
+char	*get_root_directory(t_env **env)
 {
-	extern char	**environ;
-	int			i;
+	t_env	*ptr;
+	int		i;
 
 	i = 0;
-	while (environ[i])
+	ptr = *env;
+	while (ptr)
 	{
-		if (ft_strncmp(environ[i], "HOME=", 5) == 0)
-			return (ft_substr(environ[i], 5, ft_strlen(environ[i]) - 5));
-		i++;
+		if (ft_strncmp(ptr->value, "HOME", 4) == 0)
+			return (ft_strdup(ptr->result));
+		ptr = ptr->next;
 	}
 	return (NULL);
 }
@@ -70,9 +71,9 @@ int	cd_root(char *cwd, t_env **env)
 {
 	char	*root;
 
-	root = get_root_directory();
-	if (chdir(root) != 0)
-		printf("cd: root error\n");
+	root = get_root_directory(env);
+	if (root == NULL || chdir(root) != 0)
+		return (1 + 0 * printf("cd: root error\n"));
 	else
 	{
 		update_old_pwd(env, cwd);
@@ -80,7 +81,6 @@ int	cd_root(char *cwd, t_env **env)
 		free(root);
 		return (0);
 	}
-	free(cwd);
 	return (1);
 }
 
