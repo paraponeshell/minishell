@@ -6,7 +6,7 @@
 /*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 00:16:22 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/15 09:13:18 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/15 09:43:59 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	export(char **args, t_env **env)
 	int	index;
 
 	index = -1;
-	if (args == NULL || args[1] == NULL || args[1][0] == '\0')
+	if ((args == NULL || args[1] == NULL || args[1][0] == '\0') && !args[2])
 		return (print_export(env));
 	else
 	{
