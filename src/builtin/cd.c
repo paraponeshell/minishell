@@ -6,7 +6,7 @@
 /*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 18:29:13 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/15 11:40:40 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/15 13:07:04 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*get_root_directory(t_env **env)
 	return (NULL);
 }
 
-void	update_pwd(t_env **env)
+int	update_pwd(t_env **env)
 {
 	char	**args;
 	char	*pwd;
@@ -36,7 +36,11 @@ void	update_pwd(t_env **env)
 	char	buf[1096];
 
 	pwd = getcwd(buf, 1096);
+	if (pwd == NULL)
+		return (1);
 	args = malloc(3 * sizeof(char *));
+	if (args == NULL)
+		return (1);
 	args[0] = ft_strdup("export");
 	copy = ft_strdup(pwd);
 	args[1] = ft_strjoin("PWD=", copy);
@@ -46,6 +50,7 @@ void	update_pwd(t_env **env)
 	free(copy);
 	free(args[1]);
 	free(args);
+	return (0);
 }
 
 void	update_old_pwd(t_env **env, char *oldwd)
@@ -70,16 +75,19 @@ void	update_old_pwd(t_env **env, char *oldwd)
 int	cd_root(char *cwd, t_env **env)
 {
 	char	*root;
+	int		exit_status;
 
+	exit_status = 0;
 	root = get_root_directory(env);
 	if (root == NULL || chdir(root) != 0)
 		return (1 + 0 * printf("cd: root error\n"));
 	else
 	{
-		update_old_pwd(env, cwd);
-		update_pwd(env);
+		if (cwd == NULL)
+			update_old_pwd(env, cwd);
+		exit_status = update_pwd(env);
 		free(root);
-		return (0);
+		return (exit_status);
 	}
 	return (1);
 }
