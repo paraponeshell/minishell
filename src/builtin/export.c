@@ -6,7 +6,7 @@
 /*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 00:16:22 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/14 17:58:07 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/15 09:13:18 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	export(char **args, t_env **env)
 					ft_env_push_back(env, args[i]);
 			}
 			else
-				printf("export: invalid character\n");
+				return (1 + 0 * printf("export: invalid character\n"));
 			i++;
 		}
 	}
