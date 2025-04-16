@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 18:29:13 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/15 18:45:39 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/16 16:21:48 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ char	*get_root_directory(t_env **env)
 	while (ptr)
 	{
 		if (ft_strncmp(ptr->value, "HOME", 4) == 0)
-			return (ft_strdup(ptr->result));
+		{
+			if (ptr->result && ft_strcmp(ptr->result, "") != 0)
+				return (ft_strdup(ptr->result));
+		}
 		ptr = ptr->next;
 	}
 	return (NULL);
