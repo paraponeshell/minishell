@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
+/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/15 15:09:54 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/16 01:49:40 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,7 @@ char		**get_filenames(void);
 int			count_files(void);
 // UTILITIES
 void		free_split(char **split);
+void		print_split(char **split);
 int			array_size(char **arr);
 void		print_commands(t_commands *commands);
 void		print_redirection(t_io_red *redirection);

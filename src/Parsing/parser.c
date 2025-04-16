@@ -6,24 +6,78 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:20:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/14 16:32:21 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/16 01:44:14 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+void	print_split(char **split)
+{
+	int	i;
+
+	i = 0;
+	while (split[i] != NULL)
+	{
+		printf("Split[%d]: %s\n", i, split[i]);
+		i++;
+	}
+}
+
+int	is_op_correct(char *str)
+{
+	int	i;
+	int	d_quotes;
+	int	s_quotes;
+	int	op;
+
+	i = 0;
+	d_quotes = 0;
+	s_quotes = 0;
+	if (str == NULL)
+		return (1);
+	while (str[i] != '\0')
+	{
+		if (str[i] == '"')
+			d_quotes = !d_quotes;
+		else if (str[i] == '\'')
+			s_quotes = !s_quotes;
+		if (d_quotes == 0 && s_quotes == 0)
+		{
+			op = 0;
+			while (str [i] != '\0' && (str[i] == '|' || str[i] == '<' || str[i] == '>' || str[i] == '&'))
+			{
+				op++;
+				i++;
+			}
+			if (op > 2)
+				return (1);
+		}
+		i++;
+		if (i >= ft_strlen(str))
+			return (0);
+	}
+	return (0);
+}
 void	parser(char *str, t_mini *mini)
 {
 	char		**splitted;
 	int			*operator;
 	int			exit_status;
 
+	if (is_op_correct(str) == 1)
+	{
+		printf("Error: too many operators\n");
+		return ;
+	}
 	splitted = first_split(str);
 	if (splitted == NULL)
 		return ;
 	operator = get_operators(str);
+	printf("test");
 	if (putlist(mini, splitted, operator) == 1)
 	{
+		print_split(splitted);
 		free_split(splitted);
 		free(operator);
 		printf("Error: ambiguous redirection\n");
@@ -33,6 +87,8 @@ void	parser(char *str, t_mini *mini)
 	free(operator);
 	add_red_to_env(&mini->redirection, &mini->env);
 	add_cmd_to_env(&mini->commands, &mini->env);
+	print_commands(mini->commands);
+	print_redirection(mini->redirection);
 	if (valid_line(mini->commands, mini->redirection) == 0)
 		createpipes(mini->commands, mini->redirection, mini->env);
 	while (wait(&exit_status) > 0)
@@ -92,7 +148,10 @@ int	*get_operators(char *s)
 			i[2] = !i[2];
 		i[0]++;
 		if (i[0] >= ft_strlen(s))
+		{
+			free(output);
 			return (NULL);
+		}
 		if (i[1] >= i[3])
 			return (output);
 	}

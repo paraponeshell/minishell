@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 16:08:07 by aharder           #+#    #+#             */
-/*   Updated: 2025/03/07 02:29:56 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/16 02:03:30 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int	find_i_red(t_io_red *redirection)
 	{
 		if (temp->in_or_out == 5)
 		{
+			if (input_fd[0])
+				close(input_fd[0]);
 			input_fd[0] = open(temp->file, O_RDONLY);
 		}
 		if (temp->in_or_out == 4)

@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 02:27:04 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/14 14:39:20 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/16 01:16:59 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,20 @@ void	handle_signal(int sig)
 	if (sig == SIGINT)
 	{
 		ft_printf("\n");
-		rl_on_new_line();
 		rl_replace_line("", 0);
+		rl_on_new_line();
 		rl_redisplay();
-	}/*
-	if (sig == SIGQUIT)
+	}
+}
+
+void	handle_signal_parser(int sig)
+{
+	if (sig == SIGINT)
 	{
-		rl_on_new_line();
+		ft_printf("\n");
 		rl_replace_line("", 0);
-		rl_redisplay();
-	}*/
+		rl_on_new_line();
+	}
 }
 
 void	unblock_signal(int signal)
@@ -101,30 +105,38 @@ int	main(int argc, char **argv, char **envp)
 {
 	char		*minishell;
 	t_mini		mini;
-
+	int			i;
 	(void)argc;
 	(void)argv;
 	mini.commands = NULL;
 	mini.redirection = NULL;
 	mini.env = init_env(envp);
-	signal(SIGINT, handle_signal);
-	//printf("\e[H\e[J");
-	//print_mini();
+	i = 0;
 	while (1)
 	{
+		signal(SIGINT, handle_signal);
 		block_signal(SIGQUIT);
+		rl_on_new_line();
 		minishell = readline("minishell : ");
 		signal(SIGQUIT, handle_signal);
-		//unblock_signal(SIGQUIT);
+		unblock_signal(SIGQUIT);
 		if (minishell == NULL)
 		{
 			printf("Readline returned NULL\n");
 			free(minishell);
 			break ;
 		}
+		if (minishell[0] == '\0')
+		{
+			free(minishell);
+			continue ;
+		}
 		add_history(minishell);
-		parser(minishell, &mini);
+		signal(SIGINT, handle_signal_parser);
+		if (minishell)
+			parser(minishell, &mini);
 		free(minishell);
+		i++;
 	}
 	free_env(mini.env);
 }
