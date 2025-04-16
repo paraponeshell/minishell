@@ -6,7 +6,7 @@
 /*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 00:16:22 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/15 15:11:43 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/16 12:53:58 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ptr_result(char *arg)
 	int		len;
 
 	len = equal_pos(arg) + 1;
-	while (arg[len] && arg[len] != ';' && arg[len] != '|' && arg[len] != '$')
+	while (arg[len])
 	{
 		len++;
 	}
