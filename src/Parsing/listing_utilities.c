@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:50:05 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/14 15:43:15 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/16 16:18:47 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,12 @@ void	add_buff_to_last(t_commands **a, char *str)
 	char		**buffer_split;
 	char		**new_command;
 
+
+	if (!str || str[0] == '\0')
+	{
+		free(str);
+		return ;
+	}
 	buffer_split = second_split(str, ' ');
 	if (!*a)
 		*a = init_command_node(buffer_split);

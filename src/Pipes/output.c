@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 16:06:06 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/16 15:33:04 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/16 16:28:16 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void	write_output(int buff_fd, t_io_red *redirection)
 	copy_single(buff_fd, output_fd);
 	if (output_fd != 1)
 		close(output_fd);
-	close(buff_fd);
+	if (buff_fd != 0)
+		close(buff_fd);
 }
 
 void	copy(int buff_fd, int *o_fd, int size)
@@ -71,12 +72,19 @@ void	copy_single(int buff_fd, int o_fd)
 {
 	char	*line;
 
-	line = get_next_line(buff_fd);
-	while (line != NULL)
+	if (buff_fd == 0)
 	{
-		write(o_fd, line, ft_strlen(line));
-		free(line);
+		write(o_fd, "\0", 1);
+	}
+	else
+	{
 		line = get_next_line(buff_fd);
+		while (line != NULL)
+		{
+			write(o_fd, line, ft_strlen(line));
+			free(line);
+			line = get_next_line(buff_fd);
+		}
 	}
 }
 
