@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 16:06:06 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/16 01:58:12 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/16 15:33:04 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,13 @@ void	copy(int buff_fd, int *o_fd, int size)
 	char	*line;
 	int		i;
 
-	line = get_next_line(buff_fd);
+	if (!buff_fd)
+	{
+		line = malloc (1 * sizeof(char));
+		line[0] = '\0';
+	}
+	else
+		line = get_next_line(buff_fd);
 	if (line == NULL)
 		printf("erreur gnl");
 	while (line != NULL)

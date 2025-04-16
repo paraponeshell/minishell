@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 02:27:04 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/16 01:16:59 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/16 14:33:42 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,20 @@ void	print_mini(void)
 	printf("\\____/\\_| |_/\\____/\\_____/\\_____/\n");
 }
 
+int	is_empty_line(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != ' ' && str[i] != '\t')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char		*minishell;
@@ -126,7 +140,7 @@ int	main(int argc, char **argv, char **envp)
 			free(minishell);
 			break ;
 		}
-		if (minishell[0] == '\0')
+		if (is_empty_line(minishell) == 1)
 		{
 			free(minishell);
 			continue ;

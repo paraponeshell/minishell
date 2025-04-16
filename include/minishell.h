@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/16 01:49:40 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/16 12:59:16 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,8 +152,8 @@ char		*insert_files(char *pattern, char *str);
 int			pattern_matching(char *pattern, char *filename);
 int			count_wildcard(char *str, int i);
 // INPUT REDIRECTION
-int			find_i_red(t_io_red *redirection);
-void		get_heredoc(int *p_fd, char *end);
+int			find_i_red(t_io_red *redirection, t_env *env);
+void		get_heredoc(int *p_fd, char *end, t_env *env);
 // OUTPUT REDIRECTION
 void		write_output(int buff_fd, t_io_red *redirection);
 void		copy(int buff_fd, int *o_fd, int size);

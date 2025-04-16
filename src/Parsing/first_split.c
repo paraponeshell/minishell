@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:10:41 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/16 01:55:01 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/16 14:51:42 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	process_string(char *s, t_var_bundle *var, char **output)
 			if (i == 0)
 				i = srch_operator(&s[var->j]);
 		}
+		printf("i : %d char : %c\n", i, s[var->j]);
 		output[var->y] = crop_str(s, var->i, var->j);
 		var->y++;
 		var->i = var->j + i;
@@ -115,6 +116,9 @@ int	srch_operator(char *s)
 	if (s[0] == '&' && s[1] == '&')
 		return (2);
 	if (s[0] == '|' || s[0] == '<' || s[0] == '>')
+	{
+		printf("TEST c: %c\n", s[0]);
 		return (1 + (s[0] == s[1]));
+	}
 	return (0);
 }

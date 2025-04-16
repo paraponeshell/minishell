@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:20:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/16 01:44:14 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/16 15:00:49 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	parser(char *str, t_mini *mini)
 	if (splitted == NULL)
 		return ;
 	operator = get_operators(str);
-	printf("test");
 	if (putlist(mini, splitted, operator) == 1)
 	{
 		print_split(splitted);
@@ -89,7 +88,7 @@ void	parser(char *str, t_mini *mini)
 	add_cmd_to_env(&mini->commands, &mini->env);
 	print_commands(mini->commands);
 	print_redirection(mini->redirection);
-	if (valid_line(mini->commands, mini->redirection) == 0)
+	//if (valid_line(mini->commands, mini->redirection) == 0)
 		createpipes(mini->commands, mini->redirection, mini->env);
 	while (wait(&exit_status) > 0)
 		add_exit_status(exit_status, &mini->env);
@@ -117,6 +116,7 @@ int	putlist(t_mini	*mini, char **split, int *op)
 			buffer = add_io(red, split[i], op[i], mini);
 			if (buffer == NULL)
 			{
+				//continue;
 				free_cmd_red(cmds, red);
 				return (1);
 			}

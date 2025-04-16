@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:09:57 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/16 02:04:10 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/16 15:30:32 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,9 @@ int	createpipes(t_commands *commands, t_io_red *redirection, t_env *env)
 	int	b_fd[2];
 	int	buffer;
 
-	buffer = find_i_red(redirection);
+	buffer = find_i_red(redirection, env);
+	b_fd[0] = 0;
+	b_fd[1] = 0;
 	//add_red_to_env(&redirection, &env);
 	//add_cmd_to_env(&commands, &env);
 	if (buffer == -1)
@@ -65,8 +67,10 @@ int	createpipes(t_commands *commands, t_io_red *redirection, t_env *env)
 		printf("Error: no input redirection\n");
 		return (0);
 	}
-	process_commands(commands, env, b_fd, buffer);
-	close(b_fd[1]);
+	if (commands->command[0] != NULL && commands->command[0][0] != '\0')
+		process_commands(commands, env, b_fd, buffer);
+	if (b_fd[1])
+		close(b_fd[1]);
 	write_output(b_fd[0], redirection);
 	return (1);
 }
