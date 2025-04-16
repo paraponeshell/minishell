@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 01:11:46 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/14 12:55:58 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/15 15:11:11 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,6 @@ void	free_array(char **array, int index)
 	free(array);
 }
 
-void	swap_strings(char **str1, char **str2)
-{
-	char	*temp;
-
-	temp = *str1;
-	*str1 = *str2;
-	*str2 = temp;
-}
-
 int	ft_list_size(t_env *begin_list)
 {
 	int		size;
@@ -47,24 +38,6 @@ int	ft_list_size(t_env *begin_list)
 		current = current->next;
 	}
 	return (size);
-}
-
-int	print_export(t_env **env)
-{
-	char	**temp;
-	int		j;
-
-	temp = copy_environ(env);
-	sort_env_alphabetically(temp);
-	j = 0;
-	while (temp[j])
-	{
-		ft_putstr_fd("declare -x ", 1);
-		printf("%s\n", temp[j]);
-		j++;
-	}
-	free_split(temp);
-	return (0);
 }
 
 void	ft_env_push_back(t_env **begin_list, char *data)
@@ -86,4 +59,39 @@ void	ft_env_push_back(t_env **begin_list, char *data)
 		}
 		current->next = new_elem;
 	}
+}
+
+int	update(char *arg, int index, t_env **env)
+{
+	int		i;
+	t_env	*ptr;
+
+	i = 0;
+	ptr = *env;
+	while (i < index)
+	{
+		ptr = ptr->next;
+		i++;
+	}
+	if (ft_strchr(arg, '='))
+	{
+		free(ptr->value);
+		free(ptr->result);
+		ptr->value = ft_substr(arg, 0, equal_pos(arg));
+		ptr->result = ptr_result(arg);
+	}
+	return (0);
+}
+
+int	create_or_update_var(char *arg, t_env **env)
+{
+	int	index;
+
+	index = -1;
+	index = index_existing_var(arg, env);
+	if (index >= 0)
+		update(arg, index, env);
+	else
+		ft_env_push_back(env, arg);
+	return (0);
 }

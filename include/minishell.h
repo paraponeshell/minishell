@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/14 16:27:30 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/16 01:49:40 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,7 @@ char		**get_filenames(void);
 int			count_files(void);
 // UTILITIES
 void		free_split(char **split);
+void		print_split(char **split);
 int			array_size(char **arr);
 void		print_commands(t_commands *commands);
 void		print_redirection(t_io_red *redirection);
@@ -192,8 +193,8 @@ int			export(char **args, t_env **env);
 void		ft_exit(t_env *env, char **arg);
 // BUILTIN UTILITIES
 void		echo_check(char ***args);
-int			arg_var_has_valid_chars(char *arg);
-int	arg_val_has_valid_chars(char *arg);
+int			arg_var_is_valid(char *arg);
+int			arg_val_is_valid(char *arg);
 int	desert_string(char ***array, int *size, const char *str, int position);
 int	there_is_space(char *arg);
 int			print_export(t_env **env);
@@ -214,6 +215,8 @@ void		swap_strings(char **str1, char **str2);
 int	count_strings_pointer(char ***array_ptr);
 int	size_of_array(char **array);
 int	there_is_only_space(char *arg);
+int	create_or_update_var(char *arg, t_env **env);
+char	*ptr_result(char *arg);
 // EXIT STATUS
 void		add_exit_status(int exit_status, t_env **env);
 void		*str_to_ptr(char *str);

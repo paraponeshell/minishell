@@ -6,18 +6,21 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:10:41 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/14 16:39:08 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/16 01:55:01 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
 
 char	**first_split(char *s)
 {
 	t_var_bundle	var;
 	char			**output;
 	int				split_size;
-
+	int				i;
+	if (s[0] == '\0')
+		return (NULL);
 	assign_start_value(&var);
 	split_size = first_split_size(s);
 	printf("split size = %d\n", split_size);
@@ -27,7 +30,19 @@ char	**first_split(char *s)
 	process_string(s, &var, output);
 	if (var.d_quotes || var.s_quotes)
 		return (perror_and_free(output, split_size));
-	printf("split size = %d\n", var.y);
+	i = 0;
+	printf("split_size = %d\n", var.y);
+	if (var.y != split_size)
+	{
+		while (i < var.y)
+		{
+			free(output[i]);
+			i++;
+		}
+		free(output);
+		printf("Error: pipe error\n");
+		return (NULL);
+	}
 	output[split_size] = NULL;
 	return (output);
 }
@@ -38,6 +53,8 @@ void	process_string(char *s, t_var_bundle *var, char **output)
 
 	while (s[var->i] != '\0')
 	{
+		while (s[var->i] == ' ')
+			var->i++;
 		i = srch_operator(&s[var->i]);
 		var->j = var->i;
 		while ((i == 0 || var->s_quotes || var->d_quotes) && s[var->j] != '\0')
@@ -52,6 +69,8 @@ void	process_string(char *s, t_var_bundle *var, char **output)
 		var->i = var->j + i;
 		if (var->i > ft_strlen(s))
 			break ;
+		while (s[var->i] == ' ')
+			var->i++;
 	}
 }
 

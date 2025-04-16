@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:12:23 by aharder           #+#    #+#             */
-/*   Updated: 2025/03/21 10:35:45 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/16 01:07:09 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ char	*crop_str(char *s, int start, int end)
 {
 	char	*output;
 
+	printf("start = %d, end = %d\n", start, end);
 	output = malloc((end - start + 1) * sizeof(char));
 	ft_strncpy(output, s + start, (end - start));
 	output[end - start] = '\0';
