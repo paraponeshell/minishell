@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 18:29:13 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/17 15:58:08 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/17 17:50:55 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ int	cd_root(char *cwd, t_env **env)
 	root = get_root_directory(env);
 	if (root == NULL || chdir(root) != 0)
 	{
+		if (home_is_set_but_no_value(env))
+			return (1);
 		ft_putendl_fd("cd: root error", 2);
 		return (1);
 	}

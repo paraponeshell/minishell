@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/17 15:56:19 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/17 17:53:37 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,6 +225,7 @@ int	there_is_only_space(char *arg);
 int	create_or_update_var(char *arg, t_env **env);
 char	*ptr_result(char *arg);
 int	scan_for_minus_n(char *arg);
+int     home_is_set_but_no_value(t_env **env);
 // EXIT STATUS
 void		add_exit_status(int exit_status, t_env **env);
 void		*str_to_ptr(char *str);

@@ -23,6 +23,7 @@ SRCS=		main.c\
 		src/Pipes/exit_status.c\
 		src/Pipes/wildcard.c\
 		src/builtin/cd.c\
+		src/builtin/cd_utils.c\
 		src/builtin/echo.c\
 		src/builtin/env.c\
 		src/builtin/pwd.c\
