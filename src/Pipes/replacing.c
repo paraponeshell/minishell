@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:17:41 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/16 16:30:24 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/17 15:23:29 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	env_bundle_init(t_var_env_bundle *var)
 void	check_env(char **temp, t_env *env, int size)
 {
 	t_var_env_bundle	var;
+	int					k;
 
 	env_bundle_init(&var);
 	while (var.i < size)
@@ -31,17 +32,19 @@ void	check_env(char **temp, t_env *env, int size)
 		var.j = 0;
 		while (temp[var.i][var.j] != '\0')
 		{
-			while ((srch_dollar(temp[var.i][var.j]) == 0 || var.s_quotes) && temp[var.i][var.j] != '\0')
+			k = srch_dollar(temp[var.i][var.j]);
+			while ((k == 0 || var.s_quotes) && temp[var.i][var.j] != '\0')
 			{
 				temp[var.i] = handle_env_quotes(temp[var.i], var.j, &var);
 				if (!var.s_quotes && !var.d_quotes
 						&& var.j >= 0 && srchr_wildcard(&temp[var.i][var.j]))
 					temp[var.i] = handle_wildcard(temp[var.i], &var);
 				var.j++;
+				k = srch_dollar(temp[var.i][var.j]);
 			}
-			var.k = env_size(temp[var.i], var.j, env);
+			var.k = env_size(temp[var.i], var, env);
 			if (temp[var.i][var.j] != '\0')
-				temp[var.i] = replace(temp[var.i], var.j, env);
+				temp[var.i] = replace(temp[var.i], var, env);
 			var.j += var.k;
 			if (var.j > ft_strlen(temp[var.i]))
 				break ;
@@ -60,15 +63,22 @@ int	is_end_var(char c)
 		return (1);
 }
 
-int	env_size(char *s, int i, t_env *env)
+int	env_size(char *s, t_var_env_bundle v, t_env *env)
 {
 	char	*var;
 	char	*value;
 	int		size;
+	int		i;
 
-	if (s[i] != '\0' && is_end_var(s[i + 1]))
+	i = v.j;
+	if (s[i] != '\0' && (s[i + 1] == ' ' || s[i + 1] == '\0'))
 		return (1);
-	var = ft_substr(s, i + 1, var_size(s, i + 1));
+	if (v.d_quotes && s[i + 1] == '"')
+		return (1);
+	if (s[i] != '\0' && is_end_var(s[i + 1]))
+		return (0);
+	size = var_size(s, i + 1);
+	var = ft_substr(s, i + 1, size);
 	value = ft_getenv(env, var);
 	free(var);
 	if (!value)
@@ -135,30 +145,34 @@ char	*handle_env_quotes(char *str, int i, t_var_env_bundle *var)
 	return (str);
 }
 
-int	var_size2(char *str, int i)
+int	var_size2(char *str, int i, t_var_env_bundle var)
 {
 	if (str[i] == ' ')
 		return (1);
 	else if (str[i] == '\0')
 		return (1);
+	else if (var.d_quotes && str[i] == '"')
+		return (1);
 	else
 		return (0);
 }
 
-char	*replace(char *s, int i, t_env *env)
+char	*replace(char *s, t_var_env_bundle v, t_env *env)
 {
 	char	*prefix;
 	char	*suffix;
 	char	*var;
 	char	*value;
+	int		i;
 
+	i = v.j;
 	prefix = ft_substr(s, 0, i);
 	var = ft_substr(s, i + 1, var_size(s, i + 1));
 	suffix = ft_substr(s, i + 1 + var_size(s, i + 1), ft_strlen(s) - i + 1 + var_size(s, i + 1));
-	if (var_size2(s, i + 1) == 1)
+	if (var_size2(s, i + 1, v) == 1)
 		value = ft_strdup("$");
 	else if (var == NULL || var[0] == '\0')
-		value = ft_strdup(" ");
+		value = ft_strdup("");
 	else
 		value = clean_env(ft_getenv(env, var));
 	free(var);

@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/17 11:03:44 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/17 15:56:19 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,12 @@ typedef struct s_var_env_bundle
 	int	d_quotes;
 }	t_var_env_bundle;
 
+typedef struct s_inout_var
+{
+	int	output;
+	int	input;
+}	t_inout_var;
+
 // MAIN
 char		*get_prompt(void);
 char		*crop_path(char **path);
@@ -126,13 +132,13 @@ int			valid_line(t_commands *cmd, t_io_red *red);
 int			print_pipe_error(void);
 // PIPES
 int			createpipes(t_commands *cmds, t_io_red *red, t_env *env);
-void		process_commands(t_commands *cmds, t_env *env, int b_fd[2], int b);
+void		process_commands(t_commands *cmds, t_env *env, int b_fd[2], t_inout_var var);
 void		init_pipes(int p_fd[2], int b_fd[2]);
 void		close_pipes(int fd[2]);
 int			is_exec_command(char **str);
 int			is_other_command(char *str);
 // REPLACING
-char		*replace(char *str, int i, t_env *env);
+char		*replace(char *str, t_var_env_bundle v, t_env *env);
 char		*quote_replace(char *str, int i, t_env *env);
 //char		**insert_files(char **command, int index);
 int			ft_strchrpos(char *str, int searchedChar);
@@ -141,7 +147,7 @@ void		env_bundle_init(t_var_env_bundle *var);
 void		check_env(char **temp, t_env *env, int size);
 int			srch_dollar(char c);
 int			is_end_var(char c);
-int			env_size(char *str, int i, t_env *env);
+int			env_size(char *str, t_var_env_bundle v, t_env *env);
 int	var_size(char *str, int i);
 char		*ft_strrmchar(char *str, int pos);
 char		*handle_env_quotes(char *str, int i, t_var_env_bundle *var);
@@ -155,12 +161,13 @@ int			count_wildcard(char *str, int i);
 int			find_i_red(t_io_red *redirection, t_env *env);
 void		get_heredoc(int *p_fd, char *end, t_env *env);
 // OUTPUT REDIRECTION
+int		find_o_red(t_io_red *redirection, t_env *env);
 void		write_output(int buff_fd, t_io_red *redirection);
 void		copy(int buff_fd, int *o_fd, int size);
 void		copy_single(int buff_fd, int o_fd);
 int			count_output_redirections(t_io_red *redirection);
 // EXECUTION
-int			execute(t_commands *temp, int buffer, int p_fd[2], t_env *env);
+int			execute(t_commands *temp, t_inout_var var, int p_fd[2], t_env *env);
 int			executefile(char **args, int i_fd, int o_fd, t_env *env);
 int			executefullfile(char *cmd, char **args, int i_fd, int o_fd);
 int			executecommand(char **args, int i_fd, int o_fd, t_env *env);

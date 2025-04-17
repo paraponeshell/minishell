@@ -6,36 +6,36 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:55:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/16 16:27:51 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/17 15:49:01 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	execute(t_commands *t, int b, int p_fd[2], t_env *env)
+int	execute(t_commands *t, t_inout_var var, int p_fd[2], t_env *env)
 {
 	int	status;
 
 	//print_commands(t);
 	status = 0;
 	if (t->command[0][0] == '/' && access(t->command[0], F_OK | X_OK) == 0)
-		status = executefullfile(t->command[0], t->command, b, p_fd[1]);
+		status = executefullfile(t->command[0], t->command, var.input, p_fd[1]);
 	else if (ft_strncmp(t->command[0], "./", 2) == 0)
 	{
 		if (access(&t->command[0][1], F_OK | X_OK))
-			status = executefile(t->command, b, p_fd[1], env);
+			status = executefile(t->command, var.input, p_fd[1], env);
 		else
 			status = print_file_error(t->command[0]);
 	}
 	else if (is_exec_command(t->command) != -1)
-		status = executebuiltin(t->command, b, p_fd[1], env);
+		status = executebuiltin(t->command, var.input, p_fd[1], env);
 	else if (is_other_command(t->command[0]) != -1)
 	{
 		if (t->next == NULL || t->next->pipe_type != 2)
-			status = commandbuiltin(t->command, b, p_fd[1], env);
+			status = commandbuiltin(t->command, var.input, p_fd[1], env);
 	}
 	else
-		status = executecommand(t->command, b, p_fd[1], env);
+		status = executecommand(t->command, var.input, p_fd[1], env);
 	return (status);
 }
 

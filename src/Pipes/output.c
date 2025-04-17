@@ -6,11 +6,40 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 16:06:06 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/16 16:28:16 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/17 15:56:46 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int		find_o_red(t_io_red *redirection, t_env *env)
+{
+	t_io_red	*temp;
+	int			output_fd;
+
+	temp = redirection;
+	output_fd = 1;
+	(void)env;
+	if (temp == NULL)
+		return (0);
+	while (temp != NULL)
+	{
+		if (temp->in_or_out == 7)
+		{
+			if (output_fd != 1)
+				close(output_fd);
+			output_fd = open(temp->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		}
+		if (temp->in_or_out == 6)
+		{
+			if (output_fd != 1)
+				close(output_fd);
+			output_fd = open(temp->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		}
+		temp = temp->next;
+	}
+	return (output_fd);
+}
 
 void	write_output(int buff_fd, t_io_red *redirection)
 {

@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:20:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/16 16:32:52 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/17 15:27:24 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ void	parser(char *str, t_mini *mini)
 	free(operator);
 	add_red_to_env(&mini->redirection, &mini->env);
 	add_cmd_to_env(&mini->commands, &mini->env);
-	//print_commands(mini->commands);
-	//print_redirection(mini->redirection);
+	print_commands(mini->commands);
+	print_redirection(mini->redirection);
 	//if (valid_line(mini->commands, mini->redirection) == 0)
 		createpipes(mini->commands, mini->redirection, mini->env);
 	while (wait(&exit_status) > 0)

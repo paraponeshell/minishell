@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:09:57 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/16 16:28:34 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/17 17:26:08 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_sizedstr(char **str)
 	return (i);
 }
 
-void	process_commands(t_commands *commands, t_env *env, int b_fd[2], int b)
+void	process_commands(t_commands *commands, t_env *env, int b_fd[2], t_inout_var var)
 {
 	t_commands	*t;
 	int			s;
@@ -34,7 +34,9 @@ void	process_commands(t_commands *commands, t_env *env, int b_fd[2], int b)
 	{
 		check_env(t->command, env, ft_sizedstr(t->command));
 		pipe(p_fd);
-		s = execute(t, b, p_fd, env) % 255;
+		if (t->next == NULL)
+			p_fd[1] = 1;
+		s = execute(t, var, p_fd, env) % 255;
 		add_exit_status(s, &env);
 		if (t->next != NULL)
 		{
@@ -44,34 +46,37 @@ void	process_commands(t_commands *commands, t_env *env, int b_fd[2], int b)
 				break ;
 			close(p_fd[1]);
 		}
-		b = p_fd[0];
+		var.input = p_fd[0];
 		t = t->next;
 	}
 	//print_commands(commands);
-	dup2(p_fd[0], b_fd[0]);
-	close_pipes(p_fd);
+	//dup2(p_fd[0], b_fd[0]);
+	//close_pipes(p_fd);
+	//printf("ici");
 }
 
 int	createpipes(t_commands *commands, t_io_red *redirection, t_env *env)
 {
 	int	b_fd[2];
-	int	buffer;
+	t_inout_var	var;
 
-	buffer = find_i_red(redirection, env);
+	var.input = find_i_red(redirection, env);
+	var.output = find_o_red(redirection, env);
 	b_fd[0] = 0;
 	b_fd[1] = 0;
 	//add_red_to_env(&redirection, &env);
 	//add_cmd_to_env(&commands, &env);
-	if (buffer == -1)
+	if (var.input == -1)
 	{
 		printf("Error: no input redirection\n");
 		return (0);
 	}
 	if (commands->command[0] != NULL && commands->command[0][0] != '\0')
-		process_commands(commands, env, b_fd, buffer);
-	if (b_fd[1])
-		close(b_fd[1]);
-	write_output(b_fd[0], redirection);
+		process_commands(commands, env, b_fd, var);
+	//if (b_fd[1])
+	//	close(b_fd[1]);
+	//write_output(b_fd[0], redirection);
+	printf("ici");
 	return (1);
 }
 
