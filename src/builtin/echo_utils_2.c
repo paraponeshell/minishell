@@ -6,7 +6,7 @@
 /*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:32:46 by jmeli             #+#    #+#             */
-/*   Updated: 2025/04/17 11:11:34 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/17 15:59:40 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,28 +29,6 @@ int	count_strings_pointer(char ***array_ptr)
 	}
 	return (count);
 }
-
-/*
-void	ft_print_array_of_strings(char **array, int size)
-{
-	int	i;
-
-	if (array == NULL)
-		return ;
-	i = 0;
-	while (i < size)
-	{
-		ft_putstr_fd("array[", 1);
-		ft_putnbr_fd(i, 1);
-		ft_putstr_fd("]: ", 1);
-		ft_putstr_fd(array[i], 1);
-		ft_putchar_fd(' ', 1);
-		ft_putnbr_fd(size, 1);
-		ft_putchar_fd('\n', 1);
-		i++;
-	}
-}
-*/
 
 int	size_of_array(char **array)
 {

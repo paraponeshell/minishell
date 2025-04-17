@@ -6,7 +6,7 @@
 /*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 18:30:59 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/14 18:01:17 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/17 16:29:24 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ int	pwd(void)
 
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		printf("%s\n", cwd);
+		ft_putendl_fd(cwd, 1);
 		return (0);
 	}
 	else
 	{
-		printf("pwd: error retrieving current directory: ");
-		printf("getcwd: cannot access parent directories\n");
+		ft_putstr_fd("pwd: error retrieving current directory: ", 2);
+		ft_putstr_fd("getcwd: cannot access parent directories\n", 2);
 		return (1);
 	}
 }
