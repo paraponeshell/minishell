@@ -6,7 +6,7 @@
 /*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:32:46 by jmeli             #+#    #+#             */
-/*   Updated: 2025/04/14 15:41:03 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/17 11:11:34 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,27 @@ int	there_is_only_space(char *arg)
 		i++;
 	}
 	return (1);
+}
+
+int	scan_for_minus_n(char *arg)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (arg[i])
+	{
+		if (arg[i] == '-')
+		{
+			j = i + 1;
+			while (arg[j] && arg[j] == 'n')
+			{
+				j++;
+			}
+			if (arg[j] == 32)
+				return (1);
+		}
+		i++;
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jmeli <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:45:14 by jmeli             #+#    #+#             */
-/*   Updated: 2025/04/14 15:46:28 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/17 11:02:45 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void	echo_check(char ***args)
 	i = 0;
 	while (i < size)
 	{
-		if (there_is_space((*args)[i]))
+		if (there_is_space((*args)[i]) && scan_for_minus_n((*args)[i]))
 		{
 			if (!there_is_only_space((*args)[i]))
 			{
