@@ -6,7 +6,7 @@
 /*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 15:46:57 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/14 17:42:12 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/17 16:22:41 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,6 @@ void	ft_exit(t_env *env, char **arg)
 	free_red(red);
 	free_cmd(commands);
 	free_env(env);
-	ft_putstr_fd("exit\n", 2);
+	ft_putstr_fd("exit\n", 1);
 	exit(exit_code);
 }

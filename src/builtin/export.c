@@ -6,7 +6,7 @@
 /*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 00:16:22 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/16 12:53:58 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/17 16:24:41 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	print_export(t_env **env)
 	while (temp[j])
 	{
 		ft_putstr_fd("declare -x ", 1);
-		printf("%s\n", temp[j]);
+		ft_putendl_fd(temp[j], 1);
 		j++;
 	}
 	free_split(temp);
@@ -92,7 +92,7 @@ int	export(char **args, t_env **env)
 		}
 		else
 		{
-			printf("export: invalid character\n");
+			ft_putstr_fd("export: invalid character\n", 2);
 			exit_status = 1;
 		}
 		i++;
