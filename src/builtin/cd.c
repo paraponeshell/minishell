@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 18:29:13 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/16 16:21:48 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/17 15:58:08 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,10 @@ int	cd_root(char *cwd, t_env **env)
 	exit_status = 0;
 	root = get_root_directory(env);
 	if (root == NULL || chdir(root) != 0)
-		return (1 + 0 * printf("cd: root error\n"));
+	{
+		ft_putendl_fd("cd: root error", 2);
+		return (1);
+	}
 	else
 	{
 		if (cwd == NULL)
@@ -104,12 +107,12 @@ int	cd(char **args, t_env **env)
 		return (cd_root(cwd, env));
 	else if (args[2])
 	{
-		printf("cd: too many arguments\n");
+		ft_putendl_fd("cd: too many arguments", 2);
 		return (1);
 	}
 	else if (chdir(args[1]) != 0)
 	{
-		printf("cd : error\n");
+		ft_putendl_fd("cd : error", 2);
 		return (1);
 	}
 	update_old_pwd(env, cwd);

@@ -6,47 +6,11 @@
 /*   By: jmeli <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:45:14 by jmeli             #+#    #+#             */
-/*   Updated: 2025/04/17 11:02:45 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/17 16:00:36 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-/*
-void	*my_realloc(void *ptr, size_t old_size, size_t new_size)
-{
-	unsigned char	*src;
-	unsigned char	*dst;
-	void			*new_ptr;
-	size_t			copy_size;
-	size_t			i;
-
-	if (ptr == NULL)
-		return (malloc(new_size));
-	if (new_size == 0)
-	{
-		free(ptr);
-		return (NULL);
-	}
-	printf("old & new_size in my_realloc: %ld %ld\n", old_size, new_size);
-	new_ptr = malloc(new_size);
-	if (new_ptr == NULL)
-		return (NULL);
-	if (old_size < new_size)
-		copy_size = old_size;
-	else
-		copy_size = new_size;
-	src = (unsigned char *)ptr;
-	dst = (unsigned char *)new_ptr;
-	i = 0;
-	while (i < copy_size)
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	return (new_ptr);
-}
-*/
 
 int	insert_string(char ***array, int *size, const char *str, int position)
 {
