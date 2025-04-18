@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:27:22 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/16 12:49:12 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/18 00:43:32 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	add_command(t_commands **a, char *splitted, int type)
 	buffer = malloc(sizeof(t_commands));
 	buffer->pipe_type = type;
 	buffer->command = second_split(splitted, ' ');
+	buffer->redirection = NULL;
 	buffer->next = NULL;
 	if (!*a)
 		*a = buffer;

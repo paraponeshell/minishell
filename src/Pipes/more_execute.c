@@ -6,22 +6,25 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 21:20:52 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/16 16:03:44 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/18 15:54:13 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	commandbuiltin(char **arg, int i_fd, int o_fd, t_env *env)
+int	commandbuiltin(t_commands *commands, int i_fd, int o_fd, t_env *env)
 {
 	int	exit_status;
 	int	temp_o_fd;
 	int	temp_i_fd;
+	char **arg;
 
+	arg = commands->command;
 	temp_o_fd = dup(STDOUT_FILENO);
 	temp_i_fd = dup(STDIN_FILENO);
-	dup2(i_fd, STDIN_FILENO);
-	dup2(o_fd, STDOUT_FILENO);
+	apply_redirection(commands->redirection, i_fd, o_fd, env);
+	//dup2(i_fd, STDIN_FILENO);
+	//dup2(o_fd, STDOUT_FILENO);
 	exit_status = 0;
 	if (strcmp(arg[0], "cd") == 0)
 	{

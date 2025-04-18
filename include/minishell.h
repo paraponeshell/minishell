@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/17 17:53:37 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/18 15:54:03 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,20 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-typedef struct s_commands
-{
-	int					pipe_type;
-	char				**command;
-	struct s_commands	*next;
-}	t_commands;
-
 typedef struct s_io_red
 {
 	int				in_or_out;
 	char			*file;
 	struct s_io_red	*next;
 }	t_io_red;
+
+typedef struct s_commands
+{
+	int					pipe_type;
+	char				**command;
+	t_io_red			*redirection;
+	struct s_commands	*next;
+}	t_commands;
 
 typedef struct s_mini
 {
@@ -166,13 +167,14 @@ void		write_output(int buff_fd, t_io_red *redirection);
 void		copy(int buff_fd, int *o_fd, int size);
 void		copy_single(int buff_fd, int o_fd);
 int			count_output_redirections(t_io_red *redirection);
+void	apply_redirection(t_io_red *redirections, int i_fd, int o_fd, t_env *env);
 // EXECUTION
 int			execute(t_commands *temp, t_inout_var var, int p_fd[2], t_env *env);
-int			executefile(char **args, int i_fd, int o_fd, t_env *env);
-int			executefullfile(char *cmd, char **args, int i_fd, int o_fd);
-int			executecommand(char **args, int i_fd, int o_fd, t_env *env);
-int			executebuiltin(char **cmd, int i_fd, int o_fd, t_env *envi);
-int			commandbuiltin(char **arg, int i_fd, int o_fd, t_env *env);
+int			executefile(t_commands *commands, int i_fd, int o_fd, t_env *env);
+int			executefullfile(t_commands *commands, t_env *env, int i_fd, int o_fd);
+int			executecommand(t_commands *commands, int i_fd, int o_fd, t_env *env);
+int			executebuiltin(t_commands *commands, int i_fd, int o_fd, t_env *envi);
+int			commandbuiltin(t_commands *commands, int i_fd, int o_fd, t_env *env);
 char		*get_path(char *cmd, t_env *env);
 // PIPES/EXEC UTILS
 void		free_and_close(int *fd, int size);

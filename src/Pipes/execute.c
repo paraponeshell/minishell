@@ -6,11 +6,86 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:55:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/17 15:49:01 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/18 22:53:30 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	apply_redirection(t_io_red *redirections, int i_fd, int o_fd, t_env *env)
+{
+    t_io_red	*current;
+	int	o;
+	int i;
+	int	input_fd[2];
+	int fd;
+	
+	o = 0;
+	i = 0;
+    current = redirections;
+    while (current != NULL)
+    {
+		print_redirection(current);
+        if (current->in_or_out == 5)
+        {
+			i++;
+            fd = open(current->file, O_RDONLY);
+            if (fd < 0)
+            {
+                perror("open");
+                exit(EXIT_FAILURE);
+            }
+            dup2(fd, STDIN_FILENO);
+            close(fd);
+        }
+		else if (current->in_or_out == 4) // Heredoc redirection
+		{
+			i++;
+			pipe(input_fd);
+			get_heredoc(input_fd, ft_strdup(current->file), env);
+			close(input_fd[1]);
+			dup2(input_fd[0], STDIN_FILENO);
+		}
+        else if (current->in_or_out == 7) // Output redirection
+        {
+			o++;
+            fd = open(current->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+            if (fd < 0)
+            {
+                perror("open");
+                exit(EXIT_FAILURE);
+            }
+            dup2(fd, STDOUT_FILENO);
+            close(fd);
+        }
+        else if (current->in_or_out == 6) // Append redirection
+        {
+			o++;
+            fd = open(current->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+            if (fd < 0)
+            {
+                perror("open");
+                exit(EXIT_FAILURE);
+            }
+            dup2(fd, STDOUT_FILENO);
+            close(fd);
+        }
+        current = current->next;
+    }
+	//printf("i_fd: %d, o_fd: %d\n", i_fd, o_fd);
+	//printf("i: %d, o: %d\n", i, o);
+	if (i == 0 && i_fd != 0)
+	{
+		dup2(i_fd, STDIN_FILENO);
+		close(i_fd);
+	}
+	if (o == 0 && o_fd != 1)
+	{
+		dup2(o_fd, STDOUT_FILENO);
+		close(o_fd);
+	}
+	return ;
+}
 
 int	execute(t_commands *t, t_inout_var var, int p_fd[2], t_env *env)
 {
@@ -19,27 +94,27 @@ int	execute(t_commands *t, t_inout_var var, int p_fd[2], t_env *env)
 	//print_commands(t);
 	status = 0;
 	if (t->command[0][0] == '/' && access(t->command[0], F_OK | X_OK) == 0)
-		status = executefullfile(t->command[0], t->command, var.input, p_fd[1]);
+		status = executefullfile(t, env, var.input, p_fd[1]);
 	else if (ft_strncmp(t->command[0], "./", 2) == 0)
 	{
 		if (access(&t->command[0][1], F_OK | X_OK))
-			status = executefile(t->command, var.input, p_fd[1], env);
+			status = executefile(t, var.input, p_fd[1], env);
 		else
 			status = print_file_error(t->command[0]);
 	}
 	else if (is_exec_command(t->command) != -1)
-		status = executebuiltin(t->command, var.input, p_fd[1], env);
+		status = executebuiltin(t, var.input, p_fd[1], env);
 	else if (is_other_command(t->command[0]) != -1)
 	{
 		if (t->next == NULL || t->next->pipe_type != 2)
-			status = commandbuiltin(t->command, var.input, p_fd[1], env);
+			status = commandbuiltin(t, var.input, p_fd[1], env);
 	}
 	else
-		status = executecommand(t->command, var.input, p_fd[1], env);
+		status = executecommand(t, var.input, p_fd[1], env);
 	return (status);
 }
 
-int	executefile(char **args, int i_fd, int o_fd, t_env *env)
+int	executefile(t_commands *command, int i_fd, int o_fd, t_env *env)
 {
 	int			exit_status;
 	pid_t		p;
@@ -52,19 +127,20 @@ int	executefile(char **args, int i_fd, int o_fd, t_env *env)
 	exit_status = 1;
 	if (p == 0)
 	{
-		dup2(i_fd, STDIN_FILENO);
-		dup2(o_fd, STDOUT_FILENO);
+		apply_redirection(command->redirection, i_fd, o_fd, env);
+		//dup2(i_fd, STDIN_FILENO);
+		//dup2(o_fd, STDOUT_FILENO);
 		getcwd(current_path, sizeof(current_path));
 		signal(SIGQUIT, handle_signal);
-		full_cmd = ft_strjoin(current_path, &args[0][1]);
-		execve(full_cmd, args, environ);
+		full_cmd = ft_strjoin(current_path, &command->command[0][1]);
+		execve(full_cmd, command->command, environ);
 		free(full_cmd);
 		exit(1);
 	}
 	return (exit_status);
 }
 
-int	executefullfile(char *cmd, char **args, int i_fd, int o_fd)
+int	executefullfile(t_commands *commands, t_env *env, int i_fd, int o_fd)
 {
 	int			exit_status;
 	pid_t		p;
@@ -74,18 +150,19 @@ int	executefullfile(char *cmd, char **args, int i_fd, int o_fd)
 	exit_status = 1;
 	if (p == 0)
 	{
-		if (!cmd)
+		if (!commands->command[0])
 			exit(1);
-		dup2(i_fd, STDIN_FILENO);
-		dup2(o_fd, STDOUT_FILENO);
+		apply_redirection(commands->redirection, i_fd, o_fd, env);
+		//dup2(i_fd, STDIN_FILENO);
+		//dup2(o_fd, STDOUT_FILENO);
 		signal(SIGQUIT, handle_signal);
-		execve(cmd, args, environ);
+		execve(commands->command[0], commands->command, environ);
 		exit(1);
 	}
 	return (exit_status);
 }
 
-int	executecommand(char **args, int i_fd, int o_fd, t_env *env)
+int	executecommand(t_commands *commands, int i_fd, int o_fd, t_env *env)
 {
 	int			exit_status;
 	pid_t		p;
@@ -96,15 +173,15 @@ int	executecommand(char **args, int i_fd, int o_fd, t_env *env)
 	exit_status = 1;
 	if (p == 0)
 	{
-		if (args[0][0] == '\0')
+		if (commands->command[0][0] == '\0')
 			exit(1);
-		dup2(i_fd, STDIN_FILENO);
-		dup2(o_fd, STDOUT_FILENO);
-		full_cmd = get_path(args[0], env);
+		apply_redirection(commands->redirection, i_fd, o_fd, env);		//dup2(i_fd, STDIN_FILENO);
+		//dup2(o_fd, STDOUT_FILENO);
+		full_cmd = get_path(commands->command[0], env);
 		if (full_cmd == NULL)
 			exit(1);
 		signal(SIGQUIT, handle_signal);
-		execve(full_cmd, args, environ);
+		execve(full_cmd, commands->command, environ);
 		perror("fail command");
 		free(full_cmd);
 		exit(1);
@@ -112,15 +189,18 @@ int	executecommand(char **args, int i_fd, int o_fd, t_env *env)
 	return (exit_status);
 }
 
-int	executebuiltin(char **cmd, int i_fd, int o_fd, t_env *envi)
+int	executebuiltin(t_commands *commands, int i_fd, int o_fd, t_env *envi)
 {
 	pid_t		p;
-
+	char		**cmd;
+	
 	p = fork();
 	if (p == 0)
 	{
-		dup2(i_fd, STDIN_FILENO);
-		dup2(o_fd, STDOUT_FILENO);
+		//print_commands(commands);
+		apply_redirection(commands->redirection, i_fd, o_fd, envi);		//dup2(i_fd, STDIN_FILENO);
+		//dup2(o_fd, STDOUT_FILENO);
+		cmd = commands->command;
 		if (strncmp(cmd[0], "echo", ft_strlen(cmd[0])) == 0)
 			echo(cmd);
 		else if (strncmp(cmd[0], "env", ft_strlen(cmd[0])) == 0)

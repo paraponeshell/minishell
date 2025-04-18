@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aharder <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 12:28:06 by aharder           #+#    #+#             */
-/*   Updated: 2024/11/04 11:20:00 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/18 16:04:54 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	customstrlen(const char *str)
+int	customstrlen8(const char *str)
 {
 	int	i;
 
@@ -30,7 +30,7 @@ int	ft_strlcpy(char *dest, const char *src, size_t size)
 	int			len;
 
 	i = 0;
-	len = customstrlen(src);
+	len = customstrlen8(src);
 	if (size == 0)
 		return (len);
 	while (src[i] != '\0' && i < size - 1)
