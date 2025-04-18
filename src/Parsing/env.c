@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 14:22:07 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/13 22:13:11 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/18 15:12:59 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	rm_env(t_env **a, char *value)
 	}
 	while (temp->next != NULL)
 	{
-		if (strcmp(temp->next->value, value) == 0)
+		if (ft_strcmp(temp->next->value, value) == 0)
 		{
 			last = temp->next;
 			temp->next = temp->next->next;
