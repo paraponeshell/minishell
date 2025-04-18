@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/18 15:54:03 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/18 23:54:05 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,6 @@ char		*first_word(char *str);
 char		*rm_first_word(char *str);
 char		*add_io(t_io_red **a, char *splitted, int type, t_mini *mini);
 void		free_cmd(t_commands **a);
-void		free_red(t_io_red **a);
 // FIRST SPLIT
 char		**first_split(char *s);
 void		assign_start_value(t_var_bundle *var);

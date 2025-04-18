@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 17:47:27 by aharder           #+#    #+#             */
-/*   Updated: 2025/03/11 14:40:13 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/18 23:54:23 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	free_cmd(t_commands **a)
 		i = 0;
 		while (tmp->command[i] != NULL)
 			free(tmp->command[i++]);
+		free_red(&tmp->redirection);
 		free(tmp->command);
 		free(tmp);
 	}
