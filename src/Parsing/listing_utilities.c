@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:50:05 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/18 16:03:59 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/19 00:00:50 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,24 +80,28 @@ void	add_buff_to_last(t_commands **a, char *str)
 
 char *first_word(char *str)
 {
-    int i = 0;
-    int j = 0;
+	int i;
+	char *word;
+	int j;
 
-    // Ignore les espaces au début
-    while (str[i] && str[i] == ' ')
-        i++;
-
-    // Trouve la fin du premier mot
-    j = i;
-    while (str[j] && str[j] != ' ')
-        j++;
-
-    // Alloue de la mémoire pour le premier mot
-    char *word = malloc(j - i + 1); // +1 pour le caractère nul
-    if (!word)
-        return (NULL);
-
-    // Copie le premier mot dans la nouvelle chaîne
-    ft_strlcpy(word, &str[i], j - i + 1); // Copie avec le caractère nul
-    return (word);
+	i = 0;
+	while (str[i] && str[i] == ' ')
+		i++;
+	j = i;
+	if (str[j] == '\"' || str[j] == '\'')
+	{
+		j++;
+		while (str[j] && str[j] != '\"' && str[j] != '\'')
+			j++;
+	}
+	else
+	{
+		while (str[j] && str[j] != ' ')
+			j++;
+	}
+	word = malloc(j - i + 1);
+	if (!word)
+		return (NULL);
+	ft_strlcpy(word, &str[i], j - i + 1);
+	return (word);
 }
