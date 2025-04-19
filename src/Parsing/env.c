@@ -28,7 +28,12 @@ t_env	*init_env(char **envp)
 		while (envp[i][j] != '\0' && envp[i][j] != '=')
 			j++;
 		value = ft_substr(envp[i], 0, j);
-		result = ft_substr(envp[i], j + 1, ft_strlen(envp[i]));
+		if (envp[i][j + 1] != '\0')
+			result = ft_substr(envp[i], j + 1, ft_strlen(envp[i]));
+		else
+			result = NULL;
+		if (result == NULL || result[0] == '\0')
+			printf("Yeah! %s\n", value);
 		add_env(&env, value, result);
 		i++;
 	}
