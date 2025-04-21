@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:20:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/18 22:54:06 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/21 23:33:47 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,10 @@ void	parser(char *str, t_mini *mini)
 	add_red_to_env(&mini->redirection, &mini->env);
 	add_cmd_to_env(&mini->commands, &mini->env);
 	//printf("Before createpipes:\n");
-	//print_commands(mini->commands);
+	print_commands(mini->commands);
 	//if (valid_line(mini->commands, mini->redirection) == 0)
 		createpipes(mini->commands, mini->redirection, mini->env);
+	block_signal(SIGQUIT);
 	while (wait(&exit_status) > 0)
 		add_exit_status(exit_status, &mini->env);
 	//printf("After parser:\n");
@@ -166,9 +167,15 @@ int	*get_operators(char *s)
 void print_commands(t_commands *commands)
 {
     t_commands *current = commands;
+	int i = 0;
     while (current)
     {
         printf("Command: %s\n", current->command[0]);
+		while (current->command[i] != NULL)
+		{
+			printf("  Arg[%d]: %s\n", i, current->command[i]);
+			i++;
+		}
         t_io_red *red = current->redirection;
         while (red)
         {

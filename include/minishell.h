@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/18 23:54:05 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/21 22:08:00 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,7 @@ void		free_cmd(t_commands **a);
 void		free_red(t_io_red **a);
 char		**get_filenames(void);
 int			count_files(void);
+void	block_signal(int signal);
 // UTILITIES
 void		free_split(char **split);
 void		print_split(char **split);
