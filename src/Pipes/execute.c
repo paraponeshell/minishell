@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:55:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/22 15:25:04 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/22 15:38:50 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,16 @@ void	apply_redirection(t_io_red *redirections, int i_fd, int o_fd, t_env *env)
 	return ;
 }
 
+int	is_only(t_env *env)
+{
+	int	size;
+	char	*var;
+
+	var = ft_getallenv(env, "#");
+	size = ft_atoi(var);
+	return (size);
+}
+
 int	execute(t_commands *t, t_inout_var var, int p_fd[2], t_env *env)
 {
 	int	status;
@@ -106,7 +116,7 @@ int	execute(t_commands *t, t_inout_var var, int p_fd[2], t_env *env)
 		status = executebuiltin(t, var.input, p_fd[1], env);
 	else if (is_other_command(t->command[0]) != -1)
 	{
-		if (t->next == NULL || t->next->pipe_type != 2)
+		if (is_only(env) == 1)
 			status = commandbuiltin(t, var.input, p_fd[1], env);
 	}
 	else

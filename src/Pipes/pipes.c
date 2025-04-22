@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:09:57 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/22 14:50:39 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/22 15:40:22 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,32 @@ int	ft_sizedstr(char **str)
 	return (i);
 }
 
+void	add_size_to_env(t_commands *commands, t_env *env)
+{
+	int	i;
+	char	*str;
+	int	index;
+	char	*buffer;
+	i = 0;
+	while (commands != NULL)
+	{
+		i++;
+		commands = commands->next;
+	}
+	buffer = ft_itoa(i);
+	str = ft_strjoin("#=", buffer);
+	free(buffer);
+	index = -1;
+	index = index_existing_var(str, &env);
+	if (index >= 0)
+		update(str, index, &env);
+	else
+	{
+		ft_env_push_back(&env, str);
+	}
+	free(str);
+}
+
 void	process_commands(t_commands *commands, t_env *env, int b_fd[2], t_inout_var var)
 {
 	t_commands	*t;
@@ -30,6 +56,7 @@ void	process_commands(t_commands *commands, t_env *env, int b_fd[2], t_inout_var
 
 	t = commands;
 	init_pipes(p_fd, b_fd);
+	add_size_to_env(commands, env);
 	while (t != NULL)
 	{
 		check_env(t->command, env, ft_sizedstr(t->command));
