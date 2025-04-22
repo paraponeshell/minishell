@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:55:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/21 22:14:12 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/22 14:09:28 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	execute(t_commands *t, t_inout_var var, int p_fd[2], t_env *env)
 	status = 0;
 	if (t->command[0][0] == '/' && access(t->command[0], F_OK | X_OK) == 0)
 		status = executefullfile(t, env, var.input, p_fd[1]);
-	else if (ft_strncmp(t->command[0], "./", 2) == 0)
+	else if (ft_strncmp(t->command[0], "./", 2) == 0 || ft_strncmp(t->command[0], "../", 3) == 0)
 	{
 		if (access(&t->command[0][1], F_OK | X_OK))
 			status = executefile(t, var.input, p_fd[1], env);
@@ -116,11 +116,10 @@ int	execute(t_commands *t, t_inout_var var, int p_fd[2], t_env *env)
 
 int	executefile(t_commands *command, int i_fd, int o_fd, t_env *env)
 {
-	int			exit_status;
-	pid_t		p;
 	extern char	**environ;
 	char		*full_cmd;
-	char		current_path[1024];
+	pid_t			p;
+	int				exit_status;
 
 	(void)env;
 	p = fork();
@@ -130,9 +129,11 @@ int	executefile(t_commands *command, int i_fd, int o_fd, t_env *env)
 		apply_redirection(command->redirection, i_fd, o_fd, env);
 		//dup2(i_fd, STDIN_FILENO);
 		//dup2(o_fd, STDOUT_FILENO);
-		getcwd(current_path, sizeof(current_path));
+		if (ft_strncmp(command->command[0], "./", 2) == 0 || ft_strncmp(command->command[0], "../", 3) == 0)
+			full_cmd = ft_relative_path(command->command[0]);
+		else
+			full_cmd = ft_strdup(command->command[0]);
 		signal(SIGQUIT, handle_signal);
-		full_cmd = ft_strjoin(current_path, &command->command[0][1]);
 		execve(full_cmd, command->command, environ);
 		free(full_cmd);
 		exit(1);

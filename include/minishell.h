@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/21 22:08:00 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/22 12:56:41 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,7 @@ int			executecommand(t_commands *commands, int i_fd, int o_fd, t_env *env);
 int			executebuiltin(t_commands *commands, int i_fd, int o_fd, t_env *envi);
 int			commandbuiltin(t_commands *commands, int i_fd, int o_fd, t_env *env);
 char		*get_path(char *cmd, t_env *env);
+char    *ft_relative_path(char *str);
 // PIPES/EXEC UTILS
 void		free_and_close(int *fd, int size);
 void		free_cmd(t_commands **a);
