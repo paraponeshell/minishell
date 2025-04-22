@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:20:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/22 15:44:28 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/22 23:22:16 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ int	*get_operators(char *s)
 void print_commands(t_commands *commands)
 {
     t_commands *current = commands;
-	int i = 0;
+	int i = 1;
     while (current)
     {
         printf("Command: %s\n", current->command[0]);

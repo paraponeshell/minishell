@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:50:05 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/19 00:00:50 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/23 00:14:00 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,28 +80,35 @@ void	add_buff_to_last(t_commands **a, char *str)
 
 char *first_word(char *str)
 {
-	int i;
-	char *word;
-	int j;
+    int i;
+    int j;
+    char *word;
 
-	i = 0;
-	while (str[i] && str[i] == ' ')
-		i++;
-	j = i;
-	if (str[j] == '\"' || str[j] == '\'')
-	{
-		j++;
-		while (str[j] && str[j] != '\"' && str[j] != '\'')
-			j++;
-	}
-	else
-	{
-		while (str[j] && str[j] != ' ')
-			j++;
-	}
-	word = malloc(j - i + 1);
-	if (!word)
-		return (NULL);
-	ft_strlcpy(word, &str[i], j - i + 1);
-	return (word);
+    i = 0;
+    while (str[i] && str[i] == ' ') // Ignore les espaces au début
+        i++;
+    j = i;
+    if (str[j] == '\"' || str[j] == '\'') // Si le mot commence par un guillemet
+    {
+        char quote = str[j];
+        j++;
+        while (str[j] && str[j] != quote) // Cherche le guillemet de fermeture
+            j++;
+        if (str[j] != quote) // Si le guillemet de fermeture est manquant
+        {
+            printf("Error: unmatched quote\n");
+            return (NULL);
+        }
+        j++; // Inclut le guillemet de fermeture
+    }
+    else // Si le mot ne commence pas par un guillemet
+    {
+        while (str[j] && str[j] != ' ') // Cherche la fin du mot
+            j++;
+    }
+    word = malloc(j - i + 1); // Alloue de la mémoire pour le mot
+    if (!word)
+        return (NULL);
+    ft_strlcpy(word, &str[i], j - i + 1); // Copie le mot dans la nouvelle chaîne
+    return (word);
 }

@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/22 17:06:09 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/22 23:48:41 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_var_env_bundle
 	int	k;
 	int	s_quotes;
 	int	d_quotes;
+	int	size;
 }	t_var_env_bundle;
 
 typedef struct s_inout_var
@@ -144,14 +145,14 @@ char		*quote_replace(char *str, int i, t_env *env);
 //char		**insert_files(char **command, int index);
 int			ft_strchrpos(char *str, int searchedChar);
 // REPLACING V2
-void		env_bundle_init(t_var_env_bundle *var);
+void		env_bundle_init(t_var_env_bundle *var, int size);
 void		check_env(char **temp, t_env *env, int size);
 int			srch_dollar(char c);
 int			is_end_var(char c);
 int			env_size(char *str, t_var_env_bundle v, t_env *env);
 int	var_size(char *str, int i);
 char		*ft_strrmchar(char *str, int pos);
-char		*handle_env_quotes(char *str, int i, t_var_env_bundle *var);
+char	*handle_env_quotes(char *str, int i, t_var_env_bundle *var, char **temp);
 // WILDCARD
 int			srchr_wildcard(char *str);
 char		*handle_wildcard(char *str, t_var_env_bundle *var);

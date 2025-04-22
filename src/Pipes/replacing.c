@@ -6,19 +6,20 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:17:41 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/22 17:06:54 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/23 00:16:58 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	env_bundle_init(t_var_env_bundle *var)
+void	env_bundle_init(t_var_env_bundle *var, int size)
 {
 	var->i = 0;
 	var->j = 0;
 	var->k = 0;
 	var->d_quotes = 0;
 	var->s_quotes = 0;
+	var->size = size;
 }
 
 void	check_env(char **temp, t_env *env, int size)
@@ -26,7 +27,7 @@ void	check_env(char **temp, t_env *env, int size)
 	t_var_env_bundle	var;
 	int					k;
 
-	env_bundle_init(&var);
+	env_bundle_init(&var, size);
 	while (var.i < size)
 	{
 		var.j = 0;
@@ -35,7 +36,7 @@ void	check_env(char **temp, t_env *env, int size)
 			k = srch_dollar(temp[var.i][var.j]);
 			while ((k == 0 || var.s_quotes) && temp[var.i][var.j] != '\0')
 			{
-				temp[var.i] = handle_env_quotes(temp[var.i], var.j, &var);
+				temp[var.i] = handle_env_quotes(temp[var.i], var.j, &var, temp);
 				//printf("var d_quotes : %d\n var s_quotes : %d\n char : %c\n var.j : %d", var.d_quotes, var.s_quotes, temp[var.i][var.j], var.j);
 				/*if (!var.s_quotes && !var.d_quotes
 						&& var.j >= 0 && srchr_wildcard(&temp[var.i][var.j]))
@@ -133,13 +134,35 @@ char	*ft_strrmchar(char *str, int pos)
 	return (output);
 }
 
-char	*handle_env_quotes(char *str, int i, t_var_env_bundle *var)
+int is_there_an_export(char **temp, t_var_env_bundle *var)
 {
+    int i;
+
+    i = 0;
+    if (temp == NULL)
+        return (0);
+    while (i < var->size)
+	{
+        if (temp[i] && ft_strncmp(temp[i], "export", 6) == 0)
+            return (1);
+        i++;
+    }
+    return (0);
+}
+
+char	*handle_env_quotes(char *str, int i, t_var_env_bundle *var, char **temp)
+{
+	int		disable_wildcard;
+
+	if (is_there_an_export(temp, var))
+		disable_wildcard = 1;
+	else
+		disable_wildcard = 0;
 	if (!var->s_quotes && str[i] == '"')
 	{
 		var->d_quotes = !var->d_quotes;
 		str = ft_strrmchar(str, i);
-		if (!var->d_quotes && srchr_wildcard(&str[var->j]))
+		if (!var->d_quotes && !disable_wildcard && srchr_wildcard(&str[var->j]))
 				str = handle_wildcard(str, var);
 		var->j--;
 	}
@@ -151,7 +174,7 @@ char	*handle_env_quotes(char *str, int i, t_var_env_bundle *var)
 				str = handle_wildcard(str, var);
 		var->j--;
 	}
-	else if (!var->d_quotes && !var->s_quotes && srchr_wildcard(&str[var->j]))
+	else if (!var->d_quotes && !var->s_quotes && !disable_wildcard && srchr_wildcard(&str[var->j]))
 		str = handle_wildcard(str, var);
 	return (str);
 }

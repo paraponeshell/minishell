@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:27:22 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/18 00:43:32 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/23 00:13:04 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,9 @@ char	*free_and_null(t_io_red *buffer)
 
 int	check_redirection(char *str)
 {
-	int	i;
-
-	i = 0;
-	while (str[i] != '\0')
+	if (access(str, F_OK) == -1)
 	{
-		if (str[i] == ' ')
-			return (0);
-		i++;
+		return (0);
 	}
 	return (1);
 }
@@ -85,19 +80,33 @@ char	*add_io(t_io_red **a, char *splitted, int type, t_mini *mini)
 
 char	*rm_first_word(char *str)
 {
-	int		i;
-	int		k;
-	char	*output;
+    int		i;
+    int		k;
+    char	*output;
+    char	quote;
 
-	i = 0;
-	k = 0;
-	while (str[i] == ' ')
-		i++;
-	while (str[i] != ' ' && str[i] != '\0')
-		i++;
-	output = malloc((ft_strlen(str) - i + 1) * sizeof(char));
-	while (str[i] != '\0')
-		output[k++] = str[i++];
-	output[k] = '\0';
-	return (output);
+    i = 0;
+    k = 0;
+    while (str[i] == ' ')
+        i++;
+    if (str[i] == '"' || str[i] == '\'')
+    {
+        quote = str[i++];
+        while (str[i] && str[i] != quote)
+            i++;
+        if (str[i] == quote)
+            i++;
+    }
+    else
+    {
+        while (str[i] && str[i] != ' ')
+            i++;
+    }
+    output = malloc((ft_strlen(str) - i + 1) * sizeof(char));
+    if (!output)
+        return (NULL);
+    while (str[i] != '\0')
+        output[k++] = str[i++];
+    output[k] = '\0';
+    return (output);
 }
