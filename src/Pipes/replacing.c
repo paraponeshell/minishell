@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:17:41 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/22 15:20:56 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/22 15:24:38 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,8 @@ int	var_size2(char *str, int i, t_var_env_bundle *var)
 		return (1);
 	else if (str[i] == '\0')
 		return (1);
+	else if (str[i] == '?')
+		return (0);
 	else if (ft_isalnum(str[i]) == 0)
 	{
 		return (1);
