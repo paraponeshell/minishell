@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:55:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/22 13:44:05 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/22 14:09:28 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,11 +116,10 @@ int	execute(t_commands *t, t_inout_var var, int p_fd[2], t_env *env)
 
 int	executefile(t_commands *command, int i_fd, int o_fd, t_env *env)
 {
-	int			exit_status;
-	pid_t		p;
 	extern char	**environ;
 	char		*full_cmd;
-	//char		current_path[1024];
+	pid_t			p;
+	int				exit_status;
 
 	(void)env;
 	p = fork();
@@ -130,22 +129,11 @@ int	executefile(t_commands *command, int i_fd, int o_fd, t_env *env)
 		apply_redirection(command->redirection, i_fd, o_fd, env);
 		//dup2(i_fd, STDIN_FILENO);
 		//dup2(o_fd, STDOUT_FILENO);
-		/*
-		if (ft_strncmp(command->command[0], "./", 2) == 0)
-		{
-			getcwd(current_path, sizeof(current_path));
-			printf("current_path: %s\n", current_path);
-			full_cmd = ft_strjoin(current_path, &command->command[0][1]);
-		}
-		
-		full_cmd = NULL;
 		if (ft_strncmp(command->command[0], "./", 2) == 0 || ft_strncmp(command->command[0], "../", 3) == 0)
-		{
-		*/
-		full_cmd = ft_relative_path(command->command[0]);
-		printf("my fucntion %s\n", full_cmd);
+			full_cmd = ft_relative_path(command->command[0]);
+		else
+			full_cmd = ft_strdup(command->command[0]);
 		signal(SIGQUIT, handle_signal);
-		printf("full_cmd: %s\n", full_cmd);
 		execve(full_cmd, command->command, environ);
 		free(full_cmd);
 		exit(1);
