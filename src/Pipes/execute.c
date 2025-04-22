@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:55:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/22 15:38:50 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/22 16:00:07 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	apply_redirection(t_io_red *redirections, int i_fd, int o_fd, t_env *env)
     current = redirections;
     while (current != NULL)
     {
-		print_redirection(current);
+		//print_redirection(current);
         if (current->in_or_out == 5)
         {
 			i++;
@@ -101,7 +101,7 @@ int	execute(t_commands *t, t_inout_var var, int p_fd[2], t_env *env)
 {
 	int	status;
 
-	print_commands(t);
+	//print_commands(t);
 	status = 0;
 	if (t->command[0][0] == '/' && access(t->command[0], F_OK | X_OK) == 0)
 		status = executefullfile(t, env, var.input, p_fd[1]);

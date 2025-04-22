@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:42:58 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/22 15:17:34 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/22 15:45:27 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ char	*handle_wildcard(char *str, t_var_env_bundle *var)
 	int		i[2];
 
 	i[0] = var->j;
-	printf("str : %s", str);
 	while (str[i[0]] != ' ' && str[i[0]] != '\0'
 		&& str[i[0]] != '"' && str[i[0]] != '\'')
 		i[0]++;

@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:37:22 by aharder           #+#    #+#             */
-/*   Updated: 2025/03/23 18:40:27 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/22 15:58:52 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	add_exit_status(int exit_status, t_env **env)
 	char	*str;
 	char	*num;
 
-	num = ft_itoa(exit_status);
+	num = ft_itoa(exit_status % 255);
 	str = ft_strjoin("?=", num);
 	index = -1;
 	index = index_existing_var(str, env);
