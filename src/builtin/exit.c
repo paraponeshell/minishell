@@ -47,7 +47,7 @@ long long	ft_atoi_long(char *str)
 	int					sign;
 	int					i;
 
-	if (strcmp(str, "-923372036854775808") == 0)
+	if (ft_strcmp(str, "-923372036854775808") == 0)
 		return (0);
 	result = 0;
 	sign = 1;
