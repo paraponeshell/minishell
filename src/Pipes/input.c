@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 16:08:07 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/16 13:23:06 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/22 16:55:39 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@ char *ft_strrmquotes(char *str, char to_rm)
 	return (output);
 }
 
+void	handle_void(int sig)
+{
+	(void)sig;
+	return ;
+}
+
 void	get_heredoc(int *p_fd, char *end, t_env *env)
 {
 	char	*heredoc;
@@ -44,6 +50,9 @@ void	get_heredoc(int *p_fd, char *end, t_env *env)
 			end = ft_strrmquotes(end, end[0]);
 	while (1)
 	{
+		unblock_signal(SIGINT);
+		block_signal(SIGQUIT);
+		//signal(SIGINT,handle_void);
 		heredoc = readline("> ");
 		if (!heredoc || ft_strcmp(heredoc, end) == 0)
 		{

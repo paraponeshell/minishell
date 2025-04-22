@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/22 16:15:29 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/22 16:48:43 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ char		**perror_and_free(char **output, int size);
 char		**second_split(char *s, char c);
 char		*write_segment(char *s, int start, int end);
 int			find_segment_end(char *s, char c, int start);
+void	unblock_signal(int signal);
 // VALID LINES
 int			valid_line(t_commands *cmd, t_io_red *red);
 int			print_pipe_error(void);
