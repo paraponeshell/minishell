@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:55:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/22 16:00:07 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/22 16:30:04 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,24 +97,36 @@ int	is_only(t_env *env)
 	return (size);
 }
 
+int	first_not_null(t_commands *t)
+{
+	int	i;
+
+	i = 0;
+	while (t->command[i] != NULL && t->command[i][0] == '\0')
+		i++;
+	return (i);
+}
+
 int	execute(t_commands *t, t_inout_var var, int p_fd[2], t_env *env)
 {
 	int	status;
-
+	int	i;
+	
 	//print_commands(t);
 	status = 0;
-	if (t->command[0][0] == '/' && access(t->command[0], F_OK | X_OK) == 0)
+	i = first_not_null(t);
+	if (t->command[i][0] == '/' && access(t->command[i], F_OK | X_OK) == 0)
 		status = executefullfile(t, env, var.input, p_fd[1]);
-	else if (ft_strncmp(t->command[0], "./", 2) == 0 || ft_strncmp(t->command[0], "../", 3) == 0)
+	else if (ft_strncmp(t->command[i], "./", 2) == 0 || ft_strncmp(t->command[i], "../", 3) == 0)
 	{
-		if (access(&t->command[0][1], F_OK | X_OK))
+		if (access(&t->command[i][1], F_OK | X_OK))
 			status = executefile(t, var.input, p_fd[1], env);
 		else
-			status = print_file_error(t->command[0]);
+			status = print_file_error(t->command[i]);
 	}
-	else if (is_exec_command(t->command) != -1)
+	else if (is_exec_command(t->command[i]) != -1 || (ft_strcmp(t->command[i], "export") == 0 && t->command[i + 1] == NULL))
 		status = executebuiltin(t, var.input, p_fd[1], env);
-	else if (is_other_command(t->command[0]) != -1)
+	else if (is_other_command(t->command[i]) != -1)
 	{
 		if (is_only(env) == 1)
 			status = commandbuiltin(t, var.input, p_fd[1], env);

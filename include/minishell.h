@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/22 12:56:41 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/22 16:15:29 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ int			createpipes(t_commands *cmds, t_io_red *red, t_env *env);
 void		process_commands(t_commands *cmds, t_env *env, int b_fd[2], t_inout_var var);
 void		init_pipes(int p_fd[2], int b_fd[2]);
 void		close_pipes(int fd[2]);
-int			is_exec_command(char **str);
+int	is_exec_command(char *str);
 int			is_other_command(char *str);
 // REPLACING
 char		*replace(char *str, t_var_env_bundle v, t_env *env);
