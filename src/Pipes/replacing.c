@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:17:41 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/22 15:24:38 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/22 17:06:54 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	check_env(char **temp, t_env *env, int size)
 			}
 			var.k = env_size(temp[var.i], var, env);
 			if (temp[var.i][var.j] != '\0')
-				temp[var.i] = replace(temp[var.i], var, env);
+				temp[var.i] = replace(temp[var.i], &var, env);
 			var.j += var.k;
 			if (var.j > ft_strlen(temp[var.i]))
 				break ;
@@ -164,7 +164,7 @@ int	var_size2(char *str, int i, t_var_env_bundle *var)
 		return (1);
 	else if (str[i] == '?')
 		return (0);
-	else if (ft_isalnum(str[i]) == 0)
+	else if ((var->d_quotes || var->s_quotes) && ft_isalnum(str[i]) == 0)
 	{
 		return (1);
 	}
@@ -174,7 +174,7 @@ int	var_size2(char *str, int i, t_var_env_bundle *var)
 		return (0);
 }
 
-char	*replace(char *s, t_var_env_bundle v, t_env *env)
+char	*replace(char *s, t_var_env_bundle *v, t_env *env)
 {
 	char	*prefix;
 	char	*suffix;
@@ -183,17 +183,20 @@ char	*replace(char *s, t_var_env_bundle v, t_env *env)
 	char	*buffer;
 	int		i;
 
-	i = v.j;
+	i = v->j;
 	prefix = ft_substr(s, 0, i);
 	var = ft_substr(s, i + 1, var_size(s, i + 1));
 	suffix = ft_substr(s, i + 1 + var_size(s, i + 1), ft_strlen(s) - i + 1 + var_size(s, i + 1));
-	if (var_size2(s, i + 1, &v) == 1)
+	if (var_size2(s, i + 1, v) == 1)
 		value = ft_strdup("$");
 	else if (var == NULL || var[0] == '\0')
+	{
+		v->j--;
 		value = ft_strdup("");
+	}
 	else
 	{
-		if (v.d_quotes)
+		if (v->d_quotes)
 		{
 			buffer = ft_getenv(env, var);
 			if (buffer)

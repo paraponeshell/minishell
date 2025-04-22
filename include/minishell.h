@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/22 16:48:43 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/22 17:06:09 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void		close_pipes(int fd[2]);
 int	is_exec_command(char *str);
 int			is_other_command(char *str);
 // REPLACING
-char		*replace(char *str, t_var_env_bundle v, t_env *env);
+char	*replace(char *s, t_var_env_bundle *v, t_env *env);
 char		*quote_replace(char *str, int i, t_env *env);
 //char		**insert_files(char **command, int index);
 int			ft_strchrpos(char *str, int searchedChar);
