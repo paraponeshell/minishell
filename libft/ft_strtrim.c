@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aharder <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 14:00:06 by aharder           #+#    #+#             */
-/*   Updated: 2024/10/31 11:42:44 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/22 11:46:42 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	issetchar(char c, const char *set)
 	return (0);
 }
 
-int	customstrlen(const char *str, const char *set)
+int	customstrlen5(const char *str, const char *set)
 {
 	int	i;
 	int	y;
@@ -67,13 +67,13 @@ char	*ft_strtrim(const char *str, const char *set)
 	i = 0;
 	if (!str || !set)
 		return (NULL);
-	output = malloc((customstrlen(str, set) + 1) * sizeof(char));
+	output = malloc((customstrlen5(str, set) + 1) * sizeof(char));
 	if (!output)
 		return (NULL);
 	decalage = 0;
 	while (issetchar(str[decalage], set) == 1)
 		decalage++;
-	while (i < customstrlen(str, set))
+	while (i < customstrlen5(str, set))
 	{
 		output[i] = str[i + decalage];
 		i++;
