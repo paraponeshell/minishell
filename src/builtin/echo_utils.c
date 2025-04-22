@@ -20,7 +20,7 @@ int	insert_string(char ***array, int *size, const char *str, int position)
 	if (array == NULL || size == NULL || str == NULL || position < 0
 		|| position > *size)
 		return (-1);
-	new_str = strdup(str);
+	new_str = ft_strdup(str);
 	if (new_str == NULL)
 		return (-1);
 	i = *size;
