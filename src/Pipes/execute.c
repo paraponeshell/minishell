@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:55:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/22 16:30:04 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/22 17:11:00 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ int	first_not_null(t_commands *t)
 	int	i;
 
 	i = 0;
+	if (t->command[i] != NULL && t->command[i][0] == '\0' && t->command[i] != NULL)
+	
 	while (t->command[i] != NULL && t->command[i][0] == '\0')
 		i++;
 	return (i);
@@ -115,6 +117,11 @@ int	execute(t_commands *t, t_inout_var var, int p_fd[2], t_env *env)
 	//print_commands(t);
 	status = 0;
 	i = first_not_null(t);
+	if (t->command[i] == NULL || t->command[i][0] == '\0')
+	{
+		status = print_file_error(t->command[i]);
+		return (status);
+	}
 	if (t->command[i][0] == '/' && access(t->command[i], F_OK | X_OK) == 0)
 		status = executefullfile(t, env, var.input, p_fd[1]);
 	else if (ft_strncmp(t->command[i], "./", 2) == 0 || ft_strncmp(t->command[i], "../", 3) == 0)
