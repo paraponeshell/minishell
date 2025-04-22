@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:17:41 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/17 15:23:29 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/22 14:34:16 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,10 @@ void	check_env(char **temp, t_env *env, int size)
 			while ((k == 0 || var.s_quotes) && temp[var.i][var.j] != '\0')
 			{
 				temp[var.i] = handle_env_quotes(temp[var.i], var.j, &var);
-				if (!var.s_quotes && !var.d_quotes
+				//printf("var d_quotes : %d\n var s_quotes : %d\n char : %c\n var.j : %d", var.d_quotes, var.s_quotes, temp[var.i][var.j], var.j);
+				/*if (!var.s_quotes && !var.d_quotes
 						&& var.j >= 0 && srchr_wildcard(&temp[var.i][var.j]))
-					temp[var.i] = handle_wildcard(temp[var.i], &var);
+					temp[var.i] = handle_wildcard(temp[var.i], &var);*/
 				var.j++;
 				k = srch_dollar(temp[var.i][var.j]);
 			}
@@ -75,6 +76,10 @@ int	env_size(char *s, t_var_env_bundle v, t_env *env)
 		return (1);
 	if (v.d_quotes && s[i + 1] == '"')
 		return (1);
+	if (s[i] != '\0' && s[i + 1] != '\0' && ft_isalnum(s[i + 1]) == 0)
+	{
+		return (1);
+	}
 	if (s[i] != '\0' && is_end_var(s[i + 1]))
 		return (0);
 	size = var_size(s, i + 1);
@@ -95,6 +100,8 @@ int	var_size(char *str, int i)
 	if (i > ft_strlen(str))
 		return (size);
 	if (str[i] == '?')
+		return (1);
+	if (ft_isdigit(str[i]) == 1)
 		return (1);
 	while (str[i] != '\0')
 	{
@@ -132,26 +139,34 @@ char	*handle_env_quotes(char *str, int i, t_var_env_bundle *var)
 	{
 		var->d_quotes = !var->d_quotes;
 		str = ft_strrmchar(str, i);
-		if (var->j >= 0)
-			var->j--;
+		if (!var->d_quotes && srchr_wildcard(&str[var->j]))
+				str = handle_wildcard(str, var);
+		var->j--;
 	}
 	else if (!var->d_quotes && str[i] == '\'')
 	{
 		var->s_quotes = !var->s_quotes;
 		str = ft_strrmchar(str, i);
-		if (var->j >= 0)
-			var->j--;
+		if (!var->s_quotes && srchr_wildcard(&str[var->j]))
+				str = handle_wildcard(str, var);
+		var->j--;
 	}
+	else if (!var->d_quotes && !var->s_quotes && srchr_wildcard(&str[var->j]))
+		str = handle_wildcard(str, var);
 	return (str);
 }
 
-int	var_size2(char *str, int i, t_var_env_bundle var)
+int	var_size2(char *str, int i, t_var_env_bundle *var)
 {
 	if (str[i] == ' ')
 		return (1);
 	else if (str[i] == '\0')
 		return (1);
-	else if (var.d_quotes && str[i] == '"')
+	else if (ft_isalnum(str[i]) == 0)
+	{
+		return (1);
+	}
+	else if (var->d_quotes && str[i] == '"')
 		return (1);
 	else
 		return (0);
@@ -169,12 +184,17 @@ char	*replace(char *s, t_var_env_bundle v, t_env *env)
 	prefix = ft_substr(s, 0, i);
 	var = ft_substr(s, i + 1, var_size(s, i + 1));
 	suffix = ft_substr(s, i + 1 + var_size(s, i + 1), ft_strlen(s) - i + 1 + var_size(s, i + 1));
-	if (var_size2(s, i + 1, v) == 1)
+	if (var_size2(s, i + 1, &v) == 1)
 		value = ft_strdup("$");
 	else if (var == NULL || var[0] == '\0')
 		value = ft_strdup("");
 	else
-		value = clean_env(ft_getenv(env, var));
+	{
+		if (v.d_quotes)
+			value = ft_strdup(ft_getenv(env, var));
+		else
+			value = clean_env(ft_getenv(env, var));
+	}
 	free(var);
 	if (!value)
 	{

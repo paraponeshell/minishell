@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:42:58 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/15 00:35:10 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/22 13:58:30 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ char	*handle_wildcard(char *str, t_var_env_bundle *var)
 	int		i[2];
 
 	i[0] = var->j;
+	printf("var d_quotes : %d\n var s_quotes : %d\n", var->d_quotes, var->s_quotes);
 	while (str[i[0]] != ' ' && str[i[0]] != '\0'
 		&& str[i[0]] != '"' && str[i[0]] != '\'')
 		i[0]++;
@@ -82,7 +83,10 @@ char	*handle_wildcard(char *str, t_var_env_bundle *var)
 	else if (ft_strcmp(str, pattern) == 0)
 		output = ft_replacesubstr(str, pattern, " ");
 	else
+	{
 		output = ft_strtrim(str, pattern);
+		//	var->j = i[0];
+	}
 	var->j = find_length(var->j, i[0], str, output);
 	free(str);
 	free(pattern);
