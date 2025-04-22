@@ -6,7 +6,7 @@
 /*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 12:46:46 by jmeli             #+#    #+#             */
-/*   Updated: 2025/04/22 13:38:01 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/22 14:23:06 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ char	*ft_relative_executable(char *str)
 	if (!result)
 		return (NULL);
 	result = ft_substr(str, i + 1, ft_strlen(str));
-	puts(result);
 	return (result);
 }
 
@@ -46,7 +45,6 @@ char	*ft_relative_path_string(char *str)
 	if (!result)
 		return (NULL);
 	result = ft_substr(str, 0, i);
-	puts(result);
 	return (result);
 }
 
