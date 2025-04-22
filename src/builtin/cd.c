@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 18:29:13 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/17 17:50:55 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/22 15:55:04 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	cd(char **args, t_env **env)
 
 	cwd = getcwd(buf, 1096);
 	if ((!args[1] && args[1] == NULL) || (args[1] && ft_strcmp(args[1],
-				"~") == 0))
+				"~") == 0) || ft_strcmp(args[1], "") == 0)
 		return (cd_root(cwd, env));
 	else if (args[2])
 	{
