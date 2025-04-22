@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:50:05 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/16 16:18:47 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/19 00:00:50 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,28 +78,30 @@ void	add_buff_to_last(t_commands **a, char *str)
 	}
 }
 
-char	*first_word(char *str)
+char *first_word(char *str)
 {
-	int		i;
-	int		k;
-	char	*output;
+	int i;
+	char *word;
+	int j;
 
 	i = 0;
-	k = 0;
-	while (str[i] == ' ')
+	while (str[i] && str[i] == ' ')
 		i++;
-	while (str[i] != ' ' && str[i] != '\0')
+	j = i;
+	if (str[j] == '\"' || str[j] == '\'')
 	{
-		i++;
-		k++;
+		j++;
+		while (str[j] && str[j] != '\"' && str[j] != '\'')
+			j++;
 	}
-	output = malloc((k + 1) * sizeof(char));
-	i -= k;
-	k = 0;
-	while (str[i] != ' ' && str[i] != '\0')
+	else
 	{
-		output[k++] = str[i++];
+		while (str[j] && str[j] != ' ')
+			j++;
 	}
-	output[k] = '\0';
-	return (output);
+	word = malloc(j - i + 1);
+	if (!word)
+		return (NULL);
+	ft_strlcpy(word, &str[i], j - i + 1);
+	return (word);
 }

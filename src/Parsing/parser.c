@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:20:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/17 15:27:24 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/21 23:33:47 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,15 @@ void	parser(char *str, t_mini *mini)
 	free(operator);
 	add_red_to_env(&mini->redirection, &mini->env);
 	add_cmd_to_env(&mini->commands, &mini->env);
+	//printf("Before createpipes:\n");
 	print_commands(mini->commands);
-	print_redirection(mini->redirection);
 	//if (valid_line(mini->commands, mini->redirection) == 0)
 		createpipes(mini->commands, mini->redirection, mini->env);
+	block_signal(SIGQUIT);
 	while (wait(&exit_status) > 0)
 		add_exit_status(exit_status, &mini->env);
+	//printf("After parser:\n");
+	//print_commands(mini->commands);
 	free_cmd_red(&mini->commands, &mini->redirection);
 }
 
@@ -99,28 +102,30 @@ int	putlist(t_mini	*mini, char **split, int *op)
 {
 	char		*buffer;
 	t_commands	**cmds;
-	t_io_red	**red;
+	t_commands	*current;
 	int			i;
 
 	cmds = &mini->commands;
-	red = &mini->redirection;
+	//red = &mini->redirection;
 	i = 0;
 	while (split[i] != NULL)
 	{
 		if (!op)
 			return (1);
 		if (op[i] == 2 || op[i] == 1 || op[i] == 3)
+		{
 			add_command(cmds, split[i], op[i]);
+			current = get_last_command(*cmds);
+		}
 		else if (op[i] != 0)
 		{
-			buffer = add_io(red, split[i], op[i], mini);
+			buffer = add_io(&current->redirection, split[i], op[i], mini);
 			if (buffer == NULL)
 			{
-				//continue;
-				free_cmd_red(cmds, red);
+				free_cmd(cmds);
 				return (1);
 			}
-			add_buff_to_last(cmds, buffer);
+			add_buff_to_last(&current, buffer);
 		}
 		i++;
 	}
@@ -159,23 +164,26 @@ int	*get_operators(char *s)
 	return (output);
 }
 
-void	print_commands(t_commands *commands)
+void print_commands(t_commands *commands)
 {
-	t_commands	*current;
-	int			i;
-
-	i = 0;
-	current = commands;
-	while (current != NULL)
-	{
-		printf("Pipe Type: %d\n", current->pipe_type);
+    t_commands *current = commands;
+	int i = 0;
+    while (current)
+    {
+        printf("Command: %s\n", current->command[0]);
 		while (current->command[i] != NULL)
 		{
-			printf("Command[%d]: %s\n", i, current->command[i]);
+			printf("  Arg[%d]: %s\n", i, current->command[i]);
 			i++;
 		}
-		current = current->next;
-	}
+        t_io_red *red = current->redirection;
+        while (red)
+        {
+            printf("  Redirection: type=%d, file=%s\n", red->in_or_out, red->file);
+            red = red->next;
+        }
+        current = current->next;
+    }
 }
 
 void	print_redirection(t_io_red *redirection)

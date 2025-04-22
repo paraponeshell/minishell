@@ -46,8 +46,8 @@ int	env(t_env **env, char **cmd)
 	{
 		if (ptr->result)
 		{
-			if ((strcmp(ptr->value, "?") != 0) && (strcmp(ptr->value, "&") != 0)
-				&& (strcmp(ptr->value, "+") != 0) && (strcmp(ptr->result,
+			if ((ft_strcmp(ptr->value, "?") != 0) && (ft_strcmp(ptr->value, "&") != 0)
+				&& (ft_strcmp(ptr->value, "+") != 0) && (ft_strcmp(ptr->result,
 						"''") != 0))
 				display_value_and_result(ptr->value, ptr->result);
 		}

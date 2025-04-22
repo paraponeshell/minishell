@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:09:57 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/17 17:26:08 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/18 22:53:46 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,9 @@ int	createpipes(t_commands *commands, t_io_red *redirection, t_env *env)
 	int	b_fd[2];
 	t_inout_var	var;
 
-	var.input = find_i_red(redirection, env);
-	var.output = find_o_red(redirection, env);
+	(void)redirection;
+	var.input = 0;
+	var.output = 1;
 	b_fd[0] = 0;
 	b_fd[1] = 0;
 	//add_red_to_env(&redirection, &env);
@@ -71,12 +72,12 @@ int	createpipes(t_commands *commands, t_io_red *redirection, t_env *env)
 		printf("Error: no input redirection\n");
 		return (0);
 	}
+	//print_commands(commands);
 	if (commands->command[0] != NULL && commands->command[0][0] != '\0')
 		process_commands(commands, env, b_fd, var);
 	//if (b_fd[1])
 	//	close(b_fd[1]);
 	//write_output(b_fd[0], redirection);
-	printf("ici");
 	return (1);
 }
 

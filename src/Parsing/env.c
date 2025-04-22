@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 14:22:07 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/13 22:13:11 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/18 15:12:59 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ t_env	*init_env(char **envp)
 		while (envp[i][j] != '\0' && envp[i][j] != '=')
 			j++;
 		value = ft_substr(envp[i], 0, j);
-		result = ft_substr(envp[i], j + 1, ft_strlen(envp[i]));
+		if (envp[i][j + 1] != '\0')
+			result = ft_substr(envp[i], j + 1, ft_strlen(envp[i]));
+		else
+			result = NULL;
 		add_env(&env, value, result);
 		i++;
 	}
@@ -72,7 +75,7 @@ void	rm_env(t_env **a, char *value)
 	}
 	while (temp->next != NULL)
 	{
-		if (strcmp(temp->next->value, value) == 0)
+		if (ft_strcmp(temp->next->value, value) == 0)
 		{
 			last = temp->next;
 			temp->next = temp->next->next;

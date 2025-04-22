@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/17 15:56:19 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/21 22:08:00 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,20 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-typedef struct s_commands
-{
-	int					pipe_type;
-	char				**command;
-	struct s_commands	*next;
-}	t_commands;
-
 typedef struct s_io_red
 {
 	int				in_or_out;
 	char			*file;
 	struct s_io_red	*next;
 }	t_io_red;
+
+typedef struct s_commands
+{
+	int					pipe_type;
+	char				**command;
+	t_io_red			*redirection;
+	struct s_commands	*next;
+}	t_commands;
 
 typedef struct s_mini
 {
@@ -113,7 +114,6 @@ char		*first_word(char *str);
 char		*rm_first_word(char *str);
 char		*add_io(t_io_red **a, char *splitted, int type, t_mini *mini);
 void		free_cmd(t_commands **a);
-void		free_red(t_io_red **a);
 // FIRST SPLIT
 char		**first_split(char *s);
 void		assign_start_value(t_var_bundle *var);
@@ -166,13 +166,14 @@ void		write_output(int buff_fd, t_io_red *redirection);
 void		copy(int buff_fd, int *o_fd, int size);
 void		copy_single(int buff_fd, int o_fd);
 int			count_output_redirections(t_io_red *redirection);
+void	apply_redirection(t_io_red *redirections, int i_fd, int o_fd, t_env *env);
 // EXECUTION
 int			execute(t_commands *temp, t_inout_var var, int p_fd[2], t_env *env);
-int			executefile(char **args, int i_fd, int o_fd, t_env *env);
-int			executefullfile(char *cmd, char **args, int i_fd, int o_fd);
-int			executecommand(char **args, int i_fd, int o_fd, t_env *env);
-int			executebuiltin(char **cmd, int i_fd, int o_fd, t_env *envi);
-int			commandbuiltin(char **arg, int i_fd, int o_fd, t_env *env);
+int			executefile(t_commands *commands, int i_fd, int o_fd, t_env *env);
+int			executefullfile(t_commands *commands, t_env *env, int i_fd, int o_fd);
+int			executecommand(t_commands *commands, int i_fd, int o_fd, t_env *env);
+int			executebuiltin(t_commands *commands, int i_fd, int o_fd, t_env *envi);
+int			commandbuiltin(t_commands *commands, int i_fd, int o_fd, t_env *env);
 char		*get_path(char *cmd, t_env *env);
 // PIPES/EXEC UTILS
 void		free_and_close(int *fd, int size);
@@ -180,6 +181,7 @@ void		free_cmd(t_commands **a);
 void		free_red(t_io_red **a);
 char		**get_filenames(void);
 int			count_files(void);
+void	block_signal(int signal);
 // UTILITIES
 void		free_split(char **split);
 void		print_split(char **split);
@@ -225,6 +227,7 @@ int	there_is_only_space(char *arg);
 int	create_or_update_var(char *arg, t_env **env);
 char	*ptr_result(char *arg);
 int	scan_for_minus_n(char *arg);
+int     home_is_set_but_no_value(t_env **env);
 // EXIT STATUS
 void		add_exit_status(int exit_status, t_env **env);
 void		*str_to_ptr(char *str);
