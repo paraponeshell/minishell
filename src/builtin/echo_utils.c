@@ -6,13 +6,13 @@
 /*   By: jmeli <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:45:14 by jmeli             #+#    #+#             */
-/*   Updated: 2025/04/17 16:00:36 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/22 11:36:55 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	insert_string(char ***array, int *size, const char *str, int position)
+int	insert_string(char ***array, int *size, char *str, int position)
 {
 	char	*new_str;
 	int		i;
