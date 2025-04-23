@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/23 09:41:40 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/23 10:38:21 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,8 @@ int	var_size(char *str, int i);
 char		*ft_strrmchar(char *str, int pos);
 char	*handle_env_quotes(char *str, int i, t_var_env_bundle *var, char **temp);
 int	var_size2(char *str, int i, t_var_env_bundle *var);
+int is_there_an_export(char **temp, t_var_env_bundle *var);
+int		ft_disable_wildcard(t_var_env_bundle *var, char **temp);
 // WILDCARD
 int			srchr_wildcard(char *str);
 char		*handle_wildcard(char *str, t_var_env_bundle *var);

@@ -6,42 +6,23 @@
 /*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:17:41 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/23 09:51:42 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/23 10:38:36 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int is_there_an_export(char **temp, t_var_env_bundle *var)
-{
-    int i;
-
-    i = 0;
-    if (temp == NULL)
-        return (0);
-    while (i < var->size)
-	{
-        if (temp[i] && ft_strncmp(temp[i], "export", 6) == 0)
-            return (1);
-        i++;
-    }
-    return (0);
-}
-
 char	*handle_env_quotes(char *str, int i, t_var_env_bundle *var, char **temp)
 {
-	int		disable_wildcard;
+	int	disable_wildcard;
 
-	if (is_there_an_export(temp, var))
-		disable_wildcard = 1;
-	else
-		disable_wildcard = 0;
+	disable_wildcard = ft_disable_wildcard(var, temp);
 	if (!var->s_quotes && str[i] == '"')
 	{
 		var->d_quotes = !var->d_quotes;
 		str = ft_strrmchar(str, i);
 		if (!var->d_quotes && !disable_wildcard && srchr_wildcard(&str[var->j]))
-				str = handle_wildcard(str, var);
+			str = handle_wildcard(str, var);
 		var->j--;
 	}
 	else if (!var->d_quotes && str[i] == '\'')
@@ -49,27 +30,36 @@ char	*handle_env_quotes(char *str, int i, t_var_env_bundle *var, char **temp)
 		var->s_quotes = !var->s_quotes;
 		str = ft_strrmchar(str, i);
 		if (!var->s_quotes && srchr_wildcard(&str[var->j]))
-				str = handle_wildcard(str, var);
+			str = handle_wildcard(str, var);
 		var->j--;
 	}
-	else if (!var->d_quotes && !var->s_quotes && !disable_wildcard && srchr_wildcard(&str[var->j]))
+	else if (!var->d_quotes && !var->s_quotes && !disable_wildcard
+		&& srchr_wildcard(&str[var->j]))
 		str = handle_wildcard(str, var);
 	return (str);
 }
 
-char	*replace(char *s, t_var_env_bundle *v, t_env *env)
+char	*value_if_var(t_env *env, char *var)
 {
-	char	*prefix;
-	char	*suffix;
-	char	*var;
 	char	*value;
 	char	*buffer;
+
+	buffer = ft_getenv(env, var);
+	if (buffer)
+		value = ft_strdup(ft_getenv(env, var));
+	else
+		value = ft_strdup("");
+	return (value);
+}
+
+char	*value_for_replace(char *s, t_var_env_bundle *v, t_env *env)
+{
+	char	*value;
+	char	*var;
 	int		i;
 
 	i = v->j;
-	prefix = ft_substr(s, 0, i);
 	var = ft_substr(s, i + 1, var_size(s, i + 1));
-	suffix = ft_substr(s, i + 1 + var_size(s, i + 1), ft_strlen(s) - i + 1 + var_size(s, i + 1));
 	if (var_size2(s, i + 1, v) == 1)
 		value = ft_strdup("$");
 	else if (var == NULL || var[0] == '\0')
@@ -81,25 +71,35 @@ char	*replace(char *s, t_var_env_bundle *v, t_env *env)
 	{
 		if (v->d_quotes)
 		{
-			buffer = ft_getenv(env, var);
-			if (buffer)
-				value = ft_strdup(ft_getenv(env, var));
-			else
-				value = ft_strdup("");
+			value = value_if_var(env, var);
 		}
 		else
 			value = clean_env(ft_getenv(env, var));
 	}
 	free(var);
+	return (value);
+}
+
+char	*replace(char *s, t_var_env_bundle *v, t_env *env)
+{
+	char	*prefix;
+	char	*suffix;
+	char	*value;
+	int		i;
+
+	i = v->j;
+	prefix = ft_substr(s, 0, i);
+	suffix = ft_substr(s, i + 1 + var_size(s, i + 1), ft_strlen(s) - i + 1
+			+ var_size(s, i + 1));
+	value = value_for_replace(s, v, env);
+	free(s);
 	if (!value)
 	{
-		free(s);
 		s = ft_strjoin(prefix, suffix);
 		free(prefix);
 		free(suffix);
 		return (s);
 	}
-	free(s);
 	s = ft_strjoin(prefix, value);
 	free(prefix);
 	prefix = ft_strjoin(s, suffix);
@@ -135,21 +135,4 @@ char	*quote_replace(char *str, int i, t_env *env)
 	free(buff2);
 	free(buffer);
 	return (str);
-}
-
-int	ft_strchrpos(char *str, int searchedChar)
-{
-	int	i;
-
-	i = 0;
-	while (*str)
-	{
-		if (*str == (char)searchedChar)
-			return (i);
-		str++;
-		i++;
-	}
-	if (searchedChar == '\0')
-		return (0);
-	return (0);
 }
