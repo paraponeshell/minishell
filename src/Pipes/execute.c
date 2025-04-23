@@ -6,62 +6,38 @@
 /*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:55:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/23 14:14:37 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/23 15:00:21 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	is_only(t_env *env)
-{
-	int	size;
-	char	*var;
-
-	var = ft_getallenv(env, "#");
-	size = ft_atoi(var);
-	return (size);
-}
-
-int	first_not_null(t_commands *t)
-{
-	int	i;
-
-	i = 0;
-	if (t->command[i] != NULL && t->command[i][0] == '\0' && t->command[i] != NULL)
-	
-	while (t->command[i] != NULL && t->command[i][0] == '\0')
-		i++;
-	return (i);
-}
-
 int	execute(t_commands *t, t_inout_var var, int p_fd[2], t_env *env)
 {
 	int	status;
 	int	i;
-	
-	//print_commands(t);
+
 	status = 0;
 	i = first_not_null(t);
 	if (t->command[i] == NULL || t->command[i][0] == '\0')
-	{
-		status = print_file_error(t->command[i]);
-		return (status);
-	}
+		return (print_file_error(t->command[i]));
 	if (t->command[i][0] == '/' && access(t->command[i], F_OK | X_OK) == 0)
 		status = executefullfile(t, env, var.input, p_fd[1]);
-	else if (ft_strncmp(t->command[i], "./", 2) == 0 || ft_strncmp(t->command[i], "../", 3) == 0)
+	else if (ft_strncmp(t->command[i], "./", 2) == 0
+		|| ft_strncmp(t->command[i], "../", 3) == 0)
 	{
 		if (access(&t->command[i][1], F_OK | X_OK))
 			status = executefile(t, var.input, p_fd[1], env);
 		else
 			status = print_file_error(t->command[i]);
 	}
-	else if (is_exec_command(t->command[i]) != -1 || (ft_strcmp(t->command[i], "export") == 0 && t->command[i + 1] == NULL))
+	else if (is_exec_command(t->command[i]) != -1 || (ft_strcmp(t->command[i],
+				"export") == 0 && t->command[i + 1] == NULL))
 		status = executebuiltin(t, var.input, p_fd[1], env);
 	else if (is_other_command(t->command[i]) != -1)
 	{
-		if (is_only(env) == 1)
-			status = commandbuiltin(t, var.input, p_fd[1], env);
+		status = commandbuiltin(t, var.input, p_fd[1], env)
+			* (is_only(env) == 1);
 	}
 	else
 		status = executecommand(t, var.input, p_fd[1], env);
@@ -72,8 +48,8 @@ int	executefile(t_commands *command, int i_fd, int o_fd, t_env *env)
 {
 	extern char	**environ;
 	char		*full_cmd;
-	pid_t			p;
-	int				exit_status;
+	pid_t		p;
+	int			exit_status;
 
 	(void)env;
 	p = fork();
@@ -81,9 +57,10 @@ int	executefile(t_commands *command, int i_fd, int o_fd, t_env *env)
 	if (p == 0)
 	{
 		apply_redirection(command->redirection, i_fd, o_fd, env);
-		//dup2(i_fd, STDIN_FILENO);
-		//dup2(o_fd, STDOUT_FILENO);
-		if (ft_strncmp(command->command[0], "./", 2) == 0 || ft_strncmp(command->command[0], "../", 3) == 0)
+		// dup2(i_fd, STDIN_FILENO);
+		// dup2(o_fd, STDOUT_FILENO);
+		if (ft_strncmp(command->command[0], "./", 2) == 0
+			|| ft_strncmp(command->command[0], "../", 3) == 0)
 			full_cmd = ft_relative_path(command->command[0]);
 		else
 			full_cmd = ft_strdup(command->command[0]);
@@ -108,8 +85,8 @@ int	executefullfile(t_commands *commands, t_env *env, int i_fd, int o_fd)
 		if (!commands->command[0])
 			exit(1);
 		apply_redirection(commands->redirection, i_fd, o_fd, env);
-		//dup2(i_fd, STDIN_FILENO);
-		//dup2(o_fd, STDOUT_FILENO);
+		// dup2(i_fd, STDIN_FILENO);
+		// dup2(o_fd, STDOUT_FILENO);
 		signal(SIGQUIT, handle_signal);
 		execve(commands->command[0], commands->command, environ);
 		exit(1);
@@ -130,8 +107,9 @@ int	executecommand(t_commands *commands, int i_fd, int o_fd, t_env *env)
 	{
 		if (commands->command[0][0] == '\0')
 			exit(1);
-		apply_redirection(commands->redirection, i_fd, o_fd, env);		//dup2(i_fd, STDIN_FILENO);
-		//dup2(o_fd, STDOUT_FILENO);
+		apply_redirection(commands->redirection, i_fd, o_fd, env); 
+		// dup2(i_fd, STDIN_FILENO);
+		// dup2(o_fd, STDOUT_FILENO);
 		full_cmd = get_path(commands->command[0], env);
 		if (full_cmd == NULL)
 			exit(1);
@@ -146,15 +124,16 @@ int	executecommand(t_commands *commands, int i_fd, int o_fd, t_env *env)
 
 int	executebuiltin(t_commands *commands, int i_fd, int o_fd, t_env *envi)
 {
-	pid_t		p;
-	char		**cmd;
-	
+	pid_t	p;
+	char	**cmd;
+
 	p = fork();
 	if (p == 0)
 	{
-		//print_commands(commands);
-		apply_redirection(commands->redirection, i_fd, o_fd, envi);		//dup2(i_fd, STDIN_FILENO);
-		//dup2(o_fd, STDOUT_FILENO);
+		// print_commands(commands);
+		apply_redirection(commands->redirection, i_fd, o_fd, envi);
+			// dup2(i_fd, STDIN_FILENO);
+		// dup2(o_fd, STDOUT_FILENO);
 		cmd = commands->command;
 		if (strncmp(cmd[0], "echo", ft_strlen(cmd[0])) == 0)
 			echo(cmd);
