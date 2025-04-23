@@ -16,6 +16,7 @@ SRCS=		main.c\
 		src/Pipes/replacing.c\
 		src/Pipes/replacing_utils.c\
 		src/Pipes/replacing_utils_2.c\
+		src/Pipes/replacing_utils_3.c\
 		src/Pipes/execute.c\
 		src/Pipes/more_execute.c\
 		src/Pipes/input.c\
