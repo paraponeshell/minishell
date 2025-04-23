@@ -3,89 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:55:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/22 17:11:00 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/23 14:14:37 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-void	apply_redirection(t_io_red *redirections, int i_fd, int o_fd, t_env *env)
-{
-    t_io_red	*current;
-	int	o;
-	int i;
-	int	input_fd[2];
-	int fd;
-	
-	o = 0;
-	i = 0;
-    current = redirections;
-    while (current != NULL)
-    {
-		//print_redirection(current);
-        if (current->in_or_out == 5)
-        {
-			i++;
-            fd = open(current->file, O_RDONLY);
-            if (fd < 0)
-            {
-                perror("open");
-                exit(EXIT_FAILURE);
-            }
-            dup2(fd, STDIN_FILENO);
-            close(fd);
-        }
-		else if (current->in_or_out == 4) // Heredoc redirection
-		{
-			i++;
-			pipe(input_fd);
-			get_heredoc(input_fd, ft_strdup(current->file), env);
-			close(input_fd[1]);
-			dup2(input_fd[0], STDIN_FILENO);
-		}
-        else if (current->in_or_out == 7) // Output redirection
-        {
-			o++;
-            fd = open(current->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-            if (fd < 0)
-            {
-                perror("open");
-                exit(EXIT_FAILURE);
-            }
-            dup2(fd, STDOUT_FILENO);
-            close(fd);
-        }
-        else if (current->in_or_out == 6) // Append redirection
-        {
-			o++;
-            fd = open(current->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-            if (fd < 0)
-            {
-                perror("open");
-                exit(EXIT_FAILURE);
-            }
-            dup2(fd, STDOUT_FILENO);
-            close(fd);
-        }
-        current = current->next;
-    }
-	//printf("i_fd: %d, o_fd: %d\n", i_fd, o_fd);
-	//printf("i: %d, o: %d\n", i, o);
-	if (i == 0 && i_fd != 0)
-	{
-		dup2(i_fd, STDIN_FILENO);
-		close(i_fd);
-	}
-	if (o == 0 && o_fd != 1)
-	{
-		dup2(o_fd, STDOUT_FILENO);
-		close(o_fd);
-	}
-	return ;
-}
 
 int	is_only(t_env *env)
 {
