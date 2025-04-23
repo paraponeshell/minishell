@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   output.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 16:06:06 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/17 15:56:46 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/23 10:54:13 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int		find_o_red(t_io_red *redirection, t_env *env)
+int	find_o_red(t_io_red *redirection, t_env *env)
 {
 	t_io_red	*temp;
 	int			output_fd;
@@ -65,10 +65,7 @@ void	write_output(int buff_fd, t_io_red *redirection)
 		temp = temp->next;
 	}
 	copy_single(buff_fd, output_fd);
-	if (output_fd != 1)
-		close(output_fd);
-	if (buff_fd != 0)
-		close(buff_fd);
+	close_file_directors(&output_fd, &buff_fd);
 }
 
 void	copy(int buff_fd, int *o_fd, int size)
@@ -78,7 +75,7 @@ void	copy(int buff_fd, int *o_fd, int size)
 
 	if (!buff_fd)
 	{
-		line = malloc (1 * sizeof(char));
+		line = malloc(1 * sizeof(char));
 		line[0] = '\0';
 	}
 	else

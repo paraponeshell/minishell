@@ -22,6 +22,7 @@ SRCS=		main.c\
 		src/Pipes/more_execute.c\
 		src/Pipes/input.c\
 		src/Pipes/output.c\
+		src/Pipes/output_utils.c\
 		src/Pipes/utils.c\
 		src/Pipes/exit_status.c\
 		src/Pipes/wildcard.c\

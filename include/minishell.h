@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/23 10:38:21 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/23 10:54:48 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,7 @@ void		copy(int buff_fd, int *o_fd, int size);
 void		copy_single(int buff_fd, int o_fd);
 int			count_output_redirections(t_io_red *redirection);
 void	apply_redirection(t_io_red *redirections, int i_fd, int o_fd, t_env *env);
+void	close_file_directors(int *output_fd, int *buff_fd);
 // EXECUTION
 int			execute(t_commands *temp, t_inout_var var, int p_fd[2], t_env *env);
 int			executefile(t_commands *commands, int i_fd, int o_fd, t_env *env);
