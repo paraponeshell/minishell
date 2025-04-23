@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/23 10:54:48 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/23 12:13:20 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,6 +235,8 @@ int	create_or_update_var(char *arg, t_env **env);
 char	*ptr_result(char *arg);
 int	scan_for_minus_n(char *arg);
 int     home_is_set_but_no_value(t_env **env);
+void    update_old_with_current(t_env **env);
+void    update_old_pwd(t_env **env, char *oldwd);
 // EXIT STATUS
 void		add_exit_status(int exit_status, t_env **env);
 void		*str_to_ptr(char *str);
