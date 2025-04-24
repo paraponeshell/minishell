@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:55:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 16:35:34 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 16:58:34 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int	execute(t_commands *t, t_inout_var var, int p_fd[2], t_env *env)
 
 	status = 0;
 	if (t->command[var.i] == NULL || t->command[var.i][0] == '\0')
-		return (0);
-	if (t->command[var.i][0] == '/')
+		status = executecommand(t, var, p_fd[1], env);
+	else if (t->command[var.i][0] == '/')
 		status = executefullfile(t, env, var, p_fd[1]);
 	else if (is_executable(t, var) == 1)
 	{
@@ -109,9 +109,9 @@ int	executecommand(t_commands *commands, t_inout_var var, int o_fd, t_env *env)
 	exit_status = 1;
 	if (p == 0)
 	{
-		if (commands->command[var.i][0] == '\0')
-			exit(1);
 		apply_redirection(commands->redirection, i_fd, o_fd, env);
+		if (commands == NULL || commands->command == NULL || commands->command[var.i] == NULL || commands->command[var.i][0] == '\0')
+			exit(1);
 		full_cmd = get_path(commands->command[var.i], env);
 		if (full_cmd == NULL)
 			exit(1);

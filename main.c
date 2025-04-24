@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 02:27:04 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 15:53:26 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 16:44:42 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void	block_signal(int signal)
 {
-    struct sigaction sa;
+	struct sigaction sa;
 
-    sa.sa_handler = SIG_IGN; // Ignore le signal
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = 0;
-    sigaction(signal, &sa, NULL);
+	sa.sa_handler = SIG_IGN;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(signal, &sa, NULL);
 }
 
 void	handle_signal(int sig)
@@ -45,50 +45,13 @@ void	handle_signal_parser(int sig)
 
 void	unblock_signal(int signal)
 {
-    struct sigaction sa;
+	struct sigaction sa;
 
-    sa.sa_handler = SIG_DFL;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = 0;
-    sigaction(signal, &sa, NULL);
+	sa.sa_handler = SIG_DFL;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(signal, &sa, NULL);
 }
-/*
-char	*crop_path(char **path)
-{
-	int		i;
-	char	*buffer;
-	char	*buffer2;
-
-	i = 0;
-	while (path[i] != NULL)
-		i++;
-	buffer = ft_strjoin(path[i - 2], "/");
-	buffer2 = ft_strjoin(buffer, path[i - 1]);
-	free(buffer);
-	return (buffer2);
-}
-
-char	*get_prompt(void)
-{
-	char	path[1024];
-	char	*buffer;
-	char	**buffer2;
-	char	*prompt = NULL;
-	char	*prefix = "minishell:~/";
-	char	*suffix = "$";
-
-	if (getcwd(path, sizeof(path)) != NULL)
-	{
-		buffer2 = ft_split(path, '/');
-		prompt = crop_path(buffer2);
-		free_split(buffer2);
-		buffer = ft_strjoin(prefix, prompt);
-		free(prompt);
-		prompt = ft_strjoin(buffer, suffix);
-		free(buffer);
-	}
-	return (prompt);
-}*/
 
 void	print_mini(void)
 {
@@ -119,13 +82,12 @@ int	main(int argc, char **argv, char **envp)
 {
 	char		*minishell;
 	t_mini		mini;
-	int			i;
+
 	(void)argc;
 	(void)argv;
 	mini.commands = NULL;
 	mini.redirection = NULL;
 	mini.env = init_env(envp);
-	i = 0;
 	while (1)
 	{
 		signal(SIGINT, handle_signal);
@@ -151,7 +113,6 @@ int	main(int argc, char **argv, char **envp)
 		if (minishell)
 			parser(minishell, &mini);
 		free(minishell);
-		i++;
 	}
 	free_env(mini.env);
 }
