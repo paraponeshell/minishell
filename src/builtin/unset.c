@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
+/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 00:32:39 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/16 15:47:17 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/24 14:20:52 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	unset(char **args, t_env **env)
 
 	evaluator_wants_error_messages = 0;
 	if (!args[1])
-		return (1);
+		return (0);
 	else
 	{
 		i = 1;

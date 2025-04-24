@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 14:13:10 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 14:19:26 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,7 @@ int			echo(char **args);
 int			env(t_env **env, char **cmd);
 int			unset(char **args, t_env **env);
 int			export(char **args, t_env **env);
-void		ft_exit(t_env *env, char **arg);
+int		ft_exit(t_env *env, char **arg);
 // BUILTIN UTILITIES
 void		echo_check(char ***args);
 int			arg_var_is_valid(char *arg);

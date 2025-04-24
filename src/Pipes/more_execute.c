@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 21:20:52 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 13:27:04 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 14:16:55 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	commandbuiltin(t_commands *commands, t_inout_var var, int o_fd, t_env *env)
 	else if (strcmp(arg[0], "unset") == 0)
 		exit_status = unset(arg, &env);
 	else if (strcmp(arg[0], "exit") == 0)
-		ft_exit(env, arg);
+		exit_status = ft_exit(env, arg);
 	dup2(temp_i_fd, STDIN_FILENO);
 	dup2(temp_o_fd, STDOUT_FILENO);
 	close(temp_i_fd);
