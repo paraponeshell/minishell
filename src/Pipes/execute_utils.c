@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
+/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:41:57 by jmeli             #+#    #+#             */
-/*   Updated: 2025/04/24 15:55:40 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/24 16:35:03 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,5 @@ int	if_is_only_env_comm(t_commands *t, t_inout_var var, int p_fd[2], t_env *env)
 	status = 0;
 	if (is_only(env) == 1)
 		status = commandbuiltin(t, var, p_fd[1], env);
-	return (0);
+	return (status);
 }
