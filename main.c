@@ -6,52 +6,11 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 02:27:04 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 16:44:42 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 17:42:46 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
-
-void	block_signal(int signal)
-{
-	struct sigaction sa;
-
-	sa.sa_handler = SIG_IGN;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(signal, &sa, NULL);
-}
-
-void	handle_signal(int sig)
-{
-	if (sig == SIGINT)
-	{
-		ft_printf("\n");
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-}
-
-void	handle_signal_parser(int sig)
-{
-	if (sig == SIGINT)
-	{
-		ft_printf("\n");
-		rl_replace_line("", 0);
-		rl_on_new_line();
-	}
-}
-
-void	unblock_signal(int signal)
-{
-	struct sigaction sa;
-
-	sa.sa_handler = SIG_DFL;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(signal, &sa, NULL);
-}
 
 void	print_mini(void)
 {
@@ -78,27 +37,42 @@ int	is_empty_line(char *str)
 	return (1);
 }
 
-int	main(int argc, char **argv, char **envp)
+t_mini	init_mini(int argc, char **argv, char **envp)
 {
-	char		*minishell;
-	t_mini		mini;
+	t_mini	mini;
 
 	(void)argc;
 	(void)argv;
 	mini.commands = NULL;
 	mini.redirection = NULL;
 	mini.env = init_env(envp);
+	return (mini);
+}
+
+char	*compressed_main(void)
+{
+	char	*minishell;
+
+	signal(SIGINT, handle_signal);
+	block_signal(SIGQUIT);
+	rl_on_new_line();
+	minishell = readline("minishell : ");
+	signal(SIGQUIT, handle_signal);
+	unblock_signal(SIGQUIT);
+	return (minishell);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	char		*minishell;
+	t_mini		mini;
+
+	mini = init_mini(argc, argv, envp);
 	while (1)
 	{
-		signal(SIGINT, handle_signal);
-		block_signal(SIGQUIT);
-		rl_on_new_line();
-		minishell = readline("minishell : ");
-		signal(SIGQUIT, handle_signal);
-		unblock_signal(SIGQUIT);
+		minishell = compressed_main();
 		if (minishell == NULL)
 		{
-			printf("Readline returned NULL\n");
 			rl_clear_history();
 			free(minishell);
 			break ;
@@ -110,8 +84,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		add_history(minishell);
 		signal(SIGINT, handle_signal_parser);
-		if (minishell)
-			parser(minishell, &mini);
+		parser(minishell, &mini);
 		free(minishell);
 	}
 	free_env(mini.env);

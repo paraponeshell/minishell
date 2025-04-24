@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 15:57:33 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/24 17:29:00 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,4 +258,9 @@ int	is_executable(t_commands *t, t_inout_var var);
 void	double_free(char *a, char *b);
 char	*nepasprint_free(char *s);
 char	*ft_strjoinfree(char *s1, char *s2);
+// SIGNAL
+void	block_signal(int signal);
+void	handle_signal(int sig);
+void	handle_signal_parser(int sig);
+void	unblock_signal(int signal);
 #endif
