@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replacing_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
+/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:59:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/23 09:48:05 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/24 12:54:35 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ int	print_file_error(char *args)
 {
 	int	status;
 
-	printf("%s: file not found\n", args);
+	ft_putstr_fd(args, 2);
+	ft_putendl_fd(": file not found || permission denied", 2);
 	status = 127;
 	return (status);
 }

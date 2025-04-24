@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:55:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 01:34:16 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 13:11:10 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ int	execute(t_commands *t, t_inout_var var, int p_fd[2], t_env *env)
 	i = first_not_null(t);
 	if (t->command[i] == NULL || t->command[i][0] == '\0')
 		return (print_file_error(t->command[i]));
-	if (t->command[i][0] == '/' && access(t->command[i], F_OK | X_OK) == 0)
+	if (t->command[i][0] == '/')
 		status = executefullfile(t, env, var.input, p_fd[1]);
 	else if (ft_strncmp(t->command[i], "./", 2) == 0
 		|| ft_strncmp(t->command[i], "../", 3) == 0)
 	{
-		if (access(&t->command[i][1], F_OK | X_OK))
+		if (access(&t->command[i][1], F_OK | X_OK) == 0)
 			status = executefile(t, var.input, p_fd[1], env);
 		else
 			status = print_file_error(t->command[i]);
@@ -77,7 +77,13 @@ int	executefullfile(t_commands *commands, t_env *env, int i_fd, int o_fd)
 	int			exit_status;
 	pid_t		p;
 	extern char	**environ;
+	struct stat	sb;
 
+	if (access(commands->command[0], F_OK) == -1)
+		return (print_file_error(commands->command[0]));
+	stat(commands->command[0], &sb);
+	if (S_ISDIR(sb.st_mode))
+		return (print_file_error(commands->command[0]));
 	p = fork();
 	exit_status = 1;
 	if (p == 0)
