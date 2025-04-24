@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   first_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:10:41 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/16 16:29:13 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 12:51:44 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
 
 char	**first_split(char *s)
 {
@@ -19,6 +18,7 @@ char	**first_split(char *s)
 	char			**output;
 	int				split_size;
 	int				i;
+
 	if (s[0] == '\0')
 		return (NULL);
 	assign_start_value(&var);
@@ -32,13 +32,7 @@ char	**first_split(char *s)
 	i = 0;
 	if (var.y != split_size)
 	{
-		while (i < var.y)
-		{
-			free(output[i]);
-			i++;
-		}
-		free(output);
-		printf("Error: pipe error\n");
+		free_output(output, var.y);
 		return (NULL);
 	}
 	output[split_size] = NULL;
