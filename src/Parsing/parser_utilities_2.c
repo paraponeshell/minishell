@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utilities_2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
+/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 13:46:46 by jmeli             #+#    #+#             */
-/*   Updated: 2025/04/24 15:04:04 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/24 16:29:26 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	*get_operators(char *s)
 	i[1] = 1;
 	i[2] = 0;
 	i[3] = 0;
-	output = malloc((splitlen(s, ' ') + 1) * sizeof(int));
+	output = malloc((splitlen(s, ' ') + 1000) * sizeof(int));
 	output[0] = 2;
 	if (!output)
 		return (NULL);

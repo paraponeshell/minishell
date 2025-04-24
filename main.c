@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 02:27:04 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 14:48:31 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 15:53:26 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	unblock_signal(int signal)
 {
     struct sigaction sa;
 
-    sa.sa_handler = SIG_DFL; // Rétablit le comportement par défaut
+    sa.sa_handler = SIG_DFL;
     sigemptyset(&sa.sa_mask);
     sa.sa_flags = 0;
     sigaction(signal, &sa, NULL);

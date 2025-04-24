@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:09:57 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 14:30:43 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 16:28:32 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ int	createpipes(t_commands *commands, t_io_red *redirection, t_env *env)
 		printf("Error: no input redirection\n");
 		return (0);
 	}
-	if (commands->command[0] != NULL && commands->command[0][0] != '\0')
-		process_commands(commands, env, b_fd, var);
+	process_commands(commands, env, b_fd, var);
 	return (1);
 }
