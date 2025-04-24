@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 12:46:46 by jmeli             #+#    #+#             */
-/*   Updated: 2025/04/24 15:29:41 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 15:36:46 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ void	double_free(char *a, char *b)
 {
 	free(a);
 	free(b);
+}
+
+char	*nepasprint_free(char *s)
+{
+	free(s);
+	return (ft_strdup("g%DH1211DVJQbaz"));
 }
 
 char	*ft_relative_executable(char *str)

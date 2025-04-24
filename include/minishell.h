@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 14:40:54 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 15:49:48 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,4 +254,7 @@ int			print_file_error(char *args);
 char		*ft_getallenv(t_env *env, char *name);
 char	*clean_env(char *str);
 int	is_executable(t_commands *t, t_inout_var var);
+void	double_free(char *a, char *b);
+char	*nepasprint_free(char *s);
+char	*ft_strjoinfree(char *s1, char *s2);
 #endif

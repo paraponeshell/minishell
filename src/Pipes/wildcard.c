@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:42:58 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 15:05:17 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 15:48:26 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,12 @@ char	*write_pattern(char *str, char *pattern, int *i, int j)
 	while (i[1] < i[0])
 	{
 		pattern[i[1] - j] = str[i[1]];
-		i[1]++; 
+		i[1]++;
 	}
 	pattern[i[1] - j] = '\0';
 	return (pattern);
 }
+
 char	*handle_wildcard(char *str, t_var_env_bundle *var)
 {
 	char	*output;
@@ -92,52 +93,4 @@ char	*handle_wildcard(char *str, t_var_env_bundle *var)
 	free(str);
 	free(pattern);
 	return (output);
-}
-
-char	*insert_files(char *pattern, char *str)
-{
-	char	**filenames;
-	char	*temp;
-	int		k;
-
-	filenames = get_filenames();
-	k = 0;
-	temp = NULL;
-	while (filenames[k] != NULL)
-	{
-		if (pattern_matching(pattern, filenames[k]))
-		{
-			if (!temp)
-				temp = ft_strdup(filenames[k]);
-			else
-			{
-				temp = ft_strjoinfree(temp, " ");
-				temp = ft_strjoinfree(temp, filenames[k]);
-			}
-		}
-		k++;
-	}
-	if (temp)
-		str = ft_replacesubstr(str, pattern, temp);
-	else
-		str = ft_strdup(str);
-	free(temp);
-	free_split(filenames);
-	return (str);
-}
-
-int	pattern_matching(char *pattern, char *filename)
-{
-	if (*pattern == '\0' && *filename == '\0')
-		return (1);
-	if (*pattern == '*' && *(pattern + 1) != '\0' && *filename == '\0')
-		return (0);
-	if (*pattern == *filename)
-		return (pattern_matching(pattern + 1, filename + 1));
-	if (*pattern == '*')
-	{
-		return (pattern_matching(pattern + 1, filename)
-			|| pattern_matching(pattern, filename + 1));
-	}
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:17:41 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 15:30:42 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 15:37:22 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,21 +96,16 @@ char	*replace(char *s, t_var_env_bundle *v, t_env *env)
 	if (!value)
 	{
 		s = ft_strjoin(prefix, suffix);
-		free(prefix);
-		free(suffix);
+		double_free(prefix, suffix);
 		if (!v->d_quotes && (s == NULL || s[0] == '\0'))
-		{
-			free(s);
-			return (ft_strdup("g%DH1211DVJQbaz"));
-		}
+			return (nepasprint_free(s));
 		return (s);
 	}
 	s = ft_strjoin(prefix, value);
 	free(prefix);
 	prefix = ft_strjoin(s, suffix);
 	free(s);
-	free(suffix);
-	free(value);
+	double_free(suffix, value);
 	return (prefix);
 }
 
