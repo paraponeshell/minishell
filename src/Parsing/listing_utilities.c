@@ -6,7 +6,7 @@
 /*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:50:05 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 13:17:35 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/24 13:20:36 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,3 @@ void	add_buff_to_last(t_commands **a, char *str)
 		last->command = new_command;
 	}
 }
-
