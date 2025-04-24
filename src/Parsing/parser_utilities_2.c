@@ -6,7 +6,7 @@
 /*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 13:46:46 by jmeli             #+#    #+#             */
-/*   Updated: 2025/04/24 14:09:23 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/24 15:04:04 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,14 @@ int	*get_operators(char *s)
 	return (output);
 }
 
-void print_commands(t_commands *commands)
+void	print_commands(t_commands *commands)
 {
-	t_commands *current = commands;
-	int i = 1;
+	t_commands	*current;
+	int			i;
+	t_io_red	*red;
+
+	current = commands;
+	i = 1;
 	while (current)
 	{
 		printf("Command: %s\n", current->command[0]);
@@ -42,14 +46,15 @@ void print_commands(t_commands *commands)
 			printf("  Arg[%d]: %s\n", i, current->command[i]);
 			i++;
 		}
-        t_io_red *red = current->redirection;
-        while (red)
-        {
-            printf("  Redirection: type=%d, file=%s\n", red->in_or_out, red->file);
-            red = red->next;
-        }
-        current = current->next;
-    }
+		red = current->redirection;
+		while (red)
+		{
+			printf("  Redirection: type=%d, file=%s\n", red->in_or_out,
+				red->file);
+			red = red->next;
+		}
+		current = current->next;
+	}
 }
 
 void	print_redirection(t_io_red *redirection)
@@ -75,4 +80,32 @@ void	print_split(char **split)
 		printf("Split[%d]: %s\n", i, split[i]);
 		i++;
 	}
+}
+
+int	*get_op_loop(char *s, int *i, int *output)
+{
+	while (s[i[0]] != '\0')
+	{
+		if (s[i[0]] == '"' && i[3] == 0)
+		{
+			i[2] = !i[2];
+			i[0]++;
+		}
+		else if (s[i[0]] == '\'' && i[2] == 0)
+		{
+			i[3] = !i[3];
+			i[0]++;
+		}
+		else if (cmp(s[i[0]]) && i[2] == 0 && i[3] == 0)
+		{
+			if (!handle_operator(s, &i[0], &i[1], output))
+			{
+				free(output);
+				return (NULL);
+			}
+		}
+		else
+			i[0]++;
+	}
+	return (output);
 }

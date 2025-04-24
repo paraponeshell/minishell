@@ -5,6 +5,7 @@ SRCS=		main.c\
 		src/Parsing/parser.c\
 		src/Parsing/parser_utilities.c\
 		src/Parsing/parser_utilities_2.c\
+		src/Parsing/parser_utilities_3.c\
 		src/Parsing/env.c\
 		src/Parsing/first_split.c\
 		src/Parsing/first_split_utilities.c\
