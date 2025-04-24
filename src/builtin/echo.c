@@ -6,7 +6,7 @@
 /*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 18:23:14 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 15:18:16 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/24 15:30:54 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	print_echo(char **args, int i)
 {
 	while (args[i])
 	{
-		if (ft_strcmp(args[i], "NEPASPRINT") == 0)
+		if (ft_strcmp(args[i], "g%DH1211DVJQbaz") == 0)
 			i++;
 		ft_putstr_fd(args[i], 1);
 		if (args[i + 1])
