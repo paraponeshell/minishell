@@ -6,7 +6,7 @@
 /*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 13:46:46 by jmeli             #+#    #+#             */
-/*   Updated: 2025/04/24 13:47:48 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/24 14:09:23 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,17 @@ void	print_redirection(t_io_red *redirection)
 		printf("IO Type: %d\n", current->in_or_out);
 		printf("File: %s\n", current->file);
 		current = current->next;
+	}
+}
+
+void	print_split(char **split)
+{
+	int	i;
+
+	i = 0;
+	while (split[i] != NULL)
+	{
+		printf("Split[%d]: %s\n", i, split[i]);
+		i++;
 	}
 }
