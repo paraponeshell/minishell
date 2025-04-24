@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   more_execute.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 21:20:52 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/22 14:52:36 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/23 12:40:47 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,15 @@
 
 int	commandbuiltin(t_commands *commands, int i_fd, int o_fd, t_env *env)
 {
-	int	exit_status;
-	int	temp_o_fd;
-	int	temp_i_fd;
-	char **arg;
+	int		exit_status;
+	int		temp_o_fd;
+	int		temp_i_fd;
+	char	**arg;
 
 	arg = commands->command;
 	temp_o_fd = dup(STDOUT_FILENO);
 	temp_i_fd = dup(STDIN_FILENO);
 	apply_redirection(commands->redirection, i_fd, o_fd, env);
-	//dup2(i_fd, STDIN_FILENO);
-	//dup2(o_fd, STDOUT_FILENO);
 	exit_status = 0;
 	if (strcmp(arg[0], "cd") == 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 18:29:13 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/22 15:55:04 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/23 12:15:39 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,10 @@ int	cd_root(char *cwd, t_env **env)
 	}
 	else
 	{
-		if (cwd == NULL)
+		if (cwd != NULL)
 			update_old_pwd(env, cwd);
+		else
+			update_old_with_current(env);
 		exit_status = update_pwd(env);
 		free(root);
 		return (exit_status);

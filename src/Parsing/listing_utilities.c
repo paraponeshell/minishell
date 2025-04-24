@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:50:05 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/19 00:00:50 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 01:59:40 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_commands	*init_command_node(char **command)
 	node = malloc(sizeof(t_commands));
 	node->pipe_type = 2;
 	node->command = command;
+	node->redirection = NULL;
 	node->next = NULL;
 	return (node);
 }
@@ -58,7 +59,6 @@ void	add_buff_to_last(t_commands **a, char *str)
 	char		**buffer_split;
 	char		**new_command;
 
-
 	if (!str || str[0] == '\0')
 	{
 		free(str);
@@ -78,11 +78,12 @@ void	add_buff_to_last(t_commands **a, char *str)
 	}
 }
 
-char *first_word(char *str)
+char	*first_word(char *str)
 {
-	int i;
-	char *word;
-	int j;
+	int		i;
+	int		j;
+	char	*word;
+	char	quote;
 
 	i = 0;
 	while (str[i] && str[i] == ' ')
@@ -90,9 +91,16 @@ char *first_word(char *str)
 	j = i;
 	if (str[j] == '\"' || str[j] == '\'')
 	{
+		quote = str[j];
 		j++;
-		while (str[j] && str[j] != '\"' && str[j] != '\'')
+		while (str[j] && str[j] != quote)
 			j++;
+		if (str[j] != quote)
+		{
+			printf("Error: unmatched quote\n");
+			return (NULL);
+		}
+		j++;
 	}
 	else
 	{

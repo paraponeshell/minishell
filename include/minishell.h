@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/22 17:06:09 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 01:49:02 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_var_env_bundle
 	int	k;
 	int	s_quotes;
 	int	d_quotes;
+	int	size;
 }	t_var_env_bundle;
 
 typedef struct s_inout_var
@@ -144,14 +145,17 @@ char		*quote_replace(char *str, int i, t_env *env);
 //char		**insert_files(char **command, int index);
 int			ft_strchrpos(char *str, int searchedChar);
 // REPLACING V2
-void		env_bundle_init(t_var_env_bundle *var);
+void		env_bundle_init(t_var_env_bundle *var, int size);
 void		check_env(char **temp, t_env *env, int size);
 int			srch_dollar(char c);
 int			is_end_var(char c);
 int			env_size(char *str, t_var_env_bundle v, t_env *env);
 int	var_size(char *str, int i);
 char		*ft_strrmchar(char *str, int pos);
-char		*handle_env_quotes(char *str, int i, t_var_env_bundle *var);
+char	*handle_env_quotes(char *str, int i, t_var_env_bundle *var, char **temp);
+int	var_size2(char *str, int i, t_var_env_bundle *var);
+int is_there_an_export(char **temp, t_var_env_bundle *var);
+int		ft_disable_wildcard(t_var_env_bundle *var, char **temp);
 // WILDCARD
 int			srchr_wildcard(char *str);
 char		*handle_wildcard(char *str, t_var_env_bundle *var);
@@ -168,6 +172,7 @@ void		copy(int buff_fd, int *o_fd, int size);
 void		copy_single(int buff_fd, int o_fd);
 int			count_output_redirections(t_io_red *redirection);
 void	apply_redirection(t_io_red *redirections, int i_fd, int o_fd, t_env *env);
+void	close_file_directors(int *output_fd, int *buff_fd);
 // EXECUTION
 int			execute(t_commands *temp, t_inout_var var, int p_fd[2], t_env *env);
 int			executefile(t_commands *commands, int i_fd, int o_fd, t_env *env);
@@ -177,6 +182,7 @@ int			executebuiltin(t_commands *commands, int i_fd, int o_fd, t_env *envi);
 int			commandbuiltin(t_commands *commands, int i_fd, int o_fd, t_env *env);
 char		*get_path(char *cmd, t_env *env);
 char    *ft_relative_path(char *str);
+int print_error_exit(char *str);
 // PIPES/EXEC UTILS
 void		free_and_close(int *fd, int size);
 void		free_cmd(t_commands **a);
@@ -184,6 +190,8 @@ void		free_red(t_io_red **a);
 char		**get_filenames(void);
 int			count_files(void);
 void	block_signal(int signal);
+int     first_not_null(t_commands *t);
+int     is_only(t_env *env);
 // UTILITIES
 void		free_split(char **split);
 void		print_split(char **split);
@@ -230,6 +238,8 @@ int	create_or_update_var(char *arg, t_env **env);
 char	*ptr_result(char *arg);
 int	scan_for_minus_n(char *arg);
 int     home_is_set_but_no_value(t_env **env);
+void    update_old_with_current(t_env **env);
+void    update_old_pwd(t_env **env, char *oldwd);
 // EXIT STATUS
 void		add_exit_status(int exit_status, t_env **env);
 void		*str_to_ptr(char *str);

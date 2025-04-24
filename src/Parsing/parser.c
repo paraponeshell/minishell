@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:20:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/22 15:44:28 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 01:55:09 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,10 @@ void	parser(char *str, t_mini *mini)
 	operator = get_operators(str);
 	if (putlist(mini, splitted, operator) == 1)
 	{
-		print_split(splitted);
+		//print_split(splitted);
 		free_split(splitted);
 		free(operator);
-		printf("Error: ambiguous redirection\n");
+		printf("Error: ambiguous redirectiond\n");
 		return ;
 	}
 	free_split(splitted);
@@ -106,12 +106,15 @@ int	putlist(t_mini	*mini, char **split, int *op)
 	int			i;
 
 	cmds = &mini->commands;
-	//red = &mini->redirection;
-	i = 0;
+	add_command(cmds, split[0], op[0]);
+	current = get_last_command(*cmds);
+	i = 1;
 	while (split[i] != NULL)
 	{
 		if (!op)
 			return (1);
+		if (op[i] == 0)
+			break;
 		if (op[i] == 2 || op[i] == 1 || op[i] == 3)
 		{
 			add_command(cmds, split[i], op[i]);
@@ -120,16 +123,39 @@ int	putlist(t_mini	*mini, char **split, int *op)
 		else if (op[i] != 0)
 		{
 			buffer = add_io(&current->redirection, split[i], op[i], mini);
-			if (buffer == NULL)
-			{
-				free_cmd(cmds);
-				return (1);
-			}
 			add_buff_to_last(&current, buffer);
 		}
 		i++;
 	}
 	return (0);
+}
+
+int	*get_op_loop(char *s, int *i, int *output)
+{
+	while (s[i[0]] != '\0')
+	{
+		if (s[i[0]] == '"' && i[3] == 0)
+		{
+			i[2] = !i[2];
+			i[0]++;
+		}
+		else if (s[i[0]] == '\'' && i[2] == 0)
+		{
+			i[3] = !i[3];
+			i[0]++;
+		}
+		else if (cmp(s[i[0]]) && i[2] == 0 && i[3] == 0)
+		{
+			if (!handle_operator(s, &i[0], &i[1], output))
+			{
+				free(output);
+				return (NULL);
+			}
+		}
+		else
+			i[0]++;
+	}
+	return (output);
 }
 
 int	*get_operators(char *s)
@@ -140,37 +166,23 @@ int	*get_operators(char *s)
 	i[0] = 0;
 	i[1] = 1;
 	i[2] = 0;
-	i[3] = first_split_size(s);
-	output = malloc((i[3] + 1) * sizeof(int));
+	i[3] = 0;
+	output = malloc((splitlen(s, ' ') + 1) * sizeof(int));
+	output[0] = 2;
 	if (!output)
 		return (NULL);
-	output[0] = 2;
-	while (s[i[0]] != '\0')
-	{
-		if ((cmp(s[i[0]]) == 1) && !i[2])
-			handle_operator(s, &i[0], &i[1], output);
-		else if (s[i[0]] == '"')
-			i[2] = !i[2];
-		i[0]++;
-		if (i[0] >= ft_strlen(s))
-		{
-			free(output);
-			return (NULL);
-		}
-		if (i[1] >= i[3])
-			return (output);
-	}
+	output = get_op_loop(s, i, output);
 	output[i[1]] = '\0';
 	return (output);
 }
 
 void print_commands(t_commands *commands)
 {
-    t_commands *current = commands;
-	int i = 0;
-    while (current)
-    {
-        printf("Command: %s\n", current->command[0]);
+	t_commands *current = commands;
+	int i = 1;
+	while (current)
+	{
+		printf("Command: %s\n", current->command[0]);
 		while (current->command[i] != NULL)
 		{
 			printf("  Arg[%d]: %s\n", i, current->command[i]);

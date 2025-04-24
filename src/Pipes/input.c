@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 16:08:07 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/22 16:55:39 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/23 12:50:40 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char *ft_strrmquotes(char *str, char to_rm)
+char	*ft_strrmquotes(char *str, char to_rm)
 {
 	char	*output;
 	int		i;
@@ -45,14 +45,13 @@ void	get_heredoc(int *p_fd, char *end, t_env *env)
 
 	replace = 1;
 	if (end[0] == '\'')
-			replace = 0;
+		replace = 0;
 	if (end[0] == '\'' || end[0] == '"')
-			end = ft_strrmquotes(end, end[0]);
+		end = ft_strrmquotes(end, end[0]);
 	while (1)
 	{
 		unblock_signal(SIGINT);
 		block_signal(SIGQUIT);
-		//signal(SIGINT,handle_void);
 		heredoc = readline("> ");
 		if (!heredoc || ft_strcmp(heredoc, end) == 0)
 		{
@@ -68,6 +67,12 @@ void	get_heredoc(int *p_fd, char *end, t_env *env)
 	free(end);
 }
 
+void	ft_close_if_input_fd_0(int *input_fd)
+{
+	if (input_fd[0])
+		close(input_fd[0]);
+}
+
 int	find_i_red(t_io_red *redirection, t_env *env)
 {
 	t_io_red	*temp;
@@ -81,14 +86,12 @@ int	find_i_red(t_io_red *redirection, t_env *env)
 	{
 		if (temp->in_or_out == 5)
 		{
-			if (input_fd[0])
-				close(input_fd[0]);
+			ft_close_if_input_fd_0(input_fd);
 			input_fd[0] = open(temp->file, O_RDONLY);
 		}
 		if (temp->in_or_out == 4)
 		{
-			if (input_fd[0])
-				close(input_fd[0]);
+			ft_close_if_input_fd_0(input_fd);
 			pipe(input_fd);
 			get_heredoc(input_fd, ft_strdup(temp->file), env);
 			close(input_fd[1]);

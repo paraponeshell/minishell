@@ -13,12 +13,18 @@ SRCS=		main.c\
 		src/Parsing/valid_line.c\
 		src/Parsing/utilities_bordel.c\
 		src/Pipes/pipes.c\
+		src/Pipes/pipes_utils.c\
 		src/Pipes/replacing.c\
 		src/Pipes/replacing_utils.c\
+		src/Pipes/replacing_utils_2.c\
+		src/Pipes/replacing_utils_3.c\
 		src/Pipes/execute.c\
+		src/Pipes/execute_utils.c\
+		src/Pipes/execute_apply_redirection.c\
 		src/Pipes/more_execute.c\
 		src/Pipes/input.c\
 		src/Pipes/output.c\
+		src/Pipes/output_utils.c\
 		src/Pipes/utils.c\
 		src/Pipes/exit_status.c\
 		src/Pipes/wildcard.c\
