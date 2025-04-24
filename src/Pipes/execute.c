@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:55:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 17:01:08 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 17:02:16 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	executecommand(t_commands *c, t_inout_var var, int o_fd, t_env *env)
 			exit(1);
 		signal(SIGQUIT, handle_signal);
 		execve(full_cmd, &c->command[var.i], environ);
-		perror("fail command");
+		ft_putendl_fd("fail command", 2);
 		free(full_cmd);
 		exit(1);
 	}
