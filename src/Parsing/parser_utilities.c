@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utilities.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
+/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:09:42 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 14:09:31 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/24 15:31:20 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	cmp(char c)
 {
-	return (c == '|' || c == '<' || c == '>' || c == '&');
+	return (c == '|' || c == '<' || c == '>');
 }
 
 int	splitlen(char *s, char c)

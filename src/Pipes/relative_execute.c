@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   relative_execute.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
+/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 12:46:46 by jmeli             #+#    #+#             */
-/*   Updated: 2025/04/22 14:23:06 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/24 15:29:41 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void	double_free(char *a, char *b)
+{
+	free(a);
+	free(b);
+}
 
 char	*ft_relative_executable(char *str)
 {
