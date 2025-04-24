@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 13:49:32 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/24 14:13:10 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct s_inout_var
 {
 	int	output;
 	int	input;
+	int	i;
 }	t_inout_var;
 
 // MAIN
@@ -178,11 +179,11 @@ void	apply_redirection(t_io_red *redirections, int i_fd, int o_fd, t_env *env);
 void	close_file_directors(int *output_fd, int *buff_fd);
 // EXECUTION
 int			execute(t_commands *temp, t_inout_var var, int p_fd[2], t_env *env);
-int			executefile(t_commands *commands, int i_fd, int o_fd, t_env *env);
-int			executefullfile(t_commands *commands, t_env *env, int i_fd, int o_fd);
-int			executecommand(t_commands *commands, int i_fd, int o_fd, t_env *env);
-int			executebuiltin(t_commands *commands, int i_fd, int o_fd, t_env *envi);
-int			commandbuiltin(t_commands *commands, int i_fd, int o_fd, t_env *env);
+int	executefile(t_commands *command, t_inout_var var, int o_fd, t_env *env);
+int	executefullfile(t_commands *commands, t_env *env, t_inout_var var, int o_fd);
+int	executecommand(t_commands *commands, t_inout_var var, int o_fd, t_env *env);
+int	executebuiltin(t_commands *commands, t_inout_var var, int o_fd, t_env *envi);
+int	commandbuiltin(t_commands *commands, t_inout_var var, int o_fd, t_env *env);
 char		*get_path(char *cmd, t_env *env);
 char    *ft_relative_path(char *str);
 int print_error_exit(char *str);

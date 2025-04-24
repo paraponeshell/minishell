@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:59:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 13:13:25 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 13:15:04 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,6 @@ int	print_file_error(char *args)
 
 	ft_putstr_fd(args, 2);
 	ft_putendl_fd(": file not found || permission denied || is a directory", 2);
-	status = 127;
+	status = 1;
 	return (status);
 }

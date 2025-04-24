@@ -3,23 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   more_execute.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
+/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 21:20:52 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/23 12:40:47 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/24 13:27:04 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	commandbuiltin(t_commands *commands, int i_fd, int o_fd, t_env *env)
+int	commandbuiltin(t_commands *commands, t_inout_var var, int o_fd, t_env *env)
 {
 	int		exit_status;
 	int		temp_o_fd;
 	int		temp_i_fd;
 	char	**arg;
+	int		i_fd;
 
-	arg = commands->command;
+	i_fd = var.input;
+	arg = &commands->command[var.i];
 	temp_o_fd = dup(STDOUT_FILENO);
 	temp_i_fd = dup(STDIN_FILENO);
 	apply_redirection(commands->redirection, i_fd, o_fd, env);
