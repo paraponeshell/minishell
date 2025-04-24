@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
+/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:41:57 by jmeli             #+#    #+#             */
-/*   Updated: 2025/04/23 14:42:34 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/24 01:52:38 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,10 @@ int	first_not_null(t_commands *t)
 		while (t->command[i] != NULL && t->command[i][0] == '\0')
 			i++;
 	return (i);
+}
+
+int	print_error_exit(char *str)
+{
+	ft_putendl_fd(str, 2);
+	return (1);
 }

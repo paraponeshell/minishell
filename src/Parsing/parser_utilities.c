@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:09:42 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/16 01:08:11 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 01:55:42 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,7 @@
 
 int	cmp(char c)
 {
-	int		i;
-	char	list[5];
-
-	init_list(list);
-	i = 0;
-	while (list[i])
-	{
-		if (c == list[i])
-			return (1);
-		i++;
-	}
-	return (0);
+	return (c == '|' || c == '<' || c == '>' || c == '&');
 }
 
 int	splitlen(char *s, char c)

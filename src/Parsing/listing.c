@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:27:22 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/23 00:13:04 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 01:57:06 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ char	*add_io(t_io_red **a, char *splitted, int type, t_mini *mini)
 		return (free_and_null(buffer));
 	if (type != 4)
 		check_env(&buffer->file, mini->env, 1);
-	if (check_redirection(buffer->file) == 0)
-		return (free_and_null(buffer));
 	buffer->next = NULL;
 	output = rm_first_word(splitted);
 	if (!*a)
@@ -80,33 +78,33 @@ char	*add_io(t_io_red **a, char *splitted, int type, t_mini *mini)
 
 char	*rm_first_word(char *str)
 {
-    int		i;
-    int		k;
-    char	*output;
-    char	quote;
+	int		i;
+	int		k;
+	char	*output;
+	char	quote;
 
-    i = 0;
-    k = 0;
-    while (str[i] == ' ')
-        i++;
-    if (str[i] == '"' || str[i] == '\'')
-    {
-        quote = str[i++];
-        while (str[i] && str[i] != quote)
-            i++;
-        if (str[i] == quote)
-            i++;
-    }
-    else
-    {
-        while (str[i] && str[i] != ' ')
-            i++;
-    }
-    output = malloc((ft_strlen(str) - i + 1) * sizeof(char));
-    if (!output)
-        return (NULL);
-    while (str[i] != '\0')
-        output[k++] = str[i++];
-    output[k] = '\0';
-    return (output);
+	i = 0;
+	k = 0;
+	while (str[i] == ' ')
+		i++;
+	if (str[i] == '"' || str[i] == '\'')
+	{
+		quote = str[i++];
+		while (str[i] && str[i] != quote)
+			i++;
+		if (str[i] == quote)
+			i++;
+	}
+	else
+	{
+		while (str[i] && str[i] != ' ')
+			i++;
+	}
+	output = malloc((ft_strlen(str) - i + 1) * sizeof(char));
+	if (!output)
+		return (NULL);
+	while (str[i] != '\0')
+		output[k++] = str[i++];
+	output[k] = '\0';
+	return (output);
 }

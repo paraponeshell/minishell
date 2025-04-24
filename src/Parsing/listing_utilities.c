@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:50:05 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/23 00:14:00 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 01:59:40 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_commands	*init_command_node(char **command)
 	node = malloc(sizeof(t_commands));
 	node->pipe_type = 2;
 	node->command = command;
+	node->redirection = NULL;
 	node->next = NULL;
 	return (node);
 }
@@ -58,7 +59,6 @@ void	add_buff_to_last(t_commands **a, char *str)
 	char		**buffer_split;
 	char		**new_command;
 
-
 	if (!str || str[0] == '\0')
 	{
 		free(str);
@@ -78,37 +78,38 @@ void	add_buff_to_last(t_commands **a, char *str)
 	}
 }
 
-char *first_word(char *str)
+char	*first_word(char *str)
 {
-    int i;
-    int j;
-    char *word;
+	int		i;
+	int		j;
+	char	*word;
+	char	quote;
 
-    i = 0;
-    while (str[i] && str[i] == ' ') // Ignore les espaces au début
-        i++;
-    j = i;
-    if (str[j] == '\"' || str[j] == '\'') // Si le mot commence par un guillemet
-    {
-        char quote = str[j];
-        j++;
-        while (str[j] && str[j] != quote) // Cherche le guillemet de fermeture
-            j++;
-        if (str[j] != quote) // Si le guillemet de fermeture est manquant
-        {
-            printf("Error: unmatched quote\n");
-            return (NULL);
-        }
-        j++; // Inclut le guillemet de fermeture
-    }
-    else // Si le mot ne commence pas par un guillemet
-    {
-        while (str[j] && str[j] != ' ') // Cherche la fin du mot
-            j++;
-    }
-    word = malloc(j - i + 1); // Alloue de la mémoire pour le mot
-    if (!word)
-        return (NULL);
-    ft_strlcpy(word, &str[i], j - i + 1); // Copie le mot dans la nouvelle chaîne
-    return (word);
+	i = 0;
+	while (str[i] && str[i] == ' ')
+		i++;
+	j = i;
+	if (str[j] == '\"' || str[j] == '\'')
+	{
+		quote = str[j];
+		j++;
+		while (str[j] && str[j] != quote)
+			j++;
+		if (str[j] != quote)
+		{
+			printf("Error: unmatched quote\n");
+			return (NULL);
+		}
+		j++;
+	}
+	else
+	{
+		while (str[j] && str[j] != ' ')
+			j++;
+	}
+	word = malloc(j - i + 1);
+	if (!word)
+		return (NULL);
+	ft_strlcpy(word, &str[i], j - i + 1);
+	return (word);
 }

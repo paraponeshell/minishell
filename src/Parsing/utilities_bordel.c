@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:24:03 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/14 15:44:41 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 02:00:21 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,17 @@ int	handle_quotes_bis(char *s, int i)
 
 int	handle_operator(char *s, int *i, int *j, int *output)
 {
-	output[(*j)++] = find_op(&s[(*i)++]);
-	if (output[*j - 1] == 1 || output[*j - 1] == 3)
-		(*i)++;
-	else if (output[*j - 1] == 4 || output[*j - 1] == 6)
-		(*i)++;
+	int	op;
+
+	op = find_op(&s[*i]);
+	if (op == 0)
+		return (0);
+	output[*j] = op;
+	(*j)++;
+	if (op == 1 || op == 3 || op == 4 || op == 6)
+		*i += 2;
+	else
+		*i += 1;
 	return (1);
 }
 
