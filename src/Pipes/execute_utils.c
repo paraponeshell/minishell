@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:41:57 by jmeli             #+#    #+#             */
-/*   Updated: 2025/04/24 01:52:38 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 15:55:40 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,14 @@ int	print_error_exit(char *str)
 {
 	ft_putendl_fd(str, 2);
 	return (1);
+}
+
+int	if_is_only_env_comm(t_commands *t, t_inout_var var, int p_fd[2], t_env *env)
+{
+	int	status;
+
+	status = 0;
+	if (is_only(env) == 1)
+		status = commandbuiltin(t, var, p_fd[1], env);
+	return (0);
 }

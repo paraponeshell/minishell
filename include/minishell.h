@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 15:49:48 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 15:57:33 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,7 @@ int			count_files(void);
 void	block_signal(int signal);
 int     first_not_null(t_commands *t);
 int     is_only(t_env *env);
+int	if_is_only_env_comm(t_commands *t, t_inout_var var, int p_fd[2], t_env *env);
 // UTILITIES
 void		free_split(char **split);
 void		print_split(char **split);

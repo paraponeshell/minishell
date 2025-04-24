@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:55:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 14:46:00 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 15:55:59 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ int	execute(t_commands *t, t_inout_var var, int p_fd[2], t_env *env)
 		status = executebuiltin(t, var, p_fd[1], env);
 	else if (is_other_command(t->command[var.i]) != -1)
 	{
-		status = commandbuiltin(t, var, p_fd[1], env)
-			* (is_only(env) == 1);
+		status = if_is_only_env_comm(t, var, p_fd, env);
 	}
 	else
 		status = executecommand(t, var, p_fd[1], env);
