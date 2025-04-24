@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   listing_utilities.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:50:05 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 01:59:40 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 13:20:36 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,40 +76,4 @@ void	add_buff_to_last(t_commands **a, char *str)
 		free(str);
 		last->command = new_command;
 	}
-}
-
-char	*first_word(char *str)
-{
-	int		i;
-	int		j;
-	char	*word;
-	char	quote;
-
-	i = 0;
-	while (str[i] && str[i] == ' ')
-		i++;
-	j = i;
-	if (str[j] == '\"' || str[j] == '\'')
-	{
-		quote = str[j];
-		j++;
-		while (str[j] && str[j] != quote)
-			j++;
-		if (str[j] != quote)
-		{
-			printf("Error: unmatched quote\n");
-			return (NULL);
-		}
-		j++;
-	}
-	else
-	{
-		while (str[j] && str[j] != ' ')
-			j++;
-	}
-	word = malloc(j - i + 1);
-	if (!word)
-		return (NULL);
-	ft_strlcpy(word, &str[i], j - i + 1);
-	return (word);
 }
