@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:55:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 13:33:59 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 14:29:41 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	execute(t_commands *t, t_inout_var var, int p_fd[2], t_env *env)
 	int	status;
 
 	status = 0;
-	var.i = first_not_null(t);
 	if (t->command[var.i] == NULL || t->command[var.i][0] == '\0')
 		return (0);
 	if (t->command[var.i][0] == '/')
@@ -58,8 +57,6 @@ int	executefile(t_commands *command, t_inout_var var, int o_fd, t_env *env)
 	if (p == 0)
 	{
 		apply_redirection(command->redirection, i_fd, o_fd, env);
-		// dup2(i_fd, STDIN_FILENO);
-		// dup2(o_fd, STDOUT_FILENO);
 		if (ft_strncmp(command->command[var.i], "./", 2) == 0
 			|| ft_strncmp(command->command[var.i], "../", 3) == 0)
 			full_cmd = ft_relative_path(command->command[0]);
@@ -79,7 +76,7 @@ int	executefullfile(t_commands *commands, t_env *env, t_inout_var var, int o_fd)
 	pid_t		p;
 	extern char	**environ;
 	struct stat	sb;
-	int		i_fd;
+	int			i_fd;
 
 	i_fd = var.input;
 	if (access(commands->command[var.i], F_OK) == -1)
@@ -94,8 +91,6 @@ int	executefullfile(t_commands *commands, t_env *env, t_inout_var var, int o_fd)
 		if (!commands->command[var.i])
 			exit(1);
 		apply_redirection(commands->redirection, i_fd, o_fd, env);
-		// dup2(i_fd, STDIN_FILENO);
-		// dup2(o_fd, STDOUT_FILENO);
 		signal(SIGQUIT, handle_signal);
 		execve(commands->command[var.i], &commands->command[var.i], environ);
 		exit(1);
@@ -118,9 +113,7 @@ int	executecommand(t_commands *commands, t_inout_var var, int o_fd, t_env *env)
 	{
 		if (commands->command[var.i][0] == '\0')
 			exit(1);
-		apply_redirection(commands->redirection, i_fd, o_fd, env); 
-		// dup2(i_fd, STDIN_FILENO);
-		// dup2(o_fd, STDOUT_FILENO);
+		apply_redirection(commands->redirection, i_fd, o_fd, env);
 		full_cmd = get_path(commands->command[var.i], env);
 		if (full_cmd == NULL)
 			exit(1);
@@ -143,10 +136,7 @@ int	executebuiltin(t_commands *commands, t_inout_var var, int o_fd, t_env *envi)
 	p = fork();
 	if (p == 0)
 	{
-		// print_commands(commands);
 		apply_redirection(commands->redirection, i_fd, o_fd, envi);
-			// dup2(i_fd, STDIN_FILENO);
-		// dup2(o_fd, STDOUT_FILENO);
 		cmd = &commands->command[var.i];
 		if (strncmp(cmd[0], "echo", ft_strlen(cmd[0])) == 0)
 			echo(cmd);

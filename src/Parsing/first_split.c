@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   first_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
+/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:10:41 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 12:51:44 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/24 14:31:18 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,9 @@ void	handle_quotes(t_var_bundle *var, char c)
 
 int	srch_operator(char *s)
 {
-	if (s[0] == '&' && s[1] == '&')
-		return (2);
-	if (s[0] == '|' || s[0] == '<' || s[0] == '>')
+	if (s[0] == '|')
+		return (1);
+	if (s[0] == '<' || s[0] == '>')
 	{
 		return (1 + (s[0] == s[1]));
 	}

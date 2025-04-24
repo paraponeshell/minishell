@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:14:09 by jmeli             #+#    #+#             */
-/*   Updated: 2025/04/24 12:36:26 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 14:26:29 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ int	apply_redirection_6_and_7(t_io_red **current)
 
 	if ((*current)->in_or_out == 7)
 	{
-		if (access((*current)->file, F_OK) == 0 && access((*current)->file, W_OK) == -1)
+		if (access((*current)->file, F_OK) == 0
+			&& access((*current)->file, W_OK) == -1)
 			exit(print_error_exit("Error: Permission denied"));
 		fd = open((*current)->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd < 0)
@@ -70,7 +71,8 @@ int	apply_redirection_6_and_7(t_io_red **current)
 	}
 	else if ((*current)->in_or_out == 6)
 	{
-		if (access((*current)->file, F_OK) == 0 && access((*current)->file, W_OK) == -1)
+		if (access((*current)->file, F_OK) == 0
+			&& access((*current)->file, W_OK) == -1)
 			exit(print_error_exit("Error: Permission denied"));
 		fd = open((*current)->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd < 0)

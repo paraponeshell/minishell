@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
+/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:09:57 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/23 10:49:34 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/24 14:30:43 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,11 @@ void	process_commands(t_commands *commands, t_env *env, int b_fd[2],
 		pipe(p_fd);
 		if (t->next == NULL)
 			p_fd[1] = 1;
+		var.i = first_not_null(t);
 		s = execute(t, var, p_fd, env) % 255;
 		add_exit_status(s, &env);
 		if (t->next != NULL)
-		{
-			if ((t->next->pipe_type == 3 && s != 0) || (t->next->pipe_type == 1
-					&& s == 0))
-				break ;
 			close(p_fd[1]);
-		}
 		var.input = p_fd[0];
 		t = t->next;
 	}
