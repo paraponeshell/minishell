@@ -10,6 +10,7 @@ SRCS=		main.c\
 		src/Parsing/listing.c\
 		src/Parsing/listing_utilities.c\
 		src/Parsing/listing_utilities_2.c\
+		src/Parsing/listing_utilities_3.c\
 		src/Parsing/second_split.c\
 		src/Parsing/valid_line.c\
 		src/Parsing/utilities_bordel.c\
