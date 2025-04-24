@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 15:46:57 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 14:19:11 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 15:08:24 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,11 +88,12 @@ int	check_arg_is_numeric(char *arg)
 	return (1);
 }
 
-int		print_exit_error(void)
+int	print_exit_error(void)
 {
 	ft_putstr_fd("exit: too many arguments\n", 2);
 	return (1);
 }
+
 int	ft_exit(t_env *env, char **arg)
 {
 	void		*red;
