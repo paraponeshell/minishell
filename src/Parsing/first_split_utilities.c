@@ -6,11 +6,25 @@
 /*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:12:23 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 12:40:13 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/24 12:51:38 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	free_output(char **output, int vary)
+{
+	int	i;
+
+	i = 0;
+	while (i < vary)
+	{
+		free(output[i]);
+		i++;
+	}
+	free(output);
+	printf("Error: pipe error\n");
+}
 
 void	assign_start_value(t_var_bundle *var)
 {

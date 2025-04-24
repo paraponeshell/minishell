@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 01:49:02 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 12:52:36 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ char		*crop_str(char *s, int start, int end);
 int			srch_operator(char *s);
 void		handle_quotes(t_var_bundle *var, char c);
 char		**perror_and_free(char **output, int size);
+void	free_output(char **output, int vary);
 // SECOND SPLIT
 char		**second_split(char *s, char c);
 char		*write_segment(char *s, int start, int end);
