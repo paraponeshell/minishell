@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 13:10:21 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 13:49:32 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ int			cmp(char c);
 int			handle_quotes_bis(char *s, int i);
 int			handle_operator(char *s, int *i, int *j, int *output);
 void		init_list(char *list);
+int	*get_op_loop(char *s, int *i, int *output);
 // ENV
 void		add_first_command(t_commands **a, char *s, char **envp);
 t_env		*init_env(char **envp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utilities.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:09:42 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 01:55:42 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 14:09:31 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	cmp(char c)
 
 int	splitlen(char *s, char c)
 {
-	int		i[2];
-	int		in_segment;
+	int	i[2];
+	int	in_segment;
 
 	i[0] = 0;
 	i[1] = 0;
@@ -65,7 +65,7 @@ int	find_op(char *s)
 		return (0);
 }
 
-int	array_size(char	**arr)
+int	array_size(char **arr)
 {
 	int	i;
 
