@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replacing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
+/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:17:41 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/23 10:38:36 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/24 15:21:54 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,11 @@ char	*replace(char *s, t_var_env_bundle *v, t_env *env)
 		s = ft_strjoin(prefix, suffix);
 		free(prefix);
 		free(suffix);
+		if (!v->d_quotes && (s == NULL || s[0] == '\0'))
+		{
+			free(s);
+			return (ft_strdup("g&DH1211DVJQbaz"));
+		}
 		return (s);
 	}
 	s = ft_strjoin(prefix, value);

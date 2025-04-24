@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:42:58 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 14:58:54 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 15:05:17 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,16 @@ int	find_length(int i, int k, char *str, char *output)
 		return (i);
 }
 
+char	*write_pattern(char *str, char *pattern, int *i, int j)
+{
+	while (i[1] < i[0])
+	{
+		pattern[i[1] - j] = str[i[1]];
+		i[1]++; 
+	}
+	pattern[i[1] - j] = '\0';
+	return (pattern);
+}
 char	*handle_wildcard(char *str, t_var_env_bundle *var)
 {
 	char	*output;
@@ -71,12 +81,7 @@ char	*handle_wildcard(char *str, t_var_env_bundle *var)
 		i[0]++;
 	pattern = malloc((i[0] - var->j + 1) * sizeof(char));
 	i[1] = var->j;
-	while (i[1] < i[0])
-	{
-		pattern[i[1] - var->j] = str[i[1]];
-		i[1]++;
-	}
-	pattern[i[1] - var->j] = '\0';
+	pattern = write_pattern(str, pattern, i, var->j);
 	if (ft_strchr(pattern, '/') == 0)
 		output = insert_files(pattern, str);
 	else if (ft_strcmp(str, pattern) == 0)
