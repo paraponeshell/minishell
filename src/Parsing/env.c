@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 14:22:07 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/18 15:12:59 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/24 12:39:35 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_env	*init_env(char **envp)
 	return (env);
 }
 
-void	add_env(t_env	**a, char *value, char *result)
+void	add_env(t_env **a, char *value, char *result)
 {
 	t_env	*temp;
 	t_env	*last;
