@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:55:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 16:58:34 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 17:01:08 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	executefullfile(t_commands *commands, t_env *env, t_inout_var var, int o_fd)
 	return (exit_status);
 }
 
-int	executecommand(t_commands *commands, t_inout_var var, int o_fd, t_env *env)
+int	executecommand(t_commands *c, t_inout_var var, int o_fd, t_env *env)
 {
 	int			exit_status;
 	pid_t		p;
@@ -109,14 +109,15 @@ int	executecommand(t_commands *commands, t_inout_var var, int o_fd, t_env *env)
 	exit_status = 1;
 	if (p == 0)
 	{
-		apply_redirection(commands->redirection, i_fd, o_fd, env);
-		if (commands == NULL || commands->command == NULL || commands->command[var.i] == NULL || commands->command[var.i][0] == '\0')
+		apply_redirection(c->redirection, i_fd, o_fd, env);
+		if (c == NULL || c->command == NULL
+			|| c->command[var.i] == NULL || c->command[var.i][0] == '\0')
 			exit(1);
-		full_cmd = get_path(commands->command[var.i], env);
+		full_cmd = get_path(c->command[var.i], env);
 		if (full_cmd == NULL)
 			exit(1);
 		signal(SIGQUIT, handle_signal);
-		execve(full_cmd, &commands->command[var.i], environ);
+		execve(full_cmd, &c->command[var.i], environ);
 		perror("fail command");
 		free(full_cmd);
 		exit(1);
