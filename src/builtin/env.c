@@ -6,7 +6,7 @@
 /*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 18:25:45 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/17 16:13:36 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/24 11:41:23 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,19 @@ void	display_value_and_result(char *str, char *str2)
 	ft_putstr_fd(str, 1);
 	ft_putchar_fd('=', 1);
 	ft_putendl_fd(str2, 1);
+}
+
+int	ft_check_ptr(char *value, char *result)
+{
+	if (ft_strcmp(value, "?") == 0)
+		return (0);
+	if (ft_strcmp(value, "&") == 0)
+		return (0);
+	if (ft_strcmp(value, "+") == 0)
+		return (0);
+	if (ft_strcmp(result, "''") == 0)
+		return (0);
+	return (1);
 }
 
 int	env(t_env **env, char **cmd)
@@ -46,9 +59,7 @@ int	env(t_env **env, char **cmd)
 	{
 		if (ptr->result)
 		{
-			if ((ft_strcmp(ptr->value, "?") != 0) && (ft_strcmp(ptr->value, "&") != 0)
-				&& (ft_strcmp(ptr->value, "+") != 0) && (ft_strcmp(ptr->result,
-						"''") != 0))
+			if (ft_check_ptr(ptr->value, ptr->result))
 				display_value_and_result(ptr->value, ptr->result);
 		}
 		ptr = ptr->next;
