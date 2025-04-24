@@ -6,36 +6,43 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 21:20:52 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 14:16:55 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 14:47:27 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int	is_executable(t_commands *t, t_inout_var var)
+{
+	if (ft_strncmp(t->command[var.i], "./", 2) == 0)
+		return (1);
+	if (ft_strncmp(t->command[var.i], "../", 3) == 0)
+		return (1);
+	return (0);
+}
 
 int	commandbuiltin(t_commands *commands, t_inout_var var, int o_fd, t_env *env)
 {
 	int		exit_status;
 	int		temp_o_fd;
 	int		temp_i_fd;
-	char	**arg;
 	int		i_fd;
 
 	i_fd = var.input;
-	arg = &commands->command[var.i];
 	temp_o_fd = dup(STDOUT_FILENO);
 	temp_i_fd = dup(STDIN_FILENO);
 	apply_redirection(commands->redirection, i_fd, o_fd, env);
 	exit_status = 0;
-	if (strcmp(arg[0], "cd") == 0)
+	if (strcmp(commands->command[var.i], "cd") == 0)
 	{
-		exit_status = cd(arg, &env);
+		exit_status = cd(&commands->command[var.i], &env);
 	}
-	else if (strcmp(arg[0], "export") == 0)
-		exit_status = export(arg, &env);
-	else if (strcmp(arg[0], "unset") == 0)
-		exit_status = unset(arg, &env);
-	else if (strcmp(arg[0], "exit") == 0)
-		exit_status = ft_exit(env, arg);
+	else if (strcmp(commands->command[var.i], "export") == 0)
+		exit_status = export(&commands->command[var.i], &env);
+	else if (strcmp(commands->command[var.i], "unset") == 0)
+		exit_status = unset(&commands->command[var.i], &env);
+	else if (strcmp(commands->command[var.i], "exit") == 0)
+		exit_status = ft_exit(env, &commands->command[var.i]);
 	dup2(temp_i_fd, STDIN_FILENO);
 	dup2(temp_o_fd, STDOUT_FILENO);
 	close(temp_i_fd);

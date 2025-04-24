@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 02:27:04 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/16 16:19:50 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 14:48:31 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ int	main(int argc, char **argv, char **envp)
 		if (minishell == NULL)
 		{
 			printf("Readline returned NULL\n");
+			rl_clear_history();
 			free(minishell);
 			break ;
 		}

@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:55:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 14:29:41 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/24 14:46:00 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,14 @@ int	execute(t_commands *t, t_inout_var var, int p_fd[2], t_env *env)
 		return (0);
 	if (t->command[var.i][0] == '/')
 		status = executefullfile(t, env, var, p_fd[1]);
-	else if (ft_strncmp(t->command[var.i], "./", 2) == 0
-		|| ft_strncmp(t->command[var.i], "../", 3) == 0)
+	else if (is_executable(t, var) == 1)
 	{
-		if (access(&t->command[var.i][1], F_OK | X_OK) == 0)
+		if (access(t->command[var.i], F_OK | X_OK) == 0)
 			status = executefile(t, var, p_fd[1], env);
 		else
 			status = print_file_error(t->command[var.i]);
 	}
-	else if (is_exec_command(t->command[var.i]) != -1 || (ft_strcmp(t->command[var.i],
+	else if (iec(t->command[var.i]) != -1 || (ft_strcmp(t->command[var.i],
 				"export") == 0 && t->command[var.i + 1] == NULL))
 		status = executebuiltin(t, var, p_fd[1], env);
 	else if (is_other_command(t->command[var.i]) != -1)

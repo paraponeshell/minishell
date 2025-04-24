@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
+/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:41:46 by jmeli             #+#    #+#             */
-/*   Updated: 2025/04/23 10:46:58 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/24 14:40:44 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	is_exec_command(char *str)
+int	iec(char *str)
 {
 	char	*commands[3];
 	int		i;
