@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 02:27:04 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 17:42:46 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/25 15:36:34 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ int	main(int argc, char **argv, char **envp)
 		}
 		if (is_empty_line(minishell) == 1)
 		{
+			if (minishell[0] != '\0')
+				add_history(minishell);
 			free(minishell);
 			continue ;
 		}

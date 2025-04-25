@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:09:57 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 16:28:32 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:03:27 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,21 @@ void	process_commands(t_commands *commands, t_env *env, int b_fd[2],
 		check_env(t->command, env, ft_sizedstr(t->command));
 		pipe(p_fd);
 		if (t->next == NULL)
+		{
+			close(p_fd[1]);
 			p_fd[1] = 1;
+		}
+		printf("0: %d, 1: %d\n", p_fd[0], p_fd[1]);
 		var.i = first_not_null(t);
 		s = execute(t, var, p_fd, env) % 255;
 		add_exit_status(s, &env);
 		if (t->next != NULL)
 			close(p_fd[1]);
+		if (var.input)
+			close(var.input);
 		var.input = p_fd[0];
+		if (t->next == NULL)
+			close(p_fd[0]);
 		t = t->next;
 	}
 }

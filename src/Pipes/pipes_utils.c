@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:41:46 by jmeli             #+#    #+#             */
-/*   Updated: 2025/04/24 14:40:44 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:03:21 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	is_other_command(char *str)
 
 void	init_pipes(int p_fd[2], int b_fd[2])
 {
-	pipe(b_fd);
-	if (p_fd != NULL)
-		pipe(p_fd);
+	(void)b_fd;
+	(void)p_fd;
 }

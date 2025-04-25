@@ -186,15 +186,15 @@ void					close_file_directors(int *output_fd, int *buff_fd);
 int						execute(t_commands *temp, t_inout_var var, int p_fd[2],
 							t_env *env);
 int						executefile(t_commands *command, t_inout_var var,
-							int o_fd, t_env *env);
+							int *o_fd, t_env *env);
 int						executefullfile(t_commands *commands, t_env *env,
-							t_inout_var var, int o_fd);
+							t_inout_var var, int *o_fd);
 int						executecommand(t_commands *commands, t_inout_var var,
-							int o_fd, t_env *env);
+							int *o_fd, t_env *env);
 int						executebuiltin(t_commands *commands, t_inout_var var,
-							int o_fd, t_env *envi);
+							int *o_fd, t_env *envi);
 int						commandbuiltin(t_commands *commands, t_inout_var var,
-							int o_fd, t_env *env);
+							int *o_fd, t_env *env);
 char					*get_path(char *cmd, t_env *env);
 char					*ft_relative_path(char *str);
 int						print_error_exit(char *str);

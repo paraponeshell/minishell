@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:55:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 17:02:16 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:13:04 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,29 +18,30 @@ int	execute(t_commands *t, t_inout_var var, int p_fd[2], t_env *env)
 
 	status = 0;
 	if (t->command[var.i] == NULL || t->command[var.i][0] == '\0')
-		status = executecommand(t, var, p_fd[1], env);
+		status = executecommand(t, var, p_fd, env);
 	else if (t->command[var.i][0] == '/')
-		status = executefullfile(t, env, var, p_fd[1]);
+		status = executefullfile(t, env, var, p_fd);
 	else if (is_executable(t, var) == 1)
 	{
 		if (access(t->command[var.i], F_OK | X_OK) == 0)
-			status = executefile(t, var, p_fd[1], env);
+			status = executefile(t, var, p_fd, env);
 		else
 			status = print_file_error(t->command[var.i]);
 	}
 	else if (iec(t->command[var.i]) != -1 || (ft_strcmp(t->command[var.i],
 				"export") == 0 && t->command[var.i + 1] == NULL))
-		status = executebuiltin(t, var, p_fd[1], env);
+		status = executebuiltin(t, var, p_fd, env);
 	else if (is_other_command(t->command[var.i]) != -1)
 	{
 		status = if_is_only_env_comm(t, var, p_fd, env);
 	}
 	else
-		status = executecommand(t, var, p_fd[1], env);
+		status = executecommand(t, var, p_fd, env);
+	//close(p_fd[0]);
 	return (status);
 }
 
-int	executefile(t_commands *command, t_inout_var var, int o_fd, t_env *env)
+int	executefile(t_commands *command, t_inout_var var, int *o_fd, t_env *env)
 {
 	extern char	**environ;
 	char		*full_cmd;
@@ -54,7 +55,7 @@ int	executefile(t_commands *command, t_inout_var var, int o_fd, t_env *env)
 	exit_status = 1;
 	if (p == 0)
 	{
-		apply_redirection(command->redirection, i_fd, o_fd, env);
+		apply_redirection(command->redirection, i_fd, o_fd[1], env);
 		if (ft_strncmp(command->command[var.i], "./", 2) == 0
 			|| ft_strncmp(command->command[var.i], "../", 3) == 0)
 			full_cmd = ft_relative_path(command->command[0]);
@@ -68,7 +69,7 @@ int	executefile(t_commands *command, t_inout_var var, int o_fd, t_env *env)
 	return (exit_status);
 }
 
-int	executefullfile(t_commands *commands, t_env *env, t_inout_var var, int o_fd)
+int	executefullfile(t_commands *commands, t_env *env, t_inout_var var, int *o_fd)
 {
 	int			exit_status;
 	pid_t		p;
@@ -88,7 +89,7 @@ int	executefullfile(t_commands *commands, t_env *env, t_inout_var var, int o_fd)
 	{
 		if (!commands->command[var.i])
 			exit(1);
-		apply_redirection(commands->redirection, i_fd, o_fd, env);
+		apply_redirection(commands->redirection, i_fd, o_fd[1], env);
 		signal(SIGQUIT, handle_signal);
 		execve(commands->command[var.i], &commands->command[var.i], environ);
 		exit(1);
@@ -96,7 +97,7 @@ int	executefullfile(t_commands *commands, t_env *env, t_inout_var var, int o_fd)
 	return (exit_status);
 }
 
-int	executecommand(t_commands *c, t_inout_var var, int o_fd, t_env *env)
+int	executecommand(t_commands *c, t_inout_var var, int *o_fd, t_env *env)
 {
 	int			exit_status;
 	pid_t		p;
@@ -109,7 +110,7 @@ int	executecommand(t_commands *c, t_inout_var var, int o_fd, t_env *env)
 	exit_status = 1;
 	if (p == 0)
 	{
-		apply_redirection(c->redirection, i_fd, o_fd, env);
+		apply_redirection(c->redirection, i_fd, o_fd[1], env);
 		if (c == NULL || c->command == NULL
 			|| c->command[var.i] == NULL || c->command[var.i][0] == '\0')
 			exit(1);
@@ -125,17 +126,21 @@ int	executecommand(t_commands *c, t_inout_var var, int o_fd, t_env *env)
 	return (exit_status);
 }
 
-int	executebuiltin(t_commands *commands, t_inout_var var, int o_fd, t_env *envi)
+int	executebuiltin(t_commands *commands, t_inout_var var, int *o_fd, t_env *envi)
 {
 	pid_t	p;
 	char	**cmd;
 	int		i_fd;
+	void		*red;
+	void		*c;
 
 	i_fd = var.input;
 	p = fork();
 	if (p == 0)
 	{
-		apply_redirection(commands->redirection, i_fd, o_fd, envi);
+		close (o_fd[0]);
+		apply_redirection(commands->redirection, i_fd, o_fd[1], envi);
+		//close(var.input);
 		cmd = &commands->command[var.i];
 		if (strncmp(cmd[0], "echo", ft_strlen(cmd[0])) == 0)
 			echo(cmd);
@@ -145,6 +150,12 @@ int	executebuiltin(t_commands *commands, t_inout_var var, int o_fd, t_env *envi)
 			pwd();
 		else if (strncmp(cmd[0], "export", ft_strlen(cmd[0])) == 0)
 			export(cmd, &envi);
+		red = str_to_ptr(ft_getallenv(envi, "&"));
+		c = str_to_ptr(ft_getallenv(envi, "+"));
+		free_red(red);
+		free_cmd(c);
+		free_env(envi);
+		rl_clear_history();
 		exit(0);
 	}
 	return (0);

@@ -40,12 +40,12 @@ int	print_error_exit(char *str)
 	return (1);
 }
 
-int	if_is_only_env_comm(t_commands *t, t_inout_var var, int p_fd[2], t_env *env)
+int	if_is_only_env_comm(t_commands *t, t_inout_var var, int p_fd, t_env *env)
 {
 	int	status;
 
 	status = 0;
 	if (is_only(env) == 1)
-		status = commandbuiltin(t, var, p_fd[1], env);
+		status = commandbuiltin(t, var, p_fd, env);
 	return (status);
 }

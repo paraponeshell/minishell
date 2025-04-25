@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:14:09 by jmeli             #+#    #+#             */
-/*   Updated: 2025/04/24 14:26:29 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/25 15:43:32 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,24 @@ int	heredoc_redirection(int *input_fd, t_io_red **current, t_env *env)
 	get_heredoc(input_fd, ft_strdup((*current)->file), env);
 	close(input_fd[1]);
 	dup2(input_fd[0], STDIN_FILENO);
+	close(input_fd[0]);
 	return (1);
 }
 
 void	dup2_and_close(int i_fd, int o_fd, int i, int o)
 {
+	printf("i_fd %d, o_fd %d, std %d\n", i_fd, o_fd, STDIN_FILENO);
 	if (i == 0 && i_fd != 0)
 	{
-		if (dup2(i_fd, STDIN_FILENO) == -1)
-			exit(print_error_exit("Error: dup2 failed"));
+		if (dup2(i_fd, 0) == -1)
+			perror("dup2 failed");
+			//exit(print_error_exit("Error: dup2 failed"));
 		close(i_fd);
 	}
 	if (o == 0 && o_fd != 1)
 	{
 		if (dup2(o_fd, STDOUT_FILENO) == -1)
-			exit(print_error_exit("Error: dup2 failed"));
+			exit(print_error_exit("Error: dup2 failedc"));
 		close(o_fd);
 	}
 }
