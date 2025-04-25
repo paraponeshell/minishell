@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:27:22 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/25 14:21:10 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/25 14:31:48 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*add_io(t_io_red **a, char *splitted, int type, t_mini *mini)
 	if (type != 4)
 		check_env(&buffer->file, mini->env, 1);
 	if (ft_strcmp(buffer->file, "g%DH1211DVJQbaz") == 0)
-		return (free_and_null(buffer));
+		kill(0, SIGINT);
 	buffer->next = NULL;
 	output = rm_first_word(splitted);
 	if (!*a)
