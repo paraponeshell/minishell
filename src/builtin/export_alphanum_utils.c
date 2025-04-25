@@ -6,7 +6,7 @@
 /*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 17:43:27 by jmeli             #+#    #+#             */
-/*   Updated: 2025/04/14 17:56:44 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/25 14:31:56 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,7 @@ int	arg_var_is_valid(char *arg)
 	{
 		if (!ft_isalnum(arg[i]) && arg[i] != '_')
 		{
-			if (arg[i] == '+' && (!arg[i + 1] || arg[i + 1] == '='))
-				return (1);
-			else
-				return (0);
+			return (0);
 		}
 		i++;
 	}
