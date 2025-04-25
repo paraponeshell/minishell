@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:55:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/26 01:22:26 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/26 01:37:57 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ int	executefile(t_commands *command, t_inout_var var, int *o_fd, t_env *env)
 	return (exit_status);
 }
 
-int	executefullfile(t_commands *commands, t_env *env, t_inout_var var, int *o_fd)
+int	executefullfile(t_commands *commands, t_env *env,
+					t_inout_var var, int *o_fd)
 {
 	int			exit_status;
 	pid_t		p;
@@ -126,7 +127,8 @@ int	executecommand(t_commands *c, t_inout_var var, int *o_fd, t_env *env)
 	return (1);
 }
 
-int	executebuiltin(t_commands *commands, t_inout_var var, int *o_fd, t_env *envi)
+int	executebuiltin(t_commands *commands, t_inout_var var,
+					int *o_fd, t_env *envi)
 {
 	pid_t	p;
 	char	**cmd;
@@ -138,7 +140,6 @@ int	executebuiltin(t_commands *commands, t_inout_var var, int *o_fd, t_env *envi
 	{
 		close (o_fd[0]);
 		apply_redirection(commands->redirection, i_fd, o_fd[1], envi);
-		//close(var.input);
 		cmd = &commands->command[var.i];
 		if (strncmp(cmd[0], "echo", ft_strlen(cmd[0])) == 0)
 			echo(cmd);

@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 21:20:52 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/26 00:59:10 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/26 01:37:02 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	exit_fork(t_env *env, t_commands *commands)
 {
 	void		*red;
-	
+
 	red = str_to_ptr(ft_getallenv(env, "&"));
 	if (red)
 		free_red(red);

@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:10:41 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/26 00:40:33 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/26 01:37:20 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char	**first_split(char *s)
 	t_var_bundle	var;
 	char			**output;
 	int				split_size;
+
 	if (s[0] == '\0')
 		return (NULL);
 	assign_start_value(&var);

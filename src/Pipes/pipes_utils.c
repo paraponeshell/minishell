@@ -6,11 +6,19 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:41:46 by jmeli             #+#    #+#             */
-/*   Updated: 2025/04/25 16:03:21 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/26 01:33:50 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void	do_i_close(int i, int j, t_commands *t)
+{
+	if (t->next != NULL)
+		close(i);
+	if (j)
+		close(j);
+}
 
 int	iec(char *str)
 {
