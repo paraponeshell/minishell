@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
+/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:23:49 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/25 14:34:59 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/26 01:23:53 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,8 @@ int						commandbuiltin(t_commands *commands, t_inout_var var,
 char					*get_path(char *cmd, t_env *env);
 char					*ft_relative_path(char *str);
 int						print_error_exit(char *str);
+void					exit_fork(t_env *env, t_commands *commands);
+void					paranoia_closing(void);
 // PIPES/EXEC UTILS
 void					free_and_close(int *fd, int size);
 void					free_cmd(t_commands **a);

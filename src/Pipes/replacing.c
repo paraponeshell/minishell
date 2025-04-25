@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:17:41 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/25 15:33:35 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/26 01:24:31 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,18 @@
 char	*handle_env_quotes(char *str, int i, t_var_env_bundle *var, char **temp)
 {
 	(void)temp;
-	/*int	disable_wildcard;
-	disable_wildcard = ft_disable_wildcard(var, temp);*/
 	if (!var->s_quotes && str[i] == '"')
 	{
 		var->d_quotes = !var->d_quotes;
 		str = ft_strrmchar(str, i);
-		/*if (!var->d_quotes && !disable_wildcard && srchr_wildcard(&str[var->j]))
-			str = handle_wildcard(str, var);*/
 		var->j--;
 	}
 	else if (!var->d_quotes && str[i] == '\'')
 	{
 		var->s_quotes = !var->s_quotes;
 		str = ft_strrmchar(str, i);
-		/*if (!var->s_quotes && srchr_wildcard(&str[var->j]))
-			str = handle_wildcard(str, var);*/
 		var->j--;
-	}/*
-	else if (!var->d_quotes && !var->s_quotes && !disable_wildcard
-		&& srchr_wildcard(&str[var->j]))
-		str = handle_wildcard(str, var);*/
+	}
 	return (str);
 }
 

@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:55:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/25 16:13:04 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/26 01:22:26 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	execute(t_commands *t, t_inout_var var, int p_fd[2], t_env *env)
 	}
 	else
 		status = executecommand(t, var, p_fd, env);
-	//close(p_fd[0]);
 	return (status);
 }
 
@@ -49,7 +48,6 @@ int	executefile(t_commands *command, t_inout_var var, int *o_fd, t_env *env)
 	int			exit_status;
 	int			i_fd;
 
-	(void)env;
 	i_fd = var.input;
 	p = fork();
 	exit_status = 1;
@@ -64,6 +62,8 @@ int	executefile(t_commands *command, t_inout_var var, int *o_fd, t_env *env)
 		signal(SIGQUIT, handle_signal);
 		execve(full_cmd, &command->command[var.i], environ);
 		free(full_cmd);
+		paranoia_closing();
+		exit_fork(env, command);
 		exit(1);
 	}
 	return (exit_status);
@@ -75,9 +75,7 @@ int	executefullfile(t_commands *commands, t_env *env, t_inout_var var, int *o_fd
 	pid_t		p;
 	extern char	**environ;
 	struct stat	sb;
-	int			i_fd;
 
-	i_fd = var.input;
 	if (access(commands->command[var.i], F_OK) == -1)
 		return (print_file_error(commands->command[var.i]));
 	stat(commands->command[var.i], &sb);
@@ -89,9 +87,11 @@ int	executefullfile(t_commands *commands, t_env *env, t_inout_var var, int *o_fd
 	{
 		if (!commands->command[var.i])
 			exit(1);
-		apply_redirection(commands->redirection, i_fd, o_fd[1], env);
+		apply_redirection(commands->redirection, var.input, o_fd[1], env);
 		signal(SIGQUIT, handle_signal);
 		execve(commands->command[var.i], &commands->command[var.i], environ);
+		paranoia_closing();
+		exit_fork(env, commands);
 		exit(1);
 	}
 	return (exit_status);
@@ -99,7 +99,6 @@ int	executefullfile(t_commands *commands, t_env *env, t_inout_var var, int *o_fd
 
 int	executecommand(t_commands *c, t_inout_var var, int *o_fd, t_env *env)
 {
-	int			exit_status;
 	pid_t		p;
 	extern char	**environ;
 	char		*full_cmd;
@@ -107,9 +106,9 @@ int	executecommand(t_commands *c, t_inout_var var, int *o_fd, t_env *env)
 
 	i_fd = var.input;
 	p = fork();
-	exit_status = 1;
 	if (p == 0)
 	{
+		close(o_fd[0]);
 		apply_redirection(c->redirection, i_fd, o_fd[1], env);
 		if (c == NULL || c->command == NULL
 			|| c->command[var.i] == NULL || c->command[var.i][0] == '\0')
@@ -120,10 +119,11 @@ int	executecommand(t_commands *c, t_inout_var var, int *o_fd, t_env *env)
 		signal(SIGQUIT, handle_signal);
 		execve(full_cmd, &c->command[var.i], environ);
 		ft_putendl_fd("fail command", 2);
-		free(full_cmd);
+		paranoia_closing();
+		exit_fork(env, c);
 		exit(1);
 	}
-	return (exit_status);
+	return (1);
 }
 
 int	executebuiltin(t_commands *commands, t_inout_var var, int *o_fd, t_env *envi)
@@ -131,8 +131,6 @@ int	executebuiltin(t_commands *commands, t_inout_var var, int *o_fd, t_env *envi
 	pid_t	p;
 	char	**cmd;
 	int		i_fd;
-	void		*red;
-	void		*c;
 
 	i_fd = var.input;
 	p = fork();
@@ -150,12 +148,8 @@ int	executebuiltin(t_commands *commands, t_inout_var var, int *o_fd, t_env *envi
 			pwd();
 		else if (strncmp(cmd[0], "export", ft_strlen(cmd[0])) == 0)
 			export(cmd, &envi);
-		red = str_to_ptr(ft_getallenv(envi, "&"));
-		c = str_to_ptr(ft_getallenv(envi, "+"));
-		free_red(red);
-		free_cmd(c);
-		free_env(envi);
-		rl_clear_history();
+		paranoia_closing();
+		exit_fork(envi, commands);
 		exit(0);
 	}
 	return (0);

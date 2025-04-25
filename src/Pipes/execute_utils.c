@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:41:57 by jmeli             #+#    #+#             */
-/*   Updated: 2025/04/24 16:35:03 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/26 01:23:48 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,25 @@ int	first_not_null(t_commands *t)
 	return (i);
 }
 
+void	paranoia_closing(void)
+{
+	int	i;
+
+	i = 0;
+	while (i < 1024)
+	{
+		close(i);
+		i++;
+	}
+}
+
 int	print_error_exit(char *str)
 {
 	ft_putendl_fd(str, 2);
 	return (1);
 }
 
-int	if_is_only_env_comm(t_commands *t, t_inout_var var, int p_fd, t_env *env)
+int	if_is_only_env_comm(t_commands *t, t_inout_var var, int p_fd[2], t_env *env)
 {
 	int	status;
 

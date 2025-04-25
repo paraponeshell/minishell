@@ -60,6 +60,8 @@ $(LIBFT):
 	@make -C $(LIBFTDIR) > /dev/null
 %.o:%.c
 	$(CC) $(CFLAGS) -c $< -o $@
+bonus:
+	$(CC) $(CFLAGS) -o $(NAME) $(filter-out src/Pipes/replacing.c, $(SRCS)) src/Pipes/replacing_bonus.c -lreadline $(LIBFT)
 clean:
 	rm -f $(OBJS)
 	@make clean -C $(LIBFTDIR) > /dev/null
