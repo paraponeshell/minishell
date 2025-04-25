@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:27:12 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/25 14:32:15 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/25 14:34:29 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	handle_signal_parser(int sig)
 {
 	if (sig == SIGINT)
 	{
-		//ft_printf("\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();
 	}
