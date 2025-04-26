@@ -41,7 +41,6 @@ int	heredoc_redirection(int *input_fd, t_io_red **current, t_env *env)
 
 void	dup2_and_close(int i_fd, int o_fd, int i, int o)
 {
-	printf("i_fd %d, o_fd %d, std %d\n", i_fd, o_fd, STDIN_FILENO);
 	if (i == 0 && i_fd != 0)
 	{
 		if (dup2(i_fd, STDIN_FILENO) == -1)
