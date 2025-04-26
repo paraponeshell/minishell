@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:55:16 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/26 01:37:57 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/26 11:42:56 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,13 +141,13 @@ int	executebuiltin(t_commands *commands, t_inout_var var,
 		close (o_fd[0]);
 		apply_redirection(commands->redirection, i_fd, o_fd[1], envi);
 		cmd = &commands->command[var.i];
-		if (strncmp(cmd[0], "echo", ft_strlen(cmd[0])) == 0)
+		if (ft_strncmp(cmd[0], "echo", ft_strlen(cmd[0])) == 0)
 			echo(cmd);
-		else if (strncmp(cmd[0], "env", ft_strlen(cmd[0])) == 0)
+		else if (ft_strncmp(cmd[0], "env", ft_strlen(cmd[0])) == 0)
 			env(&envi, cmd);
-		else if (strncmp(cmd[0], "pwd", ft_strlen(cmd[0])) == 0)
+		else if (ft_strncmp(cmd[0], "pwd", ft_strlen(cmd[0])) == 0)
 			pwd();
-		else if (strncmp(cmd[0], "export", ft_strlen(cmd[0])) == 0)
+		else if (ft_strncmp(cmd[0], "export", ft_strlen(cmd[0])) == 0)
 			export(cmd, &envi);
 		paranoia_closing();
 		exit_fork(envi, commands);
