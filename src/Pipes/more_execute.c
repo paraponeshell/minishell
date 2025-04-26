@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   more_execute.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 21:20:52 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/26 01:37:02 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/26 11:30:28 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,15 @@ int	commandbuiltin(t_commands *commands, t_inout_var var, int *o_fd, t_env *env)
 	temp_i_fd = dup(STDIN_FILENO);
 	apply_redirection(commands->redirection, i_fd, o_fd[1], env);
 	exit_status = 0;
-	if (strcmp(commands->command[var.i], "cd") == 0)
+	if (ft_strcmp(commands->command[var.i], "cd") == 0)
 	{
 		exit_status = cd(&commands->command[var.i], &env);
 	}
-	else if (strcmp(commands->command[var.i], "export") == 0)
+	else if (ft_strcmp(commands->command[var.i], "export") == 0)
 		exit_status = export(&commands->command[var.i], &env);
-	else if (strcmp(commands->command[var.i], "unset") == 0)
+	else if (ft_strcmp(commands->command[var.i], "unset") == 0)
 		exit_status = unset(&commands->command[var.i], &env);
-	else if (strcmp(commands->command[var.i], "exit") == 0)
+	else if (ft_strcmp(commands->command[var.i], "exit") == 0)
 		exit_status = ft_exit(env, &commands->command[var.i]);
 	dup2(temp_i_fd, STDIN_FILENO);
 	dup2(temp_o_fd, STDOUT_FILENO);

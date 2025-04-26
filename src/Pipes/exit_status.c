@@ -6,7 +6,7 @@
 /*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:37:22 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/23 12:52:40 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/26 11:30:04 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*ptr_to_str(void *ptr)
 	}
 	mod[--size] = 'x';
 	mod[--size] = '0';
-	result = strdup(mod + size);
+	result = ft_strdup(mod + size);
 	free(mod);
 	return (result);
 }

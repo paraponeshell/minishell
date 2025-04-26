@@ -6,7 +6,7 @@
 /*   By: jmeli <jmeli@student.42luxembourg.lu>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 14:22:07 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 12:39:35 by jmeli            ###   ########.fr       */
+/*   Updated: 2025/04/26 11:24:10 by jmeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	rm_env(t_env **a, char *value)
 	t_env	*last;
 
 	temp = *a;
-	if (strcmp(temp->value, value) == 0)
+	if (ft_strcmp(temp->value, value) == 0)
 	{
 		*a = temp->next;
 		free(temp->value);
