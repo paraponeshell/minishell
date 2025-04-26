@@ -6,11 +6,24 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 21:20:52 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/24 16:35:26 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/26 01:37:02 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	exit_fork(t_env *env, t_commands *commands)
+{
+	void		*red;
+
+	red = str_to_ptr(ft_getallenv(env, "&"));
+	if (red)
+		free_red(red);
+	print_commands(commands);
+	free_cmd(&commands);
+	free_env(env);
+	rl_clear_history();
+}
 
 int	is_executable(t_commands *t, t_inout_var var)
 {
@@ -21,7 +34,7 @@ int	is_executable(t_commands *t, t_inout_var var)
 	return (0);
 }
 
-int	commandbuiltin(t_commands *commands, t_inout_var var, int o_fd, t_env *env)
+int	commandbuiltin(t_commands *commands, t_inout_var var, int *o_fd, t_env *env)
 {
 	int		exit_status;
 	int		temp_o_fd;
@@ -31,7 +44,7 @@ int	commandbuiltin(t_commands *commands, t_inout_var var, int o_fd, t_env *env)
 	i_fd = var.input;
 	temp_o_fd = dup(STDOUT_FILENO);
 	temp_i_fd = dup(STDIN_FILENO);
-	apply_redirection(commands->redirection, i_fd, o_fd, env);
+	apply_redirection(commands->redirection, i_fd, o_fd[1], env);
 	exit_status = 0;
 	if (strcmp(commands->command[var.i], "cd") == 0)
 	{

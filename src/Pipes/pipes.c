@@ -6,7 +6,7 @@
 /*   By: aharder <aharder@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:09:57 by aharder           #+#    #+#             */
-/*   Updated: 2025/04/25 16:03:27 by aharder          ###   ########.fr       */
+/*   Updated: 2025/04/26 01:34:47 by aharder          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	add_size_to_env(t_commands *commands, t_env *env)
 	free(str);
 }
 
-void	process_commands(t_commands *commands, t_env *env, int b_fd[2],
+void	process_commands(t_commands *commands, t_env *env,
 		t_inout_var var)
 {
 	t_commands	*t;
@@ -57,7 +57,6 @@ void	process_commands(t_commands *commands, t_env *env, int b_fd[2],
 	int			p_fd[2];
 
 	t = commands;
-	init_pipes(p_fd, b_fd);
 	add_size_to_env(commands, env);
 	while (t != NULL)
 	{
@@ -68,14 +67,10 @@ void	process_commands(t_commands *commands, t_env *env, int b_fd[2],
 			close(p_fd[1]);
 			p_fd[1] = 1;
 		}
-		printf("0: %d, 1: %d\n", p_fd[0], p_fd[1]);
 		var.i = first_not_null(t);
 		s = execute(t, var, p_fd, env) % 255;
 		add_exit_status(s, &env);
-		if (t->next != NULL)
-			close(p_fd[1]);
-		if (var.input)
-			close(var.input);
+		do_i_close(p_fd[1], var.input, t);
 		var.input = p_fd[0];
 		if (t->next == NULL)
 			close(p_fd[0]);
@@ -85,19 +80,16 @@ void	process_commands(t_commands *commands, t_env *env, int b_fd[2],
 
 int	createpipes(t_commands *commands, t_io_red *redirection, t_env *env)
 {
-	int			b_fd[2];
 	t_inout_var	var;
 
 	(void)redirection;
 	var.input = 0;
 	var.output = 1;
-	b_fd[0] = 0;
-	b_fd[1] = 0;
 	if (var.input == -1)
 	{
 		printf("Error: no input redirection\n");
 		return (0);
 	}
-	process_commands(commands, env, b_fd, var);
+	process_commands(commands, env, var);
 	return (1);
 }
