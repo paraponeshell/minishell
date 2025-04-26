@@ -19,7 +19,6 @@ void	exit_fork(t_env *env, t_commands *commands)
 	red = str_to_ptr(ft_getallenv(env, "&"));
 	if (red)
 		free_red(red);
-	print_commands(commands);
 	free_cmd(&commands);
 	free_env(env);
 	rl_clear_history();
